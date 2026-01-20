@@ -20,13 +20,9 @@ public class UserEntity {
     protected Long id;
 
     protected String firstName;
-
     protected String lastName;
-
     protected String phoneNumber;
-
     protected String passportId;
-
     protected String email;
     protected String password;
 

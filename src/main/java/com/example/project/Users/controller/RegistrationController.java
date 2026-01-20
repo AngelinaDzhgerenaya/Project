@@ -18,16 +18,16 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-public class UserApiControlller {
+public class RegistrationController {
     @Autowired
     private final UserRepository userRepository;
     @Autowired
     private final PasswordEncoder passwordEncoder;
 
-    @PostMapping(UserRoutes.REGISTRATION)
-    public UserResponse registration(@RequestBody RegistrationRequest request) throws BadRequestException, UserAlreadyExistException {
-        request.validate();
 
+    @PostMapping(UserRoutes.REGISTRATION)
+    public void registration( RegistrationRequest request) throws BadRequestException, UserAlreadyExistException {
+        request.validate();
 
         Optional<UserEntity> check = userRepository.findByEmail(request.getEmail());
         if(check.isPresent()) throw new UserAlreadyExistException("Пользователь с таким email уже существует");
@@ -35,8 +35,6 @@ public class UserApiControlller {
         if(check.isPresent()) throw new UserAlreadyExistException("Пользователь с таким номером уже существует");
         check = userRepository.findByPassportId(request.getPassportId());
         if(check.isPresent()) throw new UserAlreadyExistException("Пользователь с таким пасспортом уже существует");
-
-
 
         UserEntity client = UserEntity.builder()
                 .lastName(request.getLastName())
@@ -48,6 +46,6 @@ public class UserApiControlller {
                 .build();
 
         client = userRepository.save(client);
-        return UserResponse.of(client);
+        UserResponse.of(client);
     }
 }

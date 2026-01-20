@@ -30,6 +30,7 @@ public class BasicConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/not-secured/**").permitAll()
                         .requestMatchers(BaseRoutes.API + "/**").authenticated()
                         .anyRequest().anonymous()
                 )
@@ -39,3 +40,5 @@ public class BasicConfig {
                 .build();
     }
 }
+
+
