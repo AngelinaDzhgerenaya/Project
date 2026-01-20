@@ -5,4 +5,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class UserNotFoundException extends Exception {
+    public UserNotFoundException() {
+        super("Пользователь не найден");
+    }
+
+    // Конструктор с кастомным сообщением
+    public UserNotFoundException(String message) {
+        super(message);
+    }
 }

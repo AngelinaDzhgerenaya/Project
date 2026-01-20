@@ -28,12 +28,13 @@ public class UserApiControlller {
     public UserResponse registration(@RequestBody RegistrationRequest request) throws BadRequestException, UserAlreadyExistException {
         request.validate();
 
+
         Optional<UserEntity> check = userRepository.findByEmail(request.getEmail());
-        if(check.isPresent()) throw new UserAlreadyExistException();
-        check = userRepository.findByPhoneNumber(request.getEmail());
-        if(check.isPresent()) throw new UserAlreadyExistException();
-        check = userRepository.findByPassportId(request.getEmail());
-        if(check.isPresent()) throw new UserAlreadyExistException();
+        if(check.isPresent()) throw new UserAlreadyExistException("Пользователь с таким email уже существует");
+        check = userRepository.findByPhoneNumber(request.getPhoneNumber());
+        if(check.isPresent()) throw new UserAlreadyExistException("Пользователь с таким номером уже существует");
+        check = userRepository.findByPassportId(request.getPassportId());
+        if(check.isPresent()) throw new UserAlreadyExistException("Пользователь с таким пасспортом уже существует");
 
 
 

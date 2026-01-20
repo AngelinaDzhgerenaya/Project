@@ -22,7 +22,7 @@ public class AuthService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<UserEntity> userEntityOptional = userRepository.findByEmail(email);
-        if(userEntityOptional.isEmpty()) throw new UsernameNotFoundException("User with email not found");
+        if(userEntityOptional.isEmpty()) throw new UsernameNotFoundException("Пользователь не найден");
 
         UserEntity user = userEntityOptional.get();
         List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("user"));
