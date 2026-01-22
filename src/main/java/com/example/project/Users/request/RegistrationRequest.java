@@ -1,12 +1,10 @@
 package com.example.project.Users.request;
 
 import com.example.project.Users.exception.BadRequestException;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -38,7 +36,7 @@ public class RegistrationRequest {
         }
 
         // Проверка номера телефона
-        if (!phoneNumber.matches("^\\d{10}$")) {
+        if (!phoneNumber.matches("^\\+7\\d{10}$")) {
             throw new BadRequestException("Такого номера не существует");
         }
 

@@ -5,21 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Регистрация</title>
     <link rel="stylesheet" href="/css/style.css">
+
+    <script>
+        // Функция для добавления префикса +7
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.querySelector("form");
+
+            form.addEventListener("submit", function(event) {
+                const phoneInput = document.querySelector('input[name="phoneNumber"]');
+
+                // Если номер не начинается с +7, добавим +7 в начало
+                if (!phoneInput.value.startsWith("+7")) {
+                    phoneInput.value = "+7" + phoneInput.value;
+                }
+            });
+            // Глазик для поля пароля
+            const passwordInput = document.getElementById("password");
+            const togglePassword = document.getElementById("togglePassword");
+
+            togglePassword.addEventListener("click", () => {
+                const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+                passwordInput.setAttribute("type", type);
+            });
+        });
+    </script>
 </head>
 <body>
 <div class="container">
     <h1>Регистрация</h1>
-    <form action="register_submit.html" method="post">
+    <form action="/not-secured/v1/registration" method="post">
         <input type="text" name="firstName" placeholder="Имя" required>
         <input type="text" name="lastName" placeholder="Фамилия" required>
-        <input type="tel" name="phoneNumber" placeholder="Номер телефона" required>
+        <div class="phone-input-wrapper">
+            <input type="tel" name="phoneNumber" placeholder="Номер телефона" required>
+        </div>
         <input type="text" name="passportId" placeholder="Паспорт ID" required>
         <input type="email" name="email" placeholder="Email" required>
-        <input type="password" name="password" placeholder="Пароль" required>
+        <!-- Поле пароля с глазиком -->
+        <div class="password-wrapper">
+            <input type="password" id="password" name="password" placeholder="Пароль" required>
+            <span id="togglePassword">👁️</span>
+        </div>
         <button type="submit" class="btn">Зарегистрироваться</button>
     </form>
+
     <p>Уже есть аккаунт? <a href="/not-secured/login">Войти</a></p>
 </div>
 </body>
 </html>
-

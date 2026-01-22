@@ -25,7 +25,7 @@ public class RegistrationController {
     private final PasswordEncoder passwordEncoder;
 
 
-    @PostMapping(UserRoutes.REGISTRATION)
+    /*@PostMapping(UserRoutes.REGISTRATION)
     public void registration( RegistrationRequest request) throws BadRequestException, UserAlreadyExistException {
         request.validate();
 
@@ -47,5 +47,5 @@ public class RegistrationController {
 
         client = userRepository.save(client);
         UserResponse.of(client);
-    }
+    }*/
 }

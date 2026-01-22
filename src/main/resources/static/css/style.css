@@ -31,7 +31,7 @@ h1 {
     border: none;
     border-radius: 5px;
     text-decoration: none;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease-in-out;
 }
 
 .btn:hover {
@@ -46,23 +46,26 @@ h1 {
     background-color: #1e7e34;
 }
 
-/* уже существующие стили для body, .container, .btn остаются */
-
-/* новые стили для формы */
+/* Стили для формы */
 form {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
 }
 
+/* Общие стили для всех полей ввода */
 input {
     width: 100%;
-    max-width: 300px;
+    max-width: 300px; /* Ограничиваем максимальную ширину полей */
     padding: 12px;
     margin: 8px 0;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 14px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 input:focus {
@@ -71,8 +74,153 @@ input:focus {
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
+/* Стиль для обертки с телефоном */
+.phone-input-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    max-width: 300px; /* Максимальная ширина для поля */
+    margin: 8px 0;
+}
+
+.phone-input-wrapper input {
+    width: 100%; /* Устанавливаем ширину на 100% */
+    padding-left: 40px; /* Место для +7 */
+    padding-right: 10px; /* Дополнительный отступ справа */
+    box-sizing: border-box;
+}
+
+.phone-input-wrapper::before {
+    content: "+7";
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+}
+
+/* Контейнер для поля пароля с глазиком */
+.password-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+    margin: 10px auto;
+}
+
+.password-wrapper input {
+    width: 100%;
+    padding: 12px;
+    padding-right: 35px; /* Место для глазика */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+}
+
+.password-wrapper span {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    user-select: none;
+}
+
+/* Стили для кнопок */
 form button {
     width: 100%;
     max-width: 300px;
-    margin-top: 15px;
+    padding: 12px;
+    margin-top: 10px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+/* Стили для радиокнопок и их лейблов */
+.login-methods {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.login-methods input {
+    display: none;
+}
+
+.login-methods label {
+    cursor: pointer;
+    font-size: 16px;
+    color: #555;
+    font-weight: 600;
+    transition: color 0.3s;
+}
+
+.login-methods input:checked + label {
+    color: #007bff;
+}
+
+/* Стили для активных полей ввода (email, passport, phone) */
+#emailField,
+#passportField,
+#phoneField {
+    display: none;
+    margin-bottom: 15px;
+}
+
+#emailField.active,
+#passportField.active,
+#phoneField.active {
+    display: block;
+}
+
+/* Стили для активной формы */
+input[type="radio"]:checked + label {
+    color: #007bff;
+}
+.container-login {
+    text-align: center;
+    background-color: #fff; /* Белый фон */
+    padding: 40px 60px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px; /* Ограничиваем ширину контейнера */
+}
+
+/* Стиль для обертки с телефоном */
+.phone-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 300px; /* Максимальная ширина для поля */
+    margin: 8px 0;
+}
+
+.phone-wrapper input {
+    width: 100%; /* Устанавливаем ширину на 100% */
+    padding-left: 40px; /* Место для +7 */
+    padding-right: 10px; /* Дополнительный отступ справа */
+    box-sizing: border-box;
+}
+
+/* Псевдо-элемент для отображения +7 */
+.phone-wrapper::before {
+    content: "+7";
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    font-size: 14px;
 }
