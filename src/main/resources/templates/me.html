@@ -11,16 +11,13 @@
   <h1>Добро пожаловать в ваш аккаунт!</h1>
 
   <!-- Проверяем, есть ли имя пользователя -->
-  <div th:if="${userName != null}">
-    <p>Привет, <span th:text="${userName}">Имя</span>!</p>
+
+    <p>Привет</span>!</p>
     <a href="/not-secured/logout" class="btn">Выйти</a>
-  </div>
+
 
   <!-- Если пользователь не вошел, выводим сообщение -->
-  <div th:if="${userName == null}">
-    <p>Для доступа к аккаунту, пожалуйста, войдите в систему.</p>
-    <a href="/not-secured/notme" class="btn">Войти</a>
-  </div>
+
 </div>
 </body>
 </html>

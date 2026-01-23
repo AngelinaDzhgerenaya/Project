@@ -74,68 +74,15 @@ public class UserApiController {
     }
 
     @GetMapping("/not-secured/login")
-    public String login() {
+    public String login(Model model) {
+        model.addAttribute("loginRequest", new LoginRequest());
         return "login";  // Имя файла index.html, без расширения .html
     }
 
-    @PostMapping(UserRoutes.LOGIN)
-    public String loginPost(@ModelAttribute LoginRequest request) throws BadRequestException, UserAlreadyExistException {
-        request.validate(userRepository, passwordEncoder);
-
-        System.out.println(request.getEmail());
-        System.out.println(request.getPhoneNumber());
-        System.out.println(request.getPassportId());
-        System.out.println(request.getPassword());
-        System.out.println(request.getUsername());
-
-
-        // Попытка аутентификации
-        Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
-        );
-
-        // Проверяем, прошла ли аутентификация успешно
-        if (auth.isAuthenticated()) {
-            System.out.println("Authentication successful for user: " + auth.getName());
-        } else {
-            System.out.println("Authentication failed");
-        }
-
-        // Сохраняем аутентификацию в контексте Security
-        SecurityContextHolder.getContext().setAuthentication(auth);
-
-        return "redirect:/api/v1/user/me";
-
-    }
-
-    @GetMapping(UserRoutes.LOGIN)
-    public String loginGet(Model model){
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        // Пользователь реально авторизован
-        if (auth != null && auth.isAuthenticated()) {
-
-            String username = auth.getName(); // логин пользователя
-            Optional<UserEntity> user = userRepository.findByEmail(username);
-            user.ifPresent(u -> model.addAttribute("userName", u.getFirstName()));
-
-            return "me";
-        }
-
-        // Пользователь не авторизован
-        return "redirect:" + UserRoutes.NOTME;
-
-    }
-
     @RequestMapping(UserRoutes.ME)
-    public String mePage(Model model) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null && auth.isAuthenticated()) {
-            String username = auth.getName();
-            Optional<UserEntity> user = userRepository.findByEmail(username);
-            user.ifPresent(u -> model.addAttribute("userName", u.getFirstName()));
-            return "me"; // Переход на страницу профиля
-        }
-        return "redirect:/not-secured/notme"; // Перенаправление на страницу ошибки
+    public String mePage(Authentication authentication, Model model) {
+        model.addAttribute("user", authentication.getPrincipal());
+        return "me";
     }
 
 

@@ -34,12 +34,21 @@ public class BasicConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
+        http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/not-secured/**").permitAll()
                         .requestMatchers(BaseRoutes.API + "/**").authenticated() // Требуется аутентификация для API
-                        .anyRequest().anonymous() // Для остальных страниц доступ разрешен всем
+                        .anyRequest().permitAll() // Для остальных страниц доступ разрешен всем
+                )
+                .formLogin(form -> form
+                        .loginPage("/not-secured/login")
+                        .loginProcessingUrl("/not-secured/v1/login") // POST сюда
+                        .usernameParameter("username") // имя поля формы
+                        .passwordParameter("password")
+                        .defaultSuccessUrl("/api/v1/user/me", true)
+                        .failureUrl("/not-secured/notme")
+                        .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/not-secured/logout") // URL для выхода
@@ -47,9 +56,9 @@ public class BasicConfig {
                         .clearAuthentication(true) // Очищаем аутентификацию
                         .deleteCookies("JSESSIONID") // Удаляем cookie сессии
                         .logoutSuccessUrl("/") // Редирект на главную страницу после выхода
-                )
-                .userDetailsService(authService) // Используем ваш сервис для аутентификации
-                .build();
+                );
+        return http.build();
+
     }
 
 
