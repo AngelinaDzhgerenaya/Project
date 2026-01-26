@@ -1,6 +1,6 @@
-package com.example.project.Users.response;
+package com.example.project.users.response;
 
-import com.example.project.Users.entity.UserEntity;
+import com.example.project.users.entity.UserEntity;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 

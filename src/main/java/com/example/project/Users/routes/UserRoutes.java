@@ -1,4 +1,4 @@
-package com.example.project.Users.routes;
+package com.example.project.users.routes;
 
 import com.example.project.base.routes.BaseRoutes;
 

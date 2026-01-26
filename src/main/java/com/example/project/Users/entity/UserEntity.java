@@ -1,9 +1,7 @@
-package com.example.project.Users.entity;
+package com.example.project.users.entity;
 
 import jakarta.persistence.*;
 
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 

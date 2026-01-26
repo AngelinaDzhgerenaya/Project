@@ -1,25 +1,17 @@
-package com.example.project.Users.controller;
+package com.example.project.users.controller;
 
-import com.example.project.Users.entity.UserEntity;
-import com.example.project.Users.exception.BadRequestException;
-import com.example.project.Users.exception.UserAlreadyExistException;
-import com.example.project.Users.repository.UserRepository;
-import com.example.project.Users.request.LoginRequest;
-import com.example.project.Users.request.RegistrationRequest;
-import com.example.project.Users.response.UserResponse;
-import com.example.project.Users.routes.UserRoutes;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
+import com.example.project.users.entity.UserEntity;
+import com.example.project.users.exception.BadRequestException;
+import com.example.project.users.exception.UserAlreadyExistException;
+import com.example.project.users.repository.UserRepository;
+import com.example.project.users.request.LoginRequest;
+import com.example.project.users.request.RegistrationRequest;
+import com.example.project.users.routes.UserRoutes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,8 +28,7 @@ public class UserApiController {
     private final UserRepository userRepository;
     @Autowired
     private final PasswordEncoder passwordEncoder;
-    @Autowired
-    private final AuthenticationManager authenticationManager;
+
 
     @GetMapping()
     public String index() {
@@ -58,7 +49,7 @@ public class UserApiController {
         check = userRepository.findByPhoneNumber(request.getPhoneNumber());
         if(check.isPresent()) throw new UserAlreadyExistException("Пользователь с таким номером уже существует");
         check = userRepository.findByPassportId(request.getPassportId());
-        if(check.isPresent()) throw new UserAlreadyExistException("Пользователь с таким пасспортом уже существует");
+        if(check.isPresent());
 
         UserEntity client = UserEntity.builder()
                 .lastName(request.getLastName())

@@ -1,16 +1,16 @@
-package com.example.project.users.exception;
+package com.example.project.volunteer.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class UserNotFoundException extends Exception {
-    public UserNotFoundException() {
-        super("Пользователь не найден");
+public class FormNotFoundException extends Exception {
+    public FormNotFoundException() {
+        super("Заявка не найдена");
     }
 
     // Конструктор с кастомным сообщением
-    public UserNotFoundException(String message) {
+    public FormNotFoundException(String message) {
         super(message);
     }
 }

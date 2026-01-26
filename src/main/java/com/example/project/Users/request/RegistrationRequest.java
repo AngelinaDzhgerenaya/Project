@@ -1,6 +1,6 @@
-package com.example.project.Users.request;
+package com.example.project.users.request;
 
-import com.example.project.Users.exception.BadRequestException;
+import com.example.project.users.exception.BadRequestException;
 import lombok.*;
 
 @Getter

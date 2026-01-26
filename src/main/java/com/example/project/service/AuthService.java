@@ -1,7 +1,7 @@
 package com.example.project.service;
 
-import com.example.project.Users.entity.UserEntity;
-import com.example.project.Users.repository.UserRepository;
+import com.example.project.users.entity.UserEntity;
+import com.example.project.users.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;

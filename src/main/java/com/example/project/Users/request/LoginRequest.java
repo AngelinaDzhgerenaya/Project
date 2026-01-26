@@ -1,9 +1,8 @@
-package com.example.project.Users.request;
+package com.example.project.users.request;
 
-import com.example.project.Users.entity.UserEntity;
-import com.example.project.Users.exception.BadRequestException;
-import com.example.project.Users.exception.UserAlreadyExistException;
-import com.example.project.Users.repository.UserRepository;
+import com.example.project.users.entity.UserEntity;
+import com.example.project.users.exception.BadRequestException;
+import com.example.project.users.repository.UserRepository;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
