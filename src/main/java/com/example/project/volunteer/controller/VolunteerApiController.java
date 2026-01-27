@@ -1,7 +1,6 @@
 package com.example.project.volunteer.controller;
 
-import com.example.project.users.exception.UserAlreadyExistException;
-import com.example.project.users.repository.UserRepository;
+import com.example.project.users.exception.BadRequestException;
 import com.example.project.volunteer.entity.VolunteerEntity;
 import com.example.project.volunteer.exception.FormNotFoundException;
 import com.example.project.volunteer.repository.VolunteerRepository;
@@ -21,8 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-@Controller
+@RestController
 @RequestMapping()
 @RequiredArgsConstructor
 public class VolunteerApiController {
@@ -31,9 +29,9 @@ public class VolunteerApiController {
     private final VolunteerRepository volunteerRepository;
 
     @PostMapping(VolunteerRoutes.CREATE)
-    public VolunteerResponse create(@RequestBody CreateVolunteerRequest request) {
-        VolunteerEntity volunteer;
-        volunteer = volunteerRepository.save(request.entity());
+    public VolunteerResponse create(@RequestBody CreateVolunteerRequest request) throws BadRequestException {
+        request.validate();
+        VolunteerEntity volunteer = volunteerRepository.save(request.entity());
         return VolunteerResponse.of(volunteer);
     }
 
@@ -76,6 +74,7 @@ public class VolunteerApiController {
 
     @GetMapping(VolunteerRoutes.SEARCH)
     public List<VolunteerResponse> search(
+            @RequestParam(defaultValue = "") String query,
             @RequestParam(defaultValue = "") String city,
             @RequestParam(defaultValue = "") String volunteerExperience,
             @RequestParam(defaultValue = "") String availability,
@@ -86,31 +85,59 @@ public class VolunteerApiController {
 
         Pageable pageable = PageRequest.of(page, size);
 
-        ExampleMatcher exampleMatcher = ExampleMatcher.matchingAny()
-                .withMatcher("city", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-                .withMatcher("volunteerExperience", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-                .withMatcher("availability", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-                .withMatcher("preferredGroup", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-                .withMatcher("availableHelp", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
 
-        Example<VolunteerEntity> example = Example.of(
-                VolunteerEntity.builder()
-                        .city(city)
-                        .volunteerExperience(volunteerExperience)
-                        .availability(availability)
-                        .preferredGroup(preferredGroup)
-                        .availableHelp(availableHelp)
-                        .build(), exampleMatcher);
 
-        return volunteerRepository
-                .findAll(example, pageable)
-                .stream()
-                .map(VolunteerResponse::of)
-                .collect(Collectors.toList());
+        if(!query.isEmpty()) {
+            System.out.println(query);
+            ExampleMatcher exampleMatcher = ExampleMatcher.matchingAny()
+                    .withMatcher("city", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                    .withMatcher("volunteerExperience", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                    .withMatcher("availability", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                    .withMatcher("preferredGroup", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                    .withMatcher("availableHelp", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
+
+            VolunteerEntity volunteerEntity= VolunteerEntity.builder()
+                    .city(query) // если не передан город, не заполняем поле
+                    .volunteerExperience(query)
+                    .availability(query)
+                    .preferredGroup(query)
+                    .availableHelp(query)
+                    .build();
+            Example<VolunteerEntity> example = Example.of(volunteerEntity, exampleMatcher);
+            return volunteerRepository
+                    .findAll(example, pageable)
+                    .stream()
+                    .map(VolunteerResponse::of)
+                    .collect(Collectors.toList());
+        }
+        else {
+            ExampleMatcher exampleMatcher = ExampleMatcher.matchingAll()
+                    .withMatcher("city", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                    .withMatcher("volunteerExperience", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                    .withMatcher("availability", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                    .withMatcher("preferredGroup", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                    .withMatcher("availableHelp", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
+
+            VolunteerEntity volunteerEntity = VolunteerEntity.builder()
+                    .city(city.isEmpty() ? null : city) // если не передан город, не заполняем поле
+                    .volunteerExperience(volunteerExperience.isEmpty() ? null : volunteerExperience)
+                    .availability(availability.isEmpty() ? null : availability)
+                    .preferredGroup(preferredGroup.isEmpty() ? null : preferredGroup)
+                    .availableHelp(availableHelp.isEmpty() ? null : availableHelp)
+                    .build();
+            Example<VolunteerEntity> example = Example.of(volunteerEntity, exampleMatcher);
+            return volunteerRepository
+                    .findAll(example, pageable)
+                    .stream()
+                    .map(VolunteerResponse::of)
+                    .collect(Collectors.toList());
+        }
+
+
     }
 
     @GetMapping(VolunteerRoutes.CREATE)
-    public String registration() {
+    public String createForm() {
         return "form";  // Имя файла index.html, без расширения .html
     }
 

@@ -21,7 +21,6 @@ public class UserResponse {
                 .id(item.getId())
                 .lastName(item.getLastName())
                 .firstName(item.getFirstName())
-                .lastName(item.getLastName())
                 .phoneNumber(item.getPhoneNumber())
                 .passportId(item.getPassportId())
                 .email(item.getEmail())
