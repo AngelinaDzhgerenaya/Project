@@ -1,7 +1,8 @@
-package com.example.project.volunteer.request;
+package com.example.project.form.volunteer.request;
 
-import com.example.project.users.exception.BadRequestException;
-import com.example.project.volunteer.entity.VolunteerEntity;
+
+import com.example.project.form.exception.BadRequestException;
+import com.example.project.form.volunteer.entity.VolunteerEntity;
 import lombok.Data;
 
 @Data

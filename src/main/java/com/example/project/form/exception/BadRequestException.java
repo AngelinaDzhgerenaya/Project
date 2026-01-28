@@ -1,4 +1,4 @@
-package com.example.project.volunteer.exception;
+package com.example.project.form.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

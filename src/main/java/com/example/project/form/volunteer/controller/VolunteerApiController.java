@@ -1,13 +1,14 @@
-package com.example.project.volunteer.controller;
+package com.example.project.form.volunteer.controller;
 
-import com.example.project.users.exception.BadRequestException;
-import com.example.project.volunteer.entity.VolunteerEntity;
-import com.example.project.volunteer.exception.FormNotFoundException;
-import com.example.project.volunteer.repository.VolunteerRepository;
-import com.example.project.volunteer.request.CreateVolunteerRequest;
-import com.example.project.volunteer.request.EditVolunteerRequest;
-import com.example.project.volunteer.response.VolunteerResponse;
-import com.example.project.volunteer.routes.VolunteerRoutes;
+
+import com.example.project.form.exception.BadRequestException;
+import com.example.project.form.volunteer.entity.VolunteerEntity;
+import com.example.project.form.exception.FormNotFoundException;
+import com.example.project.form.volunteer.repository.VolunteerRepository;
+import com.example.project.form.volunteer.request.CreateVolunteerRequest;
+import com.example.project.form.volunteer.request.EditVolunteerRequest;
+import com.example.project.form.volunteer.response.VolunteerResponse;
+import com.example.project.form.volunteer.routes.VolunteerRoutes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -15,7 +16,6 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -1,6 +1,6 @@
-package com.example.project.volunteer.response;
+package com.example.project.form.volunteer.response;
 
-import com.example.project.volunteer.entity.VolunteerEntity;
+import com.example.project.form.volunteer.entity.VolunteerEntity;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
