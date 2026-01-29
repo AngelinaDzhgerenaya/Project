@@ -16,11 +16,12 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
-@RestController
+@Controller
 @RequestMapping()
 @RequiredArgsConstructor
 public class VolunteerApiController {
@@ -29,10 +30,18 @@ public class VolunteerApiController {
     private final VolunteerRepository volunteerRepository;
 
     @PostMapping(VolunteerRoutes.CREATE)
-    public VolunteerResponse create(@RequestBody CreateVolunteerRequest request) throws BadRequestException {
+    public String create(@ModelAttribute CreateVolunteerRequest request) throws BadRequestException {
         request.validate();
-        VolunteerEntity volunteer = volunteerRepository.save(request.entity());
-        return VolunteerResponse.of(volunteer);
+        volunteerRepository.save(request.entity());
+        return "redirect:" + VolunteerRoutes.SUCCESSFUL;
+    }
+    @GetMapping(VolunteerRoutes.SUCCESSFUL)
+    public String successfulCreate() {
+        return "/form/successfulCreate";
+    }
+    @GetMapping(VolunteerRoutes.CREATE)
+    public String createForm() {
+        return "/form/volunteerForm";  // Имя файла index.html, без расширения .html
     }
 
     @PutMapping(VolunteerRoutes.BY_ID)
@@ -136,9 +145,6 @@ public class VolunteerApiController {
 
     }
 
-    @GetMapping(VolunteerRoutes.CREATE)
-    public String createForm() {
-        return "form";  // Имя файла index.html, без расширения .html
-    }
+
 
 }

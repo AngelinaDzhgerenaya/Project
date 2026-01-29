@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анкета волонтёра</title>
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script>
+        // Функция для добавления префикса +7
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.querySelector("form");
+
+            form.addEventListener("submit", function(event) {
+                const phoneInput = document.querySelector('input[name="contactPhone"]');
+
+                // Если номер не начинается с +7, добавим +7 в начало
+                if (!phoneInput.value.startsWith("+7")) {
+                    phoneInput.value = "+7" + phoneInput.value;
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Анкета волонтёра</h1>
+
+    <form action="/not-secured/volunteer/form" method="post">
+
+        <input type="text" name="fullName" placeholder="Полное имя" required>
+
+        <input type="number" name="age" placeholder="Возраст" required>
+
+        <div class="phone-wrapper">
+            <input type="tel" name="contactPhone" placeholder="Телефон" required>
+        </div>
+
+        <input type="text" name="otherContact" placeholder="Другие контакты">
+
+        <input type="text" name="city" placeholder="Город" required>
+
+        <textarea name="volunteerExperience" rows="3"
+                  placeholder="Опыт волонтёрской деятельности"></textarea>
+
+        <textarea name="availability" rows="2"
+                  placeholder="Доступное время (дни недели, время суток)"></textarea>
+
+        <input type="text" name="preferredGroup"
+               placeholder="Предпочитаемая группа людей (пожилые, дети...)">
+
+        <textarea name="availableHelp" rows="3"
+                  placeholder="Какая помощь доступна"></textarea>
+
+        <textarea name="additionalInformation" rows="3"
+                  placeholder="Дополнительная информация"></textarea>
+
+        <button type="submit">Отправить анкету</button>
+
+    </form>
+</div>
+
+</body>
+</html>
