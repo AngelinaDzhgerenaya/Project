@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анкета волонтёра</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<!-- Обертка с уникальным классом volunteer-form -->
+<div class="volunteer-form">
+    <h1>Анкета волонтёра</h1>
+
+    <div class="form-section">
+        <b>Полное имя:</b>
+        <span th:text="${volunteer.fullName}" class="placeholder"></span>
+    </div>
+
+    <div class="form-section">
+        <b>Возраст:</b>
+        <span th:text="${volunteer.age}" class="placeholder"></span>
+    </div>
+
+    <div class="form-section">
+        <b>Телефон:</b>
+        <span th:text="${volunteer.contactPhone}" class="placeholder"></span>
+    </div>
+
+    <div class="form-section">
+        <b>Другие контакты:</b>
+        <span th:text="${volunteer.otherContact}" class="placeholder"></span>
+    </div>
+
+    <div class="form-section">
+        <b>Город:</b>
+        <span th:text="${volunteer.city}" class="placeholder"></span>
+    </div>
+
+    <div class="form-section">
+        <b>Опыт волонтёрства:</b>
+        <p th:text="${volunteer.volunteerExperience}"></p>
+    </div>
+
+    <div class="form-section">
+        <b>Доступное время:</b>
+        <p th:text="${volunteer.availability}"></p>
+    </div>
+
+    <div class="form-section">
+        <b>Предпочитаемая группа:</b>
+        <span th:text="${volunteer.preferredGroup}" class="placeholder"></span>
+    </div>
+
+    <div class="form-section">
+        <b>Какая помощь доступна:</b>
+        <p th:text="${volunteer.availableHelp}"></p>
+    </div>
+
+    <div class="form-section">
+        <b>Дополнительная информация:</b>
+        <p th:text="${volunteer.additionalInformation}"></p>
+    </div>
+
+
+</div>
+
+</body>
+</html>

@@ -1,10 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анкета нуждающегося</title>
+
+    <!-- Подключение общего CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script>
+        // Добавление префикса +7 к телефону
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.querySelector("form");
+
+            form.addEventListener("submit", function(event) {
+                const phoneInput = document.querySelector('input[name="contactPhone"]');
+
+                // Если номер не начинается с +7, добавляем
+                if (!phoneInput.value.startsWith("+7")) {
+                    phoneInput.value = "+7" + phoneInput.value;
+                }
+            });
+        });
+    </script>
 </head>
+
 <body>
+
+<div class="container">
+    <h1>Анкета нуждающегося</h1>
+
+    <form action="/not-secured/help/form" method="post">
+
+        <!-- Полное имя -->
+        <input type="text" name="fullName" placeholder="Полное имя" required>
+
+        <!-- Возраст -->
+        <input type="number" name="age" placeholder="Возраст" required>
+
+        <!-- Телефон -->
+        <div class="phone-wrapper">
+            <input type="tel" name="contactPhone" placeholder="Телефон" required>
+        </div>
+
+        <!-- Другие контакты -->
+        <input type="text" name="otherContact" placeholder="Другие контакты">
+
+        <!-- Город -->
+        <input type="text" name="city" placeholder="Город" required>
+
+        <!-- Доступное время -->
+        <textarea name="availability" rows="2"
+                  placeholder="Доступное время (дни недели, время суток)"></textarea>
+
+        <!-- Кому нужна помощь -->
+        <input type="text" name="helpGroup"
+               placeholder="Кому нужна помощь (пожилые, дети, семья...)">
+
+        <!-- Состояние здоровья / жизненная ситуация -->
+        <textarea name="personCondition" rows="3"
+                  placeholder="Состояние здоровья / жизненная ситуация"></textarea>
+
+        <!-- Какая помощь требуется -->
+        <textarea name="helpNeeded" rows="3"
+                  placeholder="Какая помощь требуется"></textarea>
+
+        <!-- Дополнительная информация -->
+        <textarea name="additionalInformation" rows="3"
+                  placeholder="Дополнительная информация"></textarea>
+
+        <!-- Кнопка -->
+        <button type="submit">Отправить заявку</button>
+
+    </form>
+</div>
 
 </body>
 </html>

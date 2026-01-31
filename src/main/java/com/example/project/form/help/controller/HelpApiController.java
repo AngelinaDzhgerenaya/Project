@@ -15,12 +15,13 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestController
+@Controller
 @RequestMapping()
 @RequiredArgsConstructor
 public class HelpApiController {
@@ -28,13 +29,28 @@ public class HelpApiController {
     private final HelpRepository helpRepository;
 
     @PostMapping(HelpRoutes.CREATE)
-    public HelpResponse create(@RequestBody CreateHelpRequest request) throws BadRequestException {
+    public String create(@ModelAttribute CreateHelpRequest request) throws BadRequestException {
         request.validate();
         HelpEntity help = helpRepository.save(request.entity());
-        return HelpResponse.of(help);
+        return "redirect:" + HelpRoutes.SUCCESSFUL;
     }
 
-    @PutMapping(HelpRoutes.BY_ID)
+    @GetMapping(HelpRoutes.SUCCESSFUL)
+    public String successfulCreate() {
+        return "/form/successfulCreate";
+    }
+    @GetMapping(HelpRoutes.CREATE)
+    public String createForm() {
+        return "/form/helpForm";  // Имя файла index.html, без расширения .html
+    }
+
+    @GetMapping(HelpRoutes.EDIT)
+    public String editForm(@PathVariable Long id) {
+
+        return "/form/helpEditForm";  // Имя файла index.html, без расширения .html
+    }
+
+    @PutMapping(HelpRoutes.EDIT)
     public HelpResponse edit(@PathVariable Long id, @RequestBody EditHelpRequest request) throws FormNotFoundException {
         HelpEntity help = helpRepository.findById(id).orElseThrow(FormNotFoundException::new);
 
@@ -134,8 +150,4 @@ public class HelpApiController {
 
     }
 
-    @GetMapping(HelpRoutes.CREATE)
-    public String createForm() {
-        return "form";  // Имя файла index.html, без расширения .html
-    }
 }

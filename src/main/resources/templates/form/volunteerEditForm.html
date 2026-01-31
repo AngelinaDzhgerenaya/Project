@@ -1,10 +1,101 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактирование анкеты волонтёра</title>
+
+    <!-- Общий CSS -->
+    <link rel="stylesheet" href="/css/style.css">
 </head>
+
 <body>
+
+<div class="container">
+
+    <h1>Редактирование анкеты</h1>
+
+    <!-- Форма обновления -->
+    <form th:action="@{/not-secured/volunteer/edit/{id}(id=${volunteer.id})}" method="post">
+
+
+        <!-- Полное имя -->
+        <input type="text"
+               name="fullName"
+               placeholder="Полное имя"
+               th:value="${volunteer.fullName}"
+               required>
+
+        <!-- Возраст -->
+        <input type="number"
+               name="age"
+               placeholder="Возраст"
+               th:value="${volunteer.age}"
+               required>
+
+        <!-- Телефон -->
+        <div class="phone-wrapper">
+            <input type="tel"
+                   name="contactPhone"
+                   placeholder="Телефон"
+                   th:value="${volunteer.contactPhone}"
+                   required>
+        </div>
+
+        <!-- Другие контакты -->
+        <input type="text"
+               name="otherContact"
+               placeholder="Другие контакты"
+               th:value="${volunteer.otherContact}">
+
+        <!-- Город -->
+        <input type="text"
+               name="city"
+               placeholder="Город"
+               th:value="${volunteer.city}"
+               required>
+
+        <!-- Опыт -->
+        <textarea name="volunteerExperience"
+                  rows="3"
+                  placeholder="Опыт волонтёрской деятельности"
+                  th:text="${volunteer.volunteerExperience}">
+        </textarea>
+
+        <!-- Доступное время -->
+        <textarea name="availability"
+                  rows="2"
+                  placeholder="Доступное время (дни недели, время суток)"
+                  th:text="${volunteer.availability}">
+        </textarea>
+
+        <!-- Предпочитаемая группа -->
+        <input type="text"
+               name="preferredGroup"
+               placeholder="Предпочитаемая группа людей"
+               th:value="${volunteer.preferredGroup}">
+
+        <!-- Какая помощь доступна -->
+        <textarea name="availableHelp"
+                  rows="3"
+                  placeholder="Какая помощь доступна"
+                  th:text="${volunteer.availableHelp}">
+        </textarea>
+
+        <!-- Доп. информация -->
+        <textarea name="additionalInformation"
+                  rows="3"
+                  placeholder="Дополнительная информация"
+                  th:text="${volunteer.additionalInformation}">
+        </textarea>
+
+        <!-- Кнопка -->
+        <button type="submit">Сохранить изменения</button>
+
+    </form>
+
+</div>
 
 </body>
 </html>

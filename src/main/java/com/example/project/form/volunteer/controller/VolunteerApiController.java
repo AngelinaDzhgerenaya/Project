@@ -17,6 +17,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,8 +45,15 @@ public class VolunteerApiController {
         return "/form/volunteerForm";  // Имя файла index.html, без расширения .html
     }
 
-    @PutMapping(VolunteerRoutes.BY_ID)
-    public VolunteerResponse edit(@PathVariable Long id, @RequestBody EditVolunteerRequest request) throws FormNotFoundException {
+    @GetMapping(VolunteerRoutes.EDIT)
+    public String editForm(@PathVariable Long id, Model model) throws FormNotFoundException {
+        VolunteerEntity volunteer = volunteerRepository.findById(id).orElseThrow(FormNotFoundException::new);//ищем по id заявку
+        model.addAttribute("volunteer", volunteer);
+        return "/form/volunteerEditForm";  // Имя файла index.html, без расширения .html
+    }
+
+    @PostMapping(VolunteerRoutes.EDIT)
+    public String edit(@PathVariable Long id, @ModelAttribute EditVolunteerRequest request) throws FormNotFoundException {
         VolunteerEntity volunteer = volunteerRepository.findById(id).orElseThrow(FormNotFoundException::new);
 
         volunteer.setFullName(request.getFullName());
@@ -62,14 +70,14 @@ public class VolunteerApiController {
 
 
         volunteerRepository.save(volunteer);
-        return VolunteerResponse.of(volunteer);
+        return "redirect:" + VolunteerRoutes.SUCCESSFUL;
     }
 
     @GetMapping(VolunteerRoutes.BY_ID)
-    public VolunteerResponse findById(@PathVariable Long id) throws FormNotFoundException {
+    public String findById(@PathVariable Long id, Model model) throws FormNotFoundException {
         VolunteerEntity volunteer = volunteerRepository.findById(id).orElseThrow(FormNotFoundException::new);
-
-        return VolunteerResponse.of(volunteer);
+        model.addAttribute("volunteer", volunteer);
+        return "/form/volunteerPersonForm";
     }
 
     @DeleteMapping(VolunteerRoutes.BY_ID)
