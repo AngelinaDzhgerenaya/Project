@@ -1,10 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анкета нуждающегося</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
+
 <body>
+
+<!-- Обертка с уникальным классом help-form -->
+<div class="help-form">
+
+    <h1>Анкета нуждающегося</h1>
+
+    <div class="form-section">
+        <b>Полное имя:</b>
+        <span th:text="${help.fullName}" class="placeholder"></span>
+    </div>
+
+    <div class="form-section">
+        <b>Возраст:</b>
+        <span th:text="${help.age}" class="placeholder"></span>
+    </div>
+
+    <div class="form-section">
+        <b>Телефон:</b>
+        <span th:text="${help.contactPhone}" class="placeholder"></span>
+    </div>
+
+    <div class="form-section">
+        <b>Другие контакты:</b>
+        <span th:text="${help.otherContact}" class="placeholder"></span>
+    </div>
+
+    <div class="form-section">
+        <b>Город:</b>
+        <span th:text="${help.city}" class="placeholder"></span>
+    </div>
+
+    <div class="form-section">
+        <b>Доступное время:</b>
+        <p th:text="${help.availability}"></p>
+    </div>
+
+    <div class="form-section">
+        <b>Кому нужна помощь:</b>
+        <span th:text="${help.helpGroup}" class="placeholder"></span>
+    </div>
+
+    <div class="form-section">
+        <b>Состояние здоровья / жизненная ситуация:</b>
+        <p th:text="${help.personCondition}"></p>
+    </div>
+
+    <div class="form-section">
+        <b>Какая помощь требуется:</b>
+        <p th:text="${help.helpNeeded}"></p>
+    </div>
+
+    <div class="form-section">
+        <b>Дополнительная информация:</b>
+        <p th:text="${help.additionalInformation}"></p>
+    </div>
+
+</div>
 
 </body>
 </html>

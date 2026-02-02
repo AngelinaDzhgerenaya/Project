@@ -36,13 +36,15 @@ public class VolunteerApiController {
         volunteerRepository.save(request.entity());
         return "redirect:" + VolunteerRoutes.SUCCESSFUL;
     }
+
     @GetMapping(VolunteerRoutes.SUCCESSFUL)
     public String successfulCreate() {
         return "/form/successfulCreate";
     }
+
     @GetMapping(VolunteerRoutes.CREATE)
     public String createForm() {
-        return "/form/volunteerForm";  // Имя файла index.html, без расширения .html
+        return "/form/volunteerCreateForm";  // Имя файла index.html, без расширения .html
     }
 
     @GetMapping(VolunteerRoutes.EDIT)
@@ -68,7 +70,6 @@ public class VolunteerApiController {
         volunteer.setAdditionalInformation(request.getAdditionalInformation());
 
 
-
         volunteerRepository.save(volunteer);
         return "redirect:" + VolunteerRoutes.SUCCESSFUL;
     }
@@ -88,71 +89,68 @@ public class VolunteerApiController {
     }
 
 
-
     @GetMapping(VolunteerRoutes.SEARCH)
-    public List<VolunteerResponse> search(
+    public String search(
             @RequestParam(defaultValue = "") String query,
             @RequestParam(defaultValue = "") String city,
             @RequestParam(defaultValue = "") String volunteerExperience,
             @RequestParam(defaultValue = "") String availability,
             @RequestParam(defaultValue = "") String preferredGroup,
             @RequestParam(defaultValue = "") String availableHelp,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
+            //@RequestParam(defaultValue = "0") int page,
+            //@RequestParam(defaultValue = "10") int size,
+            Model model) {
 
-        Pageable pageable = PageRequest.of(page, size);
+        //Pageable pageable = PageRequest.of(page, size);
 
+        ExampleMatcher filterMatcher = ExampleMatcher.matchingAll()
+                .withIgnoreNullValues()
+                .withMatcher("city", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher("volunteerExperience", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher("availability", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher("preferredGroup", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
+                .withMatcher("availableHelp", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
 
+        VolunteerEntity filterEntity = VolunteerEntity.builder()
+                .city(city.isEmpty() ? null : city)
+                .volunteerExperience(volunteerExperience.isEmpty() ? null : volunteerExperience)
+                .availability(availability.isEmpty() ? null : availability)
+                .preferredGroup(preferredGroup.isEmpty() ? null : preferredGroup)
+                .availableHelp(availableHelp.isEmpty() ? null : availableHelp)
+                .build();
 
-        if(!query.isEmpty()) {
-            System.out.println(query);
-            ExampleMatcher exampleMatcher = ExampleMatcher.matchingAny()
-                    .withMatcher("city", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-                    .withMatcher("volunteerExperience", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-                    .withMatcher("availability", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-                    .withMatcher("preferredGroup", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-                    .withMatcher("availableHelp", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
+        List<VolunteerEntity> volunteers =
+                volunteerRepository.findAll(Example.of(filterEntity, filterMatcher));
 
-            VolunteerEntity volunteerEntity= VolunteerEntity.builder()
-                    .city(query) // если не передан город, не заполняем поле
-                    .volunteerExperience(query)
-                    .availability(query)
-                    .preferredGroup(query)
-                    .availableHelp(query)
-                    .build();
-            Example<VolunteerEntity> example = Example.of(volunteerEntity, exampleMatcher);
-            return volunteerRepository
-                    .findAll(example, pageable)
-                    .stream()
-                    .map(VolunteerResponse::of)
-                    .collect(Collectors.toList());
-        }
-        else {
-            ExampleMatcher exampleMatcher = ExampleMatcher.matchingAll()
-                    .withMatcher("city", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-                    .withMatcher("volunteerExperience", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-                    .withMatcher("availability", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-                    .withMatcher("preferredGroup", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
-                    .withMatcher("availableHelp", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
+        // 2) Если query заполнен — фильтруем дополнительно вручную
+        if (!query.isEmpty()) {
+            String q = query.toLowerCase();
 
-            VolunteerEntity volunteerEntity = VolunteerEntity.builder()
-                    .city(city.isEmpty() ? null : city) // если не передан город, не заполняем поле
-                    .volunteerExperience(volunteerExperience.isEmpty() ? null : volunteerExperience)
-                    .availability(availability.isEmpty() ? null : availability)
-                    .preferredGroup(preferredGroup.isEmpty() ? null : preferredGroup)
-                    .availableHelp(availableHelp.isEmpty() ? null : availableHelp)
-                    .build();
-            Example<VolunteerEntity> example = Example.of(volunteerEntity, exampleMatcher);
-            return volunteerRepository
-                    .findAll(example, pageable)
-                    .stream()
-                    .map(VolunteerResponse::of)
-                    .collect(Collectors.toList());
+            volunteers = volunteers.stream()
+                    .filter(v ->
+                            (v.getCity() != null && v.getCity().toLowerCase().contains(q)) ||
+                                    (v.getVolunteerExperience() != null && v.getVolunteerExperience().toLowerCase().contains(q)) ||
+                                    (v.getAvailability() != null && v.getAvailability().toLowerCase().contains(q)) ||
+                                    (v.getPreferredGroup() != null && v.getPreferredGroup().toLowerCase().contains(q)) ||
+                                    (v.getAvailableHelp() != null && v.getAvailableHelp().toLowerCase().contains(q))
+                    )
+                    .toList();
         }
 
+
+        //  Передаём список в HTML
+        model.addAttribute("volunteers", volunteers);
+
+        //  Чтобы query и остальные оставались в поле поиска
+        model.addAttribute("query", query);
+        model.addAttribute("city", city);
+        model.addAttribute("volunteerExperience", volunteerExperience);
+        model.addAttribute("availability", availability);
+        model.addAttribute("preferredGroup", preferredGroup);
+        model.addAttribute("availableHelp", availableHelp);
+
+        return "/form/volunteerForms";
 
     }
-
-
-
 }
+

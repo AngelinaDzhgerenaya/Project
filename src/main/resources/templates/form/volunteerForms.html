@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Заявки волонтёров</title>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <style>
+    body {
+      display: block !important;
+      height: auto !important;
+      padding: 30px;
+      background: #f0f2f5;
+    }
+    h1 {
+      text-align: left;
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<h1 style="margin-bottom: 25px;">Все заявки волонтёров</h1>
+
+<div class="layout">
+
+  <!-- Левая панель фильтров -->
+  <aside class="filters">
+
+    <h2>Фильтры</h2>
+
+    <form method="get" action="/not-secured/volunteer">
+
+      <!-- Город -->
+      <label>Город</label>
+      <input type="text" name="city" placeholder="Например: Москва" th:value="${city}">
+
+      <!-- Опыт -->
+      <label>Опыт волонтёрства</label>
+      <input type="text" name="volunteerExperience" placeholder="Например: 2 года" th:value="${volunteerExperience}">
+
+      <!-- Доступность -->
+      <label>Доступное время</label>
+      <input type="text" name="availability" placeholder="Например: выходные" th:value="${availability}">
+
+      <!-- Группа -->
+      <label>Предпочитаемая группа</label>
+      <input type="text" name="preferredGroup" placeholder="Например: пожилые" th:value="${preferredGroup}">
+
+      <!-- Помощь -->
+      <label>Какая помощь доступна</label>
+      <input type="text" name="availableHelp" placeholder="Например: доставка" th:value="${availableHelp}">
+
+      <button type="submit">Применить</button>
+
+    </form>
+
+  </aside>
+
+  <!-- Правая часть: заявки -->
+  <main class="content">
+
+    <!-- Поиск сверху -->
+    <div class="search-panel" style="margin-bottom: 20px;">
+
+      <form method="get" action="/not-secured/volunteer" class="search-bar">
+
+        <input type="text"
+               name="query"
+               placeholder="Поиск по ключевым словам..."
+               th:value="${query}">
+
+        <button type="submit">Найти</button>
+
+      </form>
+
+    </div>
+
+    <!-- Список заявок -->
+    <div th:if="${volunteers.size() == 0}">
+      <p>Заявки не найдены.</p>
+    </div>
+
+    <div th:each="v : ${volunteers}" class="card">
+
+      <h3 th:text="${v.fullName}"></h3>
+
+      <p><b>Имя:</b> <span th:text="${v.fullName}"></span></p>
+      <p><b>Город:</b> <span th:text="${v.city}"></span></p>
+      <p><b>Возраст:</b> <span th:text="${v.age}"></span></p>
+      <p><b>Доступность:</b> <span th:text="${v.availability}"></span></p>
+      <p><b>Помощь:</b> <span th:text="${v.availableHelp}"></span></p>
+
+      <a th:href="@{/not-secured/volunteer/{id}(id=${v.id})}">
+        Открыть анкету →
+      </a>
+
+    </div>
+
+  </main>
+
+</div>
+
+</body>
+</html>
