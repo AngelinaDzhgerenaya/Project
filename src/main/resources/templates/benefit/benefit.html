@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Информация о льготе</title>
+
+  <!-- Общий CSS -->
+  <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<body>
+
+<div class="benefit-page">
+
+  <h1 th:text="${benefit.title}">Название льготы</h1>
+
+  <!-- Описание -->
+  <div class="benefit-block">
+    <b>Описание</b>
+    <p th:text="${benefit.description}">
+      Здесь будет описание льготы...
+    </p>
+  </div>
+
+  <!-- Как получить -->
+  <div class="benefit-block">
+    <b>Как получить / использовать</b>
+    <p th:text="${benefit.receiving}">
+      Здесь будет инструкция как оформить льготу...
+    </p>
+  </div>
+
+  <!-- Ссылка назад -->
+  <a href="/not-secured/benefit" class="back-link">
+    ← Вернуться ко всем льготам
+  </a>
+
+</div>
+
+</body>
+</html>

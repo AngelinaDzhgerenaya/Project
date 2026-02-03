@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Льготы</title>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <style>
+    body {
+      display: block !important;
+      height: auto !important;
+      padding: 30px;
+      background: #f0f2f5;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<h1>Все льготы</h1>
+
+<!-- Поиск -->
+<div class="search-panel">
+
+  <form method="get" action="/not-secured/benefit" class="search-bar">
+
+    <input type="text"
+           name="query"
+           placeholder="Поиск по названию или описанию..."
+           th:value="${query}">
+
+    <button type="submit">Найти</button>
+
+  </form>
+
+</div>
+
+<!-- Если ничего не найдено -->
+<div th:if="${benefits.size() == 0}">
+  <p>Льготы не найдены.</p>
+</div>
+
+<!-- Список льгот -->
+<div th:each="b : ${benefits}" class="card">
+
+  <!-- Название -->
+  <h3 th:text="${b.title}"></h3>
+
+  <!-- Описание -->
+  <p th:text="${b.description}"></p>
+
+  <!-- Ссылка -->
+  <a th:href="@{/not-secured/benefit/{id}(id=${b.id})}">
+    Подробнее →
+  </a>
+
+</div>
+
+</body>
+</html>
