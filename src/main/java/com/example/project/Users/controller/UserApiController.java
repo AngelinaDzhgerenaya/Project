@@ -30,10 +30,6 @@ public class UserApiController {
     private final PasswordEncoder passwordEncoder;
 
 
-    @GetMapping()
-    public String index() {
-        return "index";  // Имя файла index.html, без расширения .html
-    }
 
     @GetMapping("/not-secured/registration")
     public String registration() {

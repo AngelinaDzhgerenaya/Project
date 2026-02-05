@@ -1,19 +1,105 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Вход и регистрация</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <title>Рука помощи</title>
+    <link rel="stylesheet" href="/css/index.css">
+
 </head>
 <body>
-<div class="container">
-    <h1>Добро пожаловать!</h1>
-    <div class="buttons">
-        <a href="/not-secured/login" class="btn">Войти</a>
-        <a href="/not-secured/registration" class="btn register">Зарегистрироваться</a>
-        <a href="/api/v1/user/me" class="btn account">Аккаунт</a>
+<!-- ===== ШАПКА ===== -->
+<header>
+    <!-- Название -->
+    <a href="/" class="logo">Рука помощи</a>
+
+    <!-- Ссылки -->
+    <nav>
+        <a href="/not-secured/help">Нуждающиеся</a>
+        <a href="/not-secured/volunteer">Волонтёры</a>
+        <a href="/not-secured/benefit">Льготы</a>
+    </nav>
+
+    <!-- Аккаунт -->
+    <a href="/api/v1/user/me" class="account-btn">Аккаунт</a>
+</header>
+
+
+<!-- ===== ОСНОВНОЙ КОНТЕНТ ===== -->
+<div class="main-wrapper">
+
+    <!-- Описание -->
+    <div class="hero">
+        <h1>Рука помощи</h1>
+        <p>
+            Платформа взаимопомощи, где волонтёры могут найти тех, кому нужна помощь,
+            а нуждающиеся — получить поддержку быстро и удобно.
+        </p>
     </div>
+
+    <!-- Статистика -->
+    <div class="stats">
+        <div class="stat-card">
+            <h2 th:text="${volunteerCount}">0</h2>
+            <p>Волонтёров</p>
+        </div>
+
+        <div class="stat-card">
+            <h2 th:text="${helpCount}">0</h2>
+            <p>Заявок о помощи</p>
+        </div>
+
+        <div class="stat-card">
+            <h2 th:text="${benefitCount}">0</h2>
+            <p>Льгот доступно</p>
+        </div>
+    </div>
+
+    <!-- Последняя льгота -->
+    <div class="benefit-block">
+        <h2>Последняя добавленная льгота</h2>
+
+        <div class="benefit-card" th:if="${lastBenefit != null}">
+            <h3 th:text="${lastBenefit.title}"></h3>
+            <p th:text="${lastBenefit.description}"></p>
+
+            <a th:href="@{/not-secured/benefit/{id}(id=${lastBenefit.id})}">
+                Подробнее →
+            </a>
+        </div>
+
+        <p th:if="${lastBenefit == null}">
+            Пока льгот нет.
+        </p>
+    </div>
+
 </div>
+
+
+<!-- ===== ПОДВАЛ ===== -->
+<footer>
+
+    <div class="footer-content">
+
+        <!-- Левая колонка -->
+        <div class="footer-links">
+            <a href="/api/v1/user/me">Аккаунт</a>
+            <a href="/not-secured/login">Войти</a>
+            <a href="/not-secured/registration">Зарегистрироваться</a>
+        </div>
+
+        <!-- Правая колонка -->
+        <div class="footer-right">
+            <a href="/not-secured/volunteer/form">Создать анкету волонтёра</a>
+            <a href="/not-secured/help/form">Создать анкету нуждающегося</a>
+            <a href="/contacts">Контакты</a>
+        </div>
+
+    </div>
+
+</footer>
+
+
+
+
 </body>
 </html>

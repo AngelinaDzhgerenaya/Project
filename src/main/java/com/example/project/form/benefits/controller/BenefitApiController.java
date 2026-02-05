@@ -4,8 +4,6 @@ import com.example.project.form.benefits.entity.BenefitEntity;
 import com.example.project.form.benefits.repository.BenefitRepository;
 import com.example.project.form.benefits.routes.BenefitRoutes;
 import com.example.project.form.exception.FormNotFoundException;
-import com.example.project.form.help.entity.HelpEntity;
-import com.example.project.form.help.routes.HelpRoutes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
