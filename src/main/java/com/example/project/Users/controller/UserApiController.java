@@ -9,7 +9,7 @@ import com.example.project.users.request.RegistrationRequest;
 import com.example.project.users.routes.UserRoutes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -32,7 +32,12 @@ public class UserApiController {
 
 
     @GetMapping("/not-secured/registration")
-    public String registration() {
+    public String registration(Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()
+                && !(authentication instanceof AnonymousAuthenticationToken)) {
+
+            return "redirect:"+UserRoutes.ACCOUNT;
+        }
         return "registration";  // Имя файла index.html, без расширения .html
     }
 
@@ -57,19 +62,25 @@ public class UserApiController {
                 .build();
 
         userRepository.save(client);
-        return "redirect:/";
+        return "redirect:/not-secured/login";
     }
 
     @GetMapping("/not-secured/login")
-    public String login(Model model) {
-        model.addAttribute("loginRequest", new LoginRequest());
+    public String login(Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()
+                && !(authentication instanceof AnonymousAuthenticationToken)) {
+
+            return "redirect:"+UserRoutes.ACCOUNT;
+        }
         return "login";  // Имя файла index.html, без расширения .html
     }
 
-    @RequestMapping(UserRoutes.ME)
+    @RequestMapping(UserRoutes.ACCOUNT)
     public String mePage(Authentication authentication, Model model) {
-        model.addAttribute("user", authentication.getPrincipal());
-        return "me";
+        String username = authentication.getName();
+        UserEntity user = userRepository.findByEmail(username).orElseThrow();
+        model.addAttribute("user", user);
+        return "/account/account";
     }
 
 

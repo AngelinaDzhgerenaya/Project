@@ -42,7 +42,7 @@ public class BasicConfig {
                         .loginProcessingUrl("/not-secured/v1/login") // POST сюда
                         .usernameParameter("username") // имя поля формы
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/api/v1/user/me", true)
+                        .defaultSuccessUrl("/api/v1/user/account", true)
                         .failureUrl("/not-secured/notme")
                         .permitAll()
                 )
