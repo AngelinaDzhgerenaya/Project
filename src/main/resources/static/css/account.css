@@ -1,0 +1,175 @@
+/* ===== ОБЩЕЕ ===== */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f0f2f5;
+    color: #333;
+
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ===== ШАПКА ===== */
+header {
+    background: white;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+nav {
+    display: flex;
+    gap: 25px;
+}
+
+nav a {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+nav a:hover {
+    color: #007bff;
+}
+
+.account-btn {
+    padding: 8px 16px;
+    border-radius: 10px;
+    border: 1px solid #007bff;
+    background: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.account-btn:hover {
+    background: #007bff;
+    color: white;
+}
+
+/* ===== СТРАНИЦА АККАУНТА ===== */
+.account-page {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 30px;
+    background: white;
+    border-radius: 18px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+/* Аватар */
+.account-avatar {
+    width: 120px;
+    height: 120px;
+    background: #f0f2f5;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 70px;
+}
+
+/* Информация */
+.account-info {
+    flex: 1;
+}
+
+.account-info h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.account-info p {
+    margin: 8px 0;
+    font-size: 15px;
+}
+
+/* Меню */
+
+
+
+.links-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.links-group:not(:first-child) {
+    padding-top: 14px;
+    border-top: 1px solid #ddd;
+}
+
+/* ссылка выхода — красная всегда */
+.side-links a.logout {
+    color: #d32f2f;
+    font-weight: bold;
+}
+
+/* при наведении — темнее */
+.side-links a.logout:hover {
+    color: #b71c1c;
+    text-decoration: underline;
+}
+
+.side-links {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-width: 240px;
+}
+
+.side-links a {
+    text-decoration: none;
+    color: #333;
+    font-size: 15px;
+}
+
+.side-links a:hover {
+    color: #007bff;
+}
+
+/* ===== ФУТЕР ===== */
+footer {
+    background: white;
+    border-top: 1px solid #ddd;
+    padding: 30px 0;
+}
+.footer-content {
+    max-width: 900px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    gap: 60px;
+}
+
+.footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-links a {
+    font-size: 15px;
+    color: #444;
+}
+
+.footer-links a:hover {
+    color: #007bff;
+    text-decoration: underline;
+}
+.page-wrapper {
+    flex: 1;
+}
