@@ -9,6 +9,8 @@ import com.example.project.form.volunteer.request.CreateVolunteerRequest;
 import com.example.project.form.volunteer.request.EditVolunteerRequest;
 import com.example.project.form.volunteer.response.VolunteerResponse;
 import com.example.project.form.volunteer.routes.VolunteerRoutes;
+import com.example.project.users.entity.UserEntity;
+import com.example.project.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -16,11 +18,13 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 @Controller
 @RequestMapping()
@@ -30,10 +34,17 @@ public class VolunteerApiController {
     @Autowired
     private final VolunteerRepository volunteerRepository;
 
+    @Autowired
+    private final UserRepository userRepository;
+
     @PostMapping(VolunteerRoutes.CREATE)
-    public String create(@ModelAttribute CreateVolunteerRequest request) throws BadRequestException {
+    public String create(Authentication authentication,@ModelAttribute CreateVolunteerRequest request) throws BadRequestException {
+        String username = authentication.getName();
+        UserEntity user = userRepository.findByEmail(username).orElseThrow();
         request.validate();
-        volunteerRepository.save(request.entity());
+        VolunteerEntity volunteer = request.entity();
+        volunteer.setUserId(user.getId());
+        volunteerRepository.save(volunteer);
         return "redirect:" + VolunteerRoutes.SUCCESSFUL;
     }
 
@@ -48,14 +59,23 @@ public class VolunteerApiController {
     }
 
     @GetMapping(VolunteerRoutes.EDIT)
-    public String editForm(@PathVariable Long id, Model model) throws FormNotFoundException {
+    public String editForm(Authentication authentication, @PathVariable Long id, Model model) throws FormNotFoundException {
+        String username = authentication.getName();
+        UserEntity user = userRepository.findByEmail(username).orElseThrow();
         VolunteerEntity volunteer = volunteerRepository.findById(id).orElseThrow(FormNotFoundException::new);//ищем по id заявку
-        model.addAttribute("volunteer", volunteer);
-        return "/form/volunteerEditForm";  // Имя файла index.html, без расширения .html
+        if (Objects.equals(user.getId(), volunteer.getUserId())) {
+            model.addAttribute("volunteer", volunteer);
+            return "/form/volunteerEditForm";
+        }
+        else {
+            return "/form/badRequest";
+        }
+
+          // Имя файла index.html, без расширения .html
     }
 
     @PostMapping(VolunteerRoutes.EDIT)
-    public String edit(@PathVariable Long id, @ModelAttribute EditVolunteerRequest request) throws FormNotFoundException {
+    public String edit( @PathVariable Long id, @ModelAttribute EditVolunteerRequest request) throws FormNotFoundException {
         VolunteerEntity volunteer = volunteerRepository.findById(id).orElseThrow(FormNotFoundException::new);
 
         volunteer.setFullName(request.getFullName());

@@ -4,7 +4,6 @@ import com.example.project.users.entity.UserEntity;
 import com.example.project.users.exception.BadRequestException;
 import com.example.project.users.exception.UserAlreadyExistException;
 import com.example.project.users.repository.UserRepository;
-import com.example.project.users.request.LoginRequest;
 import com.example.project.users.request.RegistrationRequest;
 import com.example.project.users.routes.UserRoutes;
 import lombok.RequiredArgsConstructor;

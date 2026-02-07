@@ -1,7 +1,12 @@
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #f5f7fb;
+    background: #f0f2f5;
+    color: #333;
+
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 /* ===== ШАПКА ===== */
@@ -56,6 +61,7 @@ nav a:hover {
     max-width: 1100px;
     margin: 40px auto;
     padding: 0 20px;
+    flex: 1;
 }
 
 .hero {

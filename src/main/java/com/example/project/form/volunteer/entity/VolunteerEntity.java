@@ -23,6 +23,7 @@ public class VolunteerEntity {
     protected Long id;
     //@Column(nullable = false, unique = true)
     //private String applicationNumber;
+    protected Long userId;
 
     protected String fullName;
     protected String age;
