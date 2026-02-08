@@ -19,6 +19,7 @@ public class HelpEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
+    protected Long userId;
 
     protected String fullName;
     protected String age;

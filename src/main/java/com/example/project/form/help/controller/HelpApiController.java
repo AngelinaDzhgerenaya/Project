@@ -7,16 +7,20 @@ import com.example.project.form.help.repository.HelpRepository;
 import com.example.project.form.help.request.CreateHelpRequest;
 import com.example.project.form.help.request.EditHelpRequest;
 import com.example.project.form.help.routes.HelpRoutes;
+import com.example.project.users.entity.UserEntity;
+import com.example.project.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 
 @Controller
@@ -26,10 +30,17 @@ public class HelpApiController {
     @Autowired
     private final HelpRepository helpRepository;
 
+    @Autowired
+    private final UserRepository userRepository;
+
     @PostMapping(HelpRoutes.CREATE)
-    public String create(@ModelAttribute CreateHelpRequest request) throws BadRequestException {
+    public String create(Authentication authentication,@ModelAttribute CreateHelpRequest request) throws BadRequestException {
+        String username = authentication.getName();
+        UserEntity user = userRepository.findByEmail(username).orElseThrow();
         request.validate();
-        HelpEntity help = helpRepository.save(request.entity());
+        HelpEntity help = request.entity();
+        help.setUserId(user.getId());
+        helpRepository.save(help);
         return "redirect:" + HelpRoutes.SUCCESSFUL;
     }
 
@@ -44,11 +55,19 @@ public class HelpApiController {
     }
 
     @GetMapping(HelpRoutes.EDIT)
-    public String edit(@PathVariable Long id, Model model) throws FormNotFoundException {
+    public String edit(Authentication authentication,@PathVariable Long id, Model model) throws FormNotFoundException {
+        String username = authentication.getName();
+        UserEntity user = userRepository.findByEmail(username).orElseThrow();
         HelpEntity help = helpRepository.findById(id).orElseThrow(FormNotFoundException::new);//ищем по id заявку
-        model.addAttribute("help", help);
-        return "/form/helpEditForm";
+        if (Objects.equals(user.getId(), help.getUserId())) {
+            model.addAttribute("help", help);
+            return "/form/helpEditForm";
+        }
+        else {
+            return "/form/badRequest";
+        }
     }
+
     @PostMapping(HelpRoutes.EDIT)
     public String edit(@PathVariable Long id, @ModelAttribute EditHelpRequest request) throws FormNotFoundException {
         HelpEntity help = helpRepository.findById(id).orElseThrow(FormNotFoundException::new);
