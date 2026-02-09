@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 
 @Controller
@@ -37,13 +38,16 @@ public class HelpApiController {
     public String create(Authentication authentication,@ModelAttribute CreateHelpRequest request) throws BadRequestException {
         String username = authentication.getName();
         UserEntity user = userRepository.findByEmail(username).orElseThrow();
+        Optional<HelpEntity> helpForm = helpRepository.findByUserId(user.getId());
+        if (helpForm.isPresent()) {
+            return "/form/formAlreadyExist";
+        }
         request.validate();
         HelpEntity help = request.entity();
         help.setUserId(user.getId());
         helpRepository.save(help);
         return "redirect:" + HelpRoutes.SUCCESSFUL;
     }
-
     @GetMapping(HelpRoutes.SUCCESSFUL)
     public String successfulCreate() {
         return "/form/successfulCreate";
@@ -94,14 +98,20 @@ public class HelpApiController {
         return "/form/helpPersonForm";
     }
 
-    @DeleteMapping(HelpRoutes.BY_ID)
-    public String delete(@PathVariable Long id) {
+    @PostMapping(HelpRoutes.DElETE)
+    public String delete(Authentication authentication, @PathVariable Long id) throws FormNotFoundException {
+        String username = authentication.getName();
+        UserEntity user = userRepository.findByEmail(username).orElseThrow();
+        HelpEntity help = helpRepository.findById(id).orElseThrow(FormNotFoundException::new);//ищем по id заявку
+        if (Objects.equals(user.getId(), help.getUserId())) {
+            helpRepository.deleteById(id);
+            return "redirect:/api/v1/user/account/forms";
+        }
+        else {
+            throw new AccessDeniedException("Нет доступа");
+        }
 
-        helpRepository.deleteById(id);
-        return HttpStatus.OK.name();
     }
-
-
 
     @GetMapping(HelpRoutes.SEARCH)
     public String search(

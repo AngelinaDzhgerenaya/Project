@@ -10,6 +10,7 @@ public class UserRoutes {
     public final static  String LOGIN = BaseRoutes.NOT_SECURED + "/v1/login";
 
     public final static  String ACCOUNT = ROOT + "/account";
+    public final static  String FORMS = ACCOUNT + "/forms";
     public final static  String LOGOUT = BaseRoutes.NOT_SECURED + "/logout";
     public final static  String NOTME = BaseRoutes.NOT_SECURED + "/notme";
 }

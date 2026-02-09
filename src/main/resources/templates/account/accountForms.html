@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Мои заявки</title>
+  <link rel="stylesheet" href="/css/account.css">
+
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+  <!-- ===== ШАПКА ===== -->
+  <header>
+    <a href="/" class="logo">Рука помощи</a>
+
+    <nav>
+      <a href="/not-secured/help">Нуждающиеся</a>
+      <a href="/not-secured/volunteer">Волонтёры</a>
+      <a href="/not-secured/benefit">Льготы</a>
+    </nav>
+
+    <a href="/api/v1/user/account" class="account-btn">Аккаунт</a>
+  </header>
+
+  <!-- ===== СТРАНИЦА МОИХ ЗАЯВОК ===== -->
+  <div class="account-page">
+
+    <div class="account-info">
+      <h2>Мои заявки</h2>
+
+      <!-- ===== ЗАЯВКА НУЖДАЮЩЕГОСЯ ===== -->
+      <div th:if="${helpForm != null}" class="form-card">
+
+        <div class="form-info">
+          <h3>Заявка нуждающегося</h3>
+
+          <p><b>Город:</b> <span th:text="${helpForm.city}"></span></p>
+          <p><b>Возраст:</b> <span th:text="${helpForm.age}"></span></p>
+          <p><b>Доступность:</b> <span th:text="${helpForm.availability}"></span></p>
+          <p><b>Кому нужна помощь:</b> <span th:text="${helpForm.helpGroup}"></span></p>
+          <p><b>Требуемая помощь:</b> <span th:text="${helpForm.helpNeeded}"></span></p>
+        </div>
+
+        <div class="form-actions">
+          <a th:href="@{/not-secured/help/{id}(id=${helpForm.id})}" class="btn-view">
+            Открыть полностью
+          </a>
+          <a th:href="@{/api/v1/help/edit/{id}(id=${helpForm.id})}" class="btn-edit">
+            Редактировать
+          </a>
+          <form th:action="@{/api/v1/help/delete/{id}(id=${helpForm.id})}" method="post" class="btn-delete">
+            <button type="submit" >Удалить</button>
+          </form>
+
+        </div>
+
+      </div>
+
+      <!-- ===== ЗАЯВКА ВОЛОНТЁРА ===== -->
+      <div th:if="${volunteerForm != null}" class="form-card">
+
+        <div class="form-info">
+          <h3>Заявка волонтёра</h3>
+
+          <p><b>Город:</b> <span th:text="${volunteerForm.city}"></span></p>
+          <p><b>Возраст:</b> <span th:text="${volunteerForm.age}"></span></p>
+          <p><b>Доступность:</b> <span th:text="${volunteerForm.availability}"></span></p>
+          <p><b>Предпочитаемая группа:</b> <span th:text="${volunteerForm.preferredGroup}"></span></p>
+          <p><b>Доступная помощь:</b> <span th:text="${volunteerForm.availableHelp}"></span></p>
+        </div>
+
+        <div class="form-actions">
+          <a th:href="@{/not-secured/volunteer/{id}(id=${volunteerForm.id})}" class="btn-view">
+            Открыть полностью
+          </a>
+          <a th:href="@{/api/v1/volunteer/edit/{id}(id=${volunteerForm.id})}" class="btn-edit">
+            Редактировать
+          </a>
+          <form th:action="@{/api/v1/volunteer/delete/{id}(id=${volunteerForm.id})}" method="post" class="btn-delete">
+            <button type="submit" >Удалить</button>
+          </form>
+        </div>
+
+      </div>
+
+      <!-- ===== ЕСЛИ ЗАЯВОК НЕТ ===== -->
+      <div th:if="${helpForm == null and volunteerForm == null}" class="empty">
+        У вас пока нет созданных заявок
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== ФУТЕР ===== -->
+<footer>
+  <div class="footer-content">
+
+    <div class="footer-links">
+      <a href="/api/v1/user/account">Аккаунт</a>
+      <a href="/not-secured/login">Войти</a>
+      <a href="/not-secured/registration">Зарегистрироваться</a>
+    </div>
+
+    <div class="footer-links">
+      <a href="/api/v1/volunteer/form">Создать анкету волонтёра</a>
+      <a href="/api/v1/help/form">Создать анкету нуждающегося</a>
+    </div>
+
+    <div class="footer-links">
+      <a href="/contacts">Контакты</a>
+    </div>
+
+  </div>
+</footer>
+
+</body>
+</html>

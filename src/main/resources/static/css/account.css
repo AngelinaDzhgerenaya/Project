@@ -173,3 +173,112 @@ footer {
 .page-wrapper {
     flex: 1;
 }
+
+/*Заявки аккаунта*/
+
+
+h1 {
+    margin-bottom: 25px;
+}
+
+.page {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+/* ===== КАРТОЧКА ===== */
+.form-card {
+    background: white;
+    border-radius: 16px;
+    padding: 20px 25px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.form-info {
+    flex: 1;
+}
+
+.form-info h2 {
+    margin-top: 0;
+    margin-bottom: 12px;
+}
+
+.form-info p {
+    margin: 6px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+/* ===== КНОПКИ ===== */
+.form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 180px;
+}
+
+.form-actions a {
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-view {
+    background: #007bff;
+    color: white;
+}
+
+.btn-view:hover {
+    background: #005dc1;
+}
+
+.btn-edit {
+    background: #f0f2f5;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+.btn-edit:hover {
+    background: #e2e6ea;
+
+}
+
+.btn-delete {
+    background: #ffe5e5;
+    border: 1px solid #f5c2c2;
+    border-radius: 10px;
+}
+
+.btn-delete button {
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    border: none;
+    color: #b71c1c;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-delete:hover {
+    background: #f8d7da;
+}
+
+/* ===== ПУСТО ===== */
+.empty {
+    background: white;
+    padding: 25px;
+    border-radius: 14px;
+    text-align: center;
+    color: #666;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.07);
+}

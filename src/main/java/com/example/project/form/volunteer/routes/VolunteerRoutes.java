@@ -8,7 +8,7 @@ public class VolunteerRoutes {
     public final static  String CREATE = ROOTAPI +"/form";
     public final static  String BY_ID = ROOT + "/{id}";
     public final static  String EDIT = ROOTAPI + "/edit/{id}";
-    public final static  String DElETE = ROOTAPI+ "/{id}";
+    public final static  String DElETE = ROOTAPI+ "/delete/{id}";
     public final static  String SEARCH = ROOT;
     public final static  String SUCCESSFUL= CREATE + "/successful";
 

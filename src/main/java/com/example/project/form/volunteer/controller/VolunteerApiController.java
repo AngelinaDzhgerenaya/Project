@@ -7,7 +7,6 @@ import com.example.project.form.exception.FormNotFoundException;
 import com.example.project.form.volunteer.repository.VolunteerRepository;
 import com.example.project.form.volunteer.request.CreateVolunteerRequest;
 import com.example.project.form.volunteer.request.EditVolunteerRequest;
-import com.example.project.form.volunteer.response.VolunteerResponse;
 import com.example.project.form.volunteer.routes.VolunteerRoutes;
 import com.example.project.users.entity.UserEntity;
 import com.example.project.users.repository.UserRepository;
@@ -15,9 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +22,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
+import java.util.Optional;
+
 @Controller
 @RequestMapping()
 @RequiredArgsConstructor
@@ -41,6 +39,10 @@ public class VolunteerApiController {
     public String create(Authentication authentication,@ModelAttribute CreateVolunteerRequest request) throws BadRequestException {
         String username = authentication.getName();
         UserEntity user = userRepository.findByEmail(username).orElseThrow();
+        Optional<VolunteerEntity> volunteerForm = volunteerRepository.findByUserId(user.getId());
+        if (volunteerForm.isPresent()) {
+            return "/form/formAlreadyExist";
+        }
         request.validate();
         VolunteerEntity volunteer = request.entity();
         volunteer.setUserId(user.getId());
@@ -101,11 +103,19 @@ public class VolunteerApiController {
         return "/form/volunteerPersonForm";
     }
 
-    @DeleteMapping(VolunteerRoutes.BY_ID)
-    public String delete(@PathVariable Long id) {
+    @PostMapping(VolunteerRoutes.DElETE)
+    public String delete(Authentication authentication, @PathVariable Long id) throws FormNotFoundException {
+        String username = authentication.getName();
+        UserEntity user = userRepository.findByEmail(username).orElseThrow();
+        VolunteerEntity volunteer = volunteerRepository.findById(id).orElseThrow(FormNotFoundException::new);//ищем по id заявку
+        if (Objects.equals(user.getId(), volunteer.getUserId())) {
+            volunteerRepository.deleteById(id);
+            return "redirect:/api/v1/user/account/forms";
+        }
+        else {
+            throw new AccessDeniedException("Нет доступа");
+        }
 
-        volunteerRepository.deleteById(id);
-        return HttpStatus.OK.name();
     }
 
 

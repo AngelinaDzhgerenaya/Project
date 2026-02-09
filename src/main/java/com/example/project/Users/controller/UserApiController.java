@@ -1,5 +1,10 @@
 package com.example.project.users.controller;
 
+import com.example.project.form.exception.FormNotFoundException;
+import com.example.project.form.help.entity.HelpEntity;
+import com.example.project.form.help.repository.HelpRepository;
+import com.example.project.form.volunteer.entity.VolunteerEntity;
+import com.example.project.form.volunteer.repository.VolunteerRepository;
 import com.example.project.users.entity.UserEntity;
 import com.example.project.users.exception.BadRequestException;
 import com.example.project.users.exception.UserAlreadyExistException;
@@ -27,6 +32,12 @@ public class UserApiController {
     private final UserRepository userRepository;
     @Autowired
     private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private final VolunteerRepository volunteerRepository;
+
+    @Autowired
+    private final HelpRepository helpRepository;
 
 
 
@@ -74,7 +85,7 @@ public class UserApiController {
         return "login";  // Имя файла index.html, без расширения .html
     }
 
-    @RequestMapping(UserRoutes.ACCOUNT)
+    @GetMapping(UserRoutes.ACCOUNT)
     public String mePage(Authentication authentication, Model model) {
         String username = authentication.getName();
         UserEntity user = userRepository.findByEmail(username).orElseThrow();
@@ -87,6 +98,20 @@ public class UserApiController {
     public String notmePage( ) {
         return "notme";
     }
+
+    @GetMapping(UserRoutes.FORMS)
+    public String forms(Authentication authentication, Model model ) throws FormNotFoundException {
+        String username = authentication.getName();
+        UserEntity user = userRepository.findByEmail(username).orElseThrow();
+        Optional<VolunteerEntity> volunteerForm = volunteerRepository.findByUserId(user.getId());
+        Optional<HelpEntity> helpForm = helpRepository.findByUserId(user.getId());
+
+        volunteerForm.ifPresent(volunteer -> model.addAttribute("volunteerForm", volunteer));
+        helpForm.ifPresent(help -> model.addAttribute("helpForm", help));
+
+        return "/account/accountForms";
+    }
+
 
     /*
     maria.petrova@gmail.com

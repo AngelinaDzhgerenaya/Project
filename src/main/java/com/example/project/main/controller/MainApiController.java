@@ -38,4 +38,6 @@ public class MainApiController {
 
         return "index";  // Имя файла index.html, без расширения .html
     }
+
+
 }
