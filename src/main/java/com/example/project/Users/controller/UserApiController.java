@@ -9,6 +9,7 @@ import com.example.project.users.entity.UserEntity;
 import com.example.project.users.exception.BadRequestException;
 import com.example.project.users.exception.UserAlreadyExistException;
 import com.example.project.users.repository.UserRepository;
+import com.example.project.users.request.EditUserRequest;
 import com.example.project.users.request.RegistrationRequest;
 import com.example.project.users.routes.UserRoutes;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
 
@@ -110,6 +112,73 @@ public class UserApiController {
         helpForm.ifPresent(help -> model.addAttribute("helpForm", help));
 
         return "/account/accountForms";
+    }
+
+    @GetMapping(UserRoutes.EDIT)
+    public String accountEdit(Authentication authentication, Model model) {
+        String username = authentication.getName();
+        UserEntity user = userRepository.findByEmail(username).orElseThrow();
+
+        model.addAttribute("user", user);
+        return "/account/accountEdit";
+    }
+
+    @PostMapping(UserRoutes.EDIT)
+    public String account(Authentication authentication, @ModelAttribute EditUserRequest request)  {
+        String username = authentication.getName();
+        UserEntity user = userRepository.findByEmail(username).orElseThrow();
+
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setPhoneNumber(request.getPhoneNumber());
+        user.setPassportId(request.getPassportId());
+
+        userRepository.save(user);
+        return "redirect:"+ UserRoutes.ACCOUNT;
+    }
+
+    @GetMapping(UserRoutes.EMAIL)
+    public String emailEdit() {
+
+        return "/account/emailEdit";
+    }
+    @PostMapping(UserRoutes.EMAIL)
+    public String email(@RequestParam String oldEmail, @RequestParam String newEmail,Authentication authentication, RedirectAttributes redirectAttributes){
+        String username = authentication.getName();
+        UserEntity user = userRepository.findByEmail(username).orElseThrow();
+
+        if (!user.getEmail().equals(oldEmail)) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Старая почта указана неверно");
+            return "redirect:"+ UserRoutes.EMAIL;
+        }
+
+        if (userRepository.findByEmail(newEmail).isPresent()) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Эта почта уже используется");
+            return "redirect:"+ UserRoutes.EMAIL;
+        }
+        user.setEmail(newEmail);
+        userRepository.save(user);
+        return "redirect:/not-secured/logout";
+    }
+
+
+    @GetMapping(UserRoutes.PASSWORD)
+    public String passwordEdit() {
+        return "/account/passwordEdit";
+    }
+    @PostMapping(UserRoutes.PASSWORD)
+    public String password(@RequestParam String oldPassword, @RequestParam String newPassword,Authentication authentication, RedirectAttributes redirectAttributes) {
+        String username = authentication.getName();
+        UserEntity user = userRepository.findByEmail(username).orElseThrow();
+
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Старый пароль указан неверно");
+            return "redirect:"+ UserRoutes.PASSWORD;
+        }
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+        return "redirect:/not-secured/logout";
     }
 
 

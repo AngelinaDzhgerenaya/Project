@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Изменение данных аккаунта</title>
+    <link rel="stylesheet" href="/css/account.css">
+</head>
+
+<body>
+
+<!-- ===== ШАПКА ===== -->
+<div class="page-wrapper">
+<header>
+    <a href="/" class="logo">Рука помощи</a>
+
+    <nav>
+        <a href="/not-secured/help">Нуждающиеся</a>
+        <a href="/not-secured/volunteer">Волонтёры</a>
+        <a href="/not-secured/benefit">Льготы</a>
+    </nav>
+
+    <a href="/api/v1/user/account" class="account-btn">Аккаунт</a>
+</header>
+
+<!-- ===== АККАУНТ ===== -->
+    <main class="edit-page">
+        <div class="edit-card">
+
+            <h2 class="edit-title">Редактирование профиля</h2>
+
+            <form class="edit-form"
+                  method="post"
+                  th:action="@{/api/v1/user/account/edit}">
+
+                <div class="edit-field">
+                    <label>Имя</label>
+                    <input type="text" name="firstName"
+                           th:value="${user.firstName}" required>
+                </div>
+
+                <div class="edit-field">
+                    <label>Фамилия</label>
+                    <input type="text" name="lastName"
+                           th:value="${user.lastName}" required>
+                </div>
+
+                <div class="edit-field">
+                    <label>Телефон</label>
+                    <input type="text" name="phoneNumber"
+                           th:value="${user.phoneNumber}">
+                </div>
+
+                <div class="edit-field">
+                    <label>Паспорт ID</label>
+                    <input type="text" name="passportId"
+                           th:value="${user.passportId}">
+                </div>
+
+                <button class="edit-submit">Сохранить</button>
+
+            </form>
+
+        </div>
+    </main>
+
+
+</div>
+<!-- ===== ФУТЕР ===== -->
+<footer>
+    <div class="footer-content">
+
+        <div class="footer-links">
+            <a href="/api/v1/user/account">Аккаунт</a>
+            <a href="/not-secured/login">Войти</a>
+            <a href="/not-secured/registration">Зарегистрироваться</a>
+        </div>
+
+        <div class="footer-links">
+            <a href="/api/v1/volunteer/form">Создать анкету волонтёра</a>
+            <a href="/api/v1/help/form">Создать анкету нуждающегося</a>
+        </div>
+
+        <div class="footer-links">
+            <a href="/contacts">Контакты</a>
+        </div>
+
+    </div>
+</footer>
+
+</body>
+</html>

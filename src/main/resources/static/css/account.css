@@ -282,3 +282,179 @@ h1 {
     color: #666;
     box-shadow: 0 4px 10px rgba(0,0,0,0.07);
 }
+
+
+
+
+
+
+/* ================= emailEdit ================= */
+
+.error-message {
+    margin-top: 10px;
+    margin-left: 160px;
+    margin-right: 90px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: #ffe5e5;
+    color: #b71c1c;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+}
+/* поля строго друг под другом + фиксированная ширина */
+.change-email-form .form-info {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.form-field input {
+    margin-top: 6px;
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+/* кнопка по центру */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-left: 200px;  /* сдвиг вправо */
+    margin-top: 50px;          /* ниже */
+}
+
+.btn-aEdit {
+    width: 180px;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-aEdit:hover {
+    background: #005dc1;
+}
+
+/* ================= passwordEdit ================= */
+
+.change-password-form .form-info {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    max-width: 750px;
+    margin: 0 auto;
+}
+
+/* обёртка пароля */
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    width: 100%;
+    padding: 10px 42px 10px 14px; /* место под глаз */
+    font-size: 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+/* глазик строго у правого края */
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 16px;
+    opacity: 0.7;
+}
+
+.toggle-password:hover {
+    opacity: 1;
+}
+
+
+
+
+/*ACCOUNTEDIT*/
+
+/* Центр страницы */
+.edit-page {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+/* Карточка */
+.edit-card {
+    width: 100%;
+    max-width: 420px;
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 28px 26px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* Заголовок */
+.edit-title {
+    text-align: center;
+    margin-bottom: 22px;
+}
+
+/* Форма */
+.edit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.edit-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.edit-field label {
+    font-size: 14px;
+    color: #555;
+}
+
+.edit-field input {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+/* Кнопка */
+.edit-submit {
+    margin-top: 10px;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: #2f80ed;
+    color: #fff;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.edit-submit:hover {
+    opacity: 0.9;
+}

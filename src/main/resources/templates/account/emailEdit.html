@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Смена почты</title>
+    <link rel="stylesheet" href="/css/account.css">
+</head>
+
+<body>
+
+<div class="page-wrapper">
+
+    <!-- ===== ШАПКА ===== -->
+    <header>
+        <a href="/" class="logo">Рука помощи</a>
+
+        <nav>
+            <a href="/not-secured/help">Нуждающиеся</a>
+            <a href="/not-secured/volunteer">Волонтёры</a>
+            <a href="/not-secured/benefit">Льготы</a>
+        </nav>
+
+        <a href="/api/v1/user/account" class="account-btn">Аккаунт</a>
+    </header>
+
+    <!-- ===== СТРАНИЦА СМЕНЫ ПОЧТЫ ===== -->
+    <div class="account-page">
+        <div class="account-info">
+
+            <h2>Смена почты</h2>
+
+            <form action="/api/v1/user/account/edit/email" method="post" class="form-card change-email-form">
+
+                <div class="form-info">
+
+                    <label class="form-field">
+                        Старая почта
+                        <input type="email"
+                               name="oldEmail"
+                               required>
+                    </label>
+
+                    <label class="form-field">
+                        Новая почта
+                        <input type="email"
+                               name="newEmail"
+                               required>
+                    </label>
+
+                </div>
+
+                <div class="form-info">
+                <div class="form-actions">
+                    <button type="submit" class="btn-aEdit">
+                        Сменить почту
+                    </button>
+                </div>
+
+                <!-- ===== ОШИБКА ===== -->
+                <div th:if="${errorMessage != null}" class="error-message">
+                    <span th:text="${errorMessage}"></span>
+                </div>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- ===== ФУТЕР ===== -->
+<footer>
+    <div class="footer-content">
+        <div class="footer-links">
+            <a href="/api/v1/user/account">Аккаунт</a>
+            <a href="/not-secured/login">Войти</a>
+            <a href="/not-secured/registration">Зарегистрироваться</a>
+        </div>
+
+        <div class="footer-links">
+            <a href="/api/v1/volunteer/form">Создать анкету волонтёра</a>
+            <a href="/api/v1/help/form">Создать анкету нуждающегося</a>
+        </div>
+
+        <div class="footer-links">
+            <a href="/contacts">Контакты</a>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

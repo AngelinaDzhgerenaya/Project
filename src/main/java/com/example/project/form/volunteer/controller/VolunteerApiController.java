@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,13 +52,20 @@ public class VolunteerApiController {
     }
 
     @GetMapping(VolunteerRoutes.SUCCESSFUL)
-    public String successfulCreate() {
+    public String successfulCreate(Authentication authentication) {
         return "/form/successfulCreate";
     }
 
     @GetMapping(VolunteerRoutes.CREATE)
-    public String createForm() {
-        return "/form/volunteerCreateForm";  // Имя файла index.html, без расширения .html
+    public String createForm(Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()
+                && !(authentication instanceof AnonymousAuthenticationToken)) {
+
+
+            return "/form/volunteerCreateForm";
+        }
+        return "redirect:/not-secured/login";
+          // Имя файла index.html, без расширения .html
     }
 
     @GetMapping(VolunteerRoutes.EDIT)
