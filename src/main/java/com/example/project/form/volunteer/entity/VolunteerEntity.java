@@ -1,10 +1,7 @@
 package com.example.project.form.volunteer.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -35,6 +32,9 @@ public class VolunteerEntity {
     protected String preferredGroup;
     protected String availableHelp;
     protected String additionalInformation;
+
+    protected Boolean active;
+    protected String DateTime;
 
     /*  @PrePersist
     private void generateApplicationNumber() {

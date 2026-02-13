@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -21,7 +20,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 
@@ -39,13 +37,10 @@ public class HelpApiController {
     public String create(Authentication authentication,@ModelAttribute CreateHelpRequest request) throws BadRequestException {
         String username = authentication.getName();
         UserEntity user = userRepository.findByEmail(username).orElseThrow();
-        Optional<HelpEntity> helpForm = helpRepository.findByUserId(user.getId());
-        if (helpForm.isPresent()) {
-            return "/form/formAlreadyExist";
-        }
         request.validate();
         HelpEntity help = request.entity();
         help.setUserId(user.getId());
+        help.setActive(true);
         helpRepository.save(help);
         return "redirect:" + HelpRoutes.SUCCESSFUL;
     }
@@ -58,7 +53,12 @@ public class HelpApiController {
     public String createForm(Authentication authentication) {
         if (authentication != null && authentication.isAuthenticated()
                 && !(authentication instanceof AnonymousAuthenticationToken)) {
-
+            String username = authentication.getName();
+            UserEntity user = userRepository.findByEmail(username).orElseThrow();
+            Optional<HelpEntity> helpForm = helpRepository.findByUserId(user.getId());
+            if (helpForm.isPresent()) {
+                return "/form/formAlreadyExist";
+            }
 
             return "/form/helpCreateForm";
         }
@@ -66,22 +66,26 @@ public class HelpApiController {
     }
 
     @GetMapping(HelpRoutes.EDIT)
-    public String edit(Authentication authentication,@PathVariable Long id, Model model) throws FormNotFoundException {
-        String username = authentication.getName();
-        UserEntity user = userRepository.findByEmail(username).orElseThrow();
-        HelpEntity help = helpRepository.findById(id).orElseThrow(FormNotFoundException::new);//ищем по id заявку
-        if (Objects.equals(user.getId(), help.getUserId())) {
+    public String editForm(Authentication authentication, Model model) throws FormNotFoundException {
+        if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
+            String username = authentication.getName();
+            UserEntity user = userRepository.findByEmail(username).orElseThrow();
+            Optional<HelpEntity> helpForm = helpRepository.findByUserId(user.getId());
+            if (helpForm.isEmpty()) {
+                return "redirect:"+ HelpRoutes.CREATE;
+            }
+            HelpEntity help = helpRepository.findByUserId(user.getId()).orElseThrow(FormNotFoundException::new);//ищем по id заявку
             model.addAttribute("help", help);
             return "/form/helpEditForm";
         }
-        else {
-            return "/form/badRequest";
-        }
+        return "redirect:/not-secured/login";
     }
 
     @PostMapping(HelpRoutes.EDIT)
-    public String edit(@PathVariable Long id, @ModelAttribute EditHelpRequest request) throws FormNotFoundException {
-        HelpEntity help = helpRepository.findById(id).orElseThrow(FormNotFoundException::new);
+    public String edit(Authentication authentication,@ModelAttribute EditHelpRequest request) throws FormNotFoundException {
+        String username = authentication.getName();
+        UserEntity user = userRepository.findByEmail(username).orElseThrow();
+        HelpEntity help = helpRepository.findByUserId(user.getId()).orElseThrow(FormNotFoundException::new);
 
         help.setFullName(request.getFullName());
         help.setAge(request.getAge());
@@ -93,6 +97,7 @@ public class HelpApiController {
         help.setPersonCondition(request.getPersonCondition());
         help.setHelpNeeded(request.getHelpNeeded());
         help.setAdditionalInformation(request.getAdditionalInformation());
+        help.setActive(request.getActive());
 
 
         helpRepository.save(help);
@@ -109,14 +114,10 @@ public class HelpApiController {
     public String delete(Authentication authentication, @PathVariable Long id) throws FormNotFoundException {
         String username = authentication.getName();
         UserEntity user = userRepository.findByEmail(username).orElseThrow();
-        HelpEntity help = helpRepository.findById(id).orElseThrow(FormNotFoundException::new);//ищем по id заявку
-        if (Objects.equals(user.getId(), help.getUserId())) {
-            helpRepository.deleteById(id);
-            return "redirect:/api/v1/user/account/forms";
-        }
-        else {
-            throw new AccessDeniedException("Нет доступа");
-        }
+        HelpEntity help = helpRepository.findByUserId(user.getId()).orElseThrow(FormNotFoundException::new);//ищем по id заявку
+        helpRepository.deleteById(help.getId());
+        return "redirect:/api/v1/user/account/forms";
+
 
     }
 

@@ -31,6 +31,8 @@ public class HelpEntity {
     protected String personCondition;
     protected String helpNeeded;
     protected String additionalInformation;
+
+    protected Boolean active;
 }
 
 /*

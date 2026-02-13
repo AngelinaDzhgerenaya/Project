@@ -6,6 +6,8 @@ import lombok.Data;
 public class EditVolunteerRequest {
     private Long id;
 
+    private Long userId;
+
     private String fullName;
     private String age;
     private String contactPhone;
@@ -16,6 +18,7 @@ public class EditVolunteerRequest {
     private String preferredGroup;
     private String availableHelp;
     private String additionalInformation;
+    private Boolean Active;
 
 
 }

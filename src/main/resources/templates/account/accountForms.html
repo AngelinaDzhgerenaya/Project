@@ -75,10 +75,10 @@
           <a th:href="@{/not-secured/volunteer/{id}(id=${volunteerForm.id})}" class="btn-view">
             Открыть полностью
           </a>
-          <a th:href="@{/api/v1/volunteer/edit/{id}(id=${volunteerForm.id})}" class="btn-edit">
+          <a href="/api/v1/volunteer/edit" class="btn-edit">
             Редактировать
           </a>
-          <form th:action="@{/api/v1/volunteer/delete/{id}(id=${volunteerForm.id})}" method="post" class="btn-delete">
+          <form action="/api/v1/volunteer/delete" method="post" class="btn-delete">
             <button type="submit" >Удалить</button>
           </form>
         </div>
