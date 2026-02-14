@@ -235,6 +235,8 @@ h1 {
 .btn-view {
     background: #007bff;
     color: white;
+    border: 1px solid #00499e;
+
 }
 
 .btn-view:hover {
@@ -271,6 +273,46 @@ h1 {
 
 .btn-delete:hover {
     background: #f8d7da;
+}
+
+/* ===== КНОПКА СТАТУСА ===== */
+.btn-status button {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    color: white;
+    text-align: center;
+}
+
+/* Активно — зелёная */
+.btn-status button.status-active {
+    background: #5fc673; /* зелёный как bootstrap success */
+    border: 1px solid #3c7a47;
+}
+
+/* Неактивно — серая */
+.btn-status button.status-inactive {
+    background: #6c757d; /* серый как bootstrap secondary */
+    border: 1px solid #43454c;
+}
+
+/* При наведении чуть темнее */
+.btn-status button.status-active:hover {
+    background: #669572;
+}
+
+.btn-status button.status-inactive:hover {
+    background: #5a6268;
+}
+
+
+
+.btn-status button:hover {
+    background: #cfcfcf;
 }
 
 /* ===== ПУСТО ===== */
@@ -332,7 +374,7 @@ h1 {
     display: flex;
     justify-content: flex-end;
     margin-left: 200px;  /* сдвиг вправо */
-    margin-top: 50px;          /* ниже */
+    margin-top: 10px;          /* ниже */
 }
 
 .btn-aEdit {

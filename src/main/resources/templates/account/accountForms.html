@@ -34,7 +34,7 @@
       <div th:if="${helpForm != null}" class="form-card">
 
         <div class="form-info">
-          <h3>Заявка нуждающегося</h3>
+          <h3>Заявка с запросом помощи</h3>
 
           <p><b>Город:</b> <span th:text="${helpForm.city}"></span></p>
           <p><b>Возраст:</b> <span th:text="${helpForm.age}"></span></p>
@@ -47,10 +47,18 @@
           <a th:href="@{/not-secured/help/{id}(id=${helpForm.id})}" class="btn-view">
             Открыть полностью
           </a>
-          <a th:href="@{/api/v1/help/edit/{id}(id=${helpForm.id})}" class="btn-edit">
+          <a href="/api/v1/help/edit" class="btn-edit">
             Редактировать
           </a>
-          <form th:action="@{/api/v1/help/delete/{id}(id=${helpForm.id})}" method="post" class="btn-delete">
+          <form action="/api/v1/help/status"
+                method="post"
+                class="btn-status">
+            <button type="submit"
+                    th:text="${helpForm.status}"
+                    th:classappend="${helpForm.status == 'Активно'} ? 'status-active' : 'status-inactive'">
+            </button>
+          </form>
+          <form action="/api/v1/help/delete" method="post" class="btn-delete">
             <button type="submit" >Удалить</button>
           </form>
 
@@ -62,7 +70,7 @@
       <div th:if="${volunteerForm != null}" class="form-card">
 
         <div class="form-info">
-          <h3>Заявка волонтёра</h3>
+          <h3>Заявка с предложением помощи</h3>
 
           <p><b>Город:</b> <span th:text="${volunteerForm.city}"></span></p>
           <p><b>Возраст:</b> <span th:text="${volunteerForm.age}"></span></p>
@@ -78,6 +86,14 @@
           <a href="/api/v1/volunteer/edit" class="btn-edit">
             Редактировать
           </a>
+          <form action="/api/v1/volunteer/status"
+                method="post"
+                class="btn-status">
+            <button type="submit"
+                    th:text="${volunteerForm.status}"
+                    th:classappend="${volunteerForm.status == 'Активно'} ? 'status-active' : 'status-inactive'">
+            </button>
+          </form>
           <form action="/api/v1/volunteer/delete" method="post" class="btn-delete">
             <button type="submit" >Удалить</button>
           </form>
@@ -106,8 +122,8 @@
     </div>
 
     <div class="footer-links">
-      <a href="/api/v1/volunteer/form">Создать анкету волонтёра</a>
-      <a href="/api/v1/help/form">Создать анкету нуждающегося</a>
+      <a href="/api/v1/volunteer/form">Предложить помощь</a>
+      <a href="/api/v1/help/form">Запросить помощь</a>
     </div>
 
     <div class="footer-links">

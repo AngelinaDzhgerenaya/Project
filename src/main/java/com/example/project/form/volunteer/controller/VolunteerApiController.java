@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -41,7 +42,6 @@ public class VolunteerApiController {
         request.validate();
         VolunteerEntity volunteer = request.entity();
         volunteer.setUserId(user.getId());
-        volunteer.setActive(true);
         volunteerRepository.save(volunteer);
         return "redirect:" + VolunteerRoutes.SUCCESSFUL;
     }
@@ -65,6 +65,24 @@ public class VolunteerApiController {
         }
         return "redirect:/not-secured/login";
           // Имя файла index.html, без расширения .html
+    }
+
+    @PostMapping(VolunteerRoutes.STATUS)
+    public String status(Authentication authentication) throws FormNotFoundException {
+        String username = authentication.getName();
+        UserEntity user = userRepository.findByEmail(username).orElseThrow();
+        VolunteerEntity volunteer = volunteerRepository.findByUserId(user.getId()).orElseThrow(FormNotFoundException::new);
+
+        if (Objects.equals(volunteer.getStatus(), "Активно")) {
+            volunteer.setStatus("Неактивно");
+        } else {
+            volunteer.setStatus("Активно");
+        }
+
+        volunteerRepository.save(volunteer);
+
+        return "redirect:/api/v1/user/account/forms";
+
     }
 
     @GetMapping(VolunteerRoutes.EDIT)
@@ -99,8 +117,7 @@ public class VolunteerApiController {
         volunteer.setPreferredGroup(request.getPreferredGroup());
         volunteer.setAvailableHelp(request.getAvailableHelp());
         volunteer.setAdditionalInformation(request.getAdditionalInformation());
-        volunteer.setActive(request.getActive());
-
+        volunteer.setStatus("Активно");
 
         volunteerRepository.save(volunteer);
         return "redirect:" + VolunteerRoutes.SUCCESSFUL;

@@ -18,7 +18,7 @@ public class EditVolunteerRequest {
     private String preferredGroup;
     private String availableHelp;
     private String additionalInformation;
-    private Boolean Active;
+
 
 
 }

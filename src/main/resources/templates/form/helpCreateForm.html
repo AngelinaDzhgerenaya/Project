@@ -24,45 +24,45 @@
 <!-- ===== ФОРМА ===== -->
 <div class="main-content">
 
-    <div class="volunteer-card">
-        <h2 class="volunteer-title">Запрос о помощи</h2>
+    <div class="f-card">
+        <h2 class="f-title">Запрос о помощи</h2>
 
         <form action="/api/v1/help/form"
               method="post"
               class="volunteer-form">
 
             <!-- Полное имя -->
-            <div class="v-field">
+            <div class="f-field">
                 <label>Полное имя</label>
                 <input type="text" name="fullName" required>
             </div>
 
             <!-- Возраст -->
-            <div class="v-field">
+            <div class="f-field">
                 <label>Возраст</label>
                 <input type="number" name="age" min="0" max="110" required>
             </div>
 
             <!-- Телефон -->
-            <div class="v-field">
+            <div class="f-field">
                 <label>Телефон</label>
                 <input type="text" name="contactPhone" required>
             </div>
 
             <!-- Другие контакты -->
-            <div class="v-field">
+            <div class="f-field">
                 <label>Другие контакты</label>
                 <input type="text" name="otherContact">
             </div>
 
             <!-- Город -->
-            <div class="v-field">
+            <div class="f-field">
                 <label>Город</label>
                 <input type="text" name="city" required>
             </div>
 
             <!-- ДОСТУПНОЕ ВРЕМЯ (select) -->
-            <div class="v-field">
+            <div class="f-field">
                 <label>Необходимое время</label>
                 <select name="availability" required>
                     <option value="">Выберите</option>
@@ -75,7 +75,7 @@
             </div>
 
             <!-- КОМУ НУЖНА ПОМОЩЬ (select) -->
-            <div class="v-field">
+            <div class="f-field">
                 <label>Кому нужна помощь</label>
                 <select name="helpGroup" required>
                     <option value="">Выберите</option>
@@ -88,7 +88,7 @@
             </div>
 
             <!-- СОСТОЯНИЕ (select) -->
-            <div class="v-field">
+            <div class="f-field">
                 <label>Состояние здоровья / жизненная ситуация</label>
                 <select name="personCondition" required>
                     <option value="">Выберите</option>
@@ -101,18 +101,18 @@
             </div>
 
             <!-- Какая помощь требуется -->
-            <div class="v-field">
+            <div class="f-field">
                 <label>Какая помощь требуется</label>
                 <textarea name="helpNeeded" rows="3" required></textarea>
             </div>
 
             <!-- Дополнительная информация -->
-            <div class="v-field">
+            <div class="f-field">
                 <label>Дополнительная информация</label>
                 <textarea name="additionalInformation" rows="3"></textarea>
             </div>
 
-            <button type="submit" class="v-submit">
+            <button type="submit" class="f-submit">
                 Отправить запрос
             </button>
 
@@ -130,8 +130,8 @@
         </div>
 
         <div class="footer-links">
-            <a href="/api/v1/volunteer/form">Создать анкету волонтёра</a>
-            <a href="/api/v1/help/form">Создать запрос о помощи</a>
+            <a href="/api/v1/volunteer/form">Предложить помощь</a>
+            <a href="/api/v1/help/form">Запросить помощь</a>
         </div>
 
         <div class="footer-links">

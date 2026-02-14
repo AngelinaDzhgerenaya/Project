@@ -3,9 +3,10 @@ package com.example.project.form.volunteer.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.util.UUID;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -33,8 +34,15 @@ public class VolunteerEntity {
     protected String availableHelp;
     protected String additionalInformation;
 
-    protected Boolean active;
-    protected String DateTime;
+    protected String status= "Активно";
+
+    @CreationTimestamp
+    @Column(updatable = false)
+    protected LocalDateTime createdAt;
+    @UpdateTimestamp
+    protected LocalDateTime updatedAt;
+
+
 
     /*  @PrePersist
     private void generateApplicationNumber() {

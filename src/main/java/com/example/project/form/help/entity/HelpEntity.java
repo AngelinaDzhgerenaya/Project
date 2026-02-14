@@ -6,7 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -32,7 +36,13 @@ public class HelpEntity {
     protected String helpNeeded;
     protected String additionalInformation;
 
-    protected Boolean active;
+    protected String status= "Активно";
+
+    @CreationTimestamp
+    @Column(updatable = false)
+    protected LocalDateTime createdAt;
+    @UpdateTimestamp
+    protected LocalDateTime updatedAt;
 }
 
 /*

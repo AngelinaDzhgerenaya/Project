@@ -12,4 +12,6 @@ public class VolunteerRoutes {
     public final static  String SEARCH = ROOT;
     public final static  String SUCCESSFUL= CREATE + "/successful";
 
+    public final static  String STATUS = ROOTAPI +"/status";
+
 }

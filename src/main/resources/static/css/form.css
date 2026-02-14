@@ -159,7 +159,7 @@ footer {
 
 
 /* ===== Карточка формы ===== */
-.volunteer-card {
+.f-card {
     width: 100%;
     max-width: 620px;
     background: #ffffff;
@@ -169,36 +169,36 @@ footer {
 }
 
 /* ===== Заголовок ===== */
-.volunteer-title {
+.f-title {
     text-align: center;
     margin-bottom: 30px;
     font-size: 22px;
 }
 
 /* ===== Форма ===== */
-.volunteer-form {
+.f-form {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
 /* ===== Поля ===== */
-.v-field {
+.f-field {
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
 
-.v-field label {
+.f-field label {
     font-size: 14px;
     font-weight: 500;
     color: #555;
 }
 
 /* input / select / textarea */
-.v-field input,
-.v-field select,
-.v-field textarea {
+.f-field input,
+.f-field select,
+.f-field textarea {
     padding: 11px 14px;
     border-radius: 10px;
     border: 1px solid #dcdcdc;
@@ -207,22 +207,22 @@ footer {
 }
 
 /* Фокус */
-.v-field input:focus,
-.v-field select:focus,
-.v-field textarea:focus {
+.f-field input:focus,
+.f-field select:focus,
+.f-field textarea:focus {
     outline: none;
     border-color: #2f80ed;
     box-shadow: 0 0 0 3px rgba(47, 128, 237, 0.15);
 }
 
 /* textarea */
-.v-field textarea {
+.f-field textarea {
     resize: vertical;
     min-height: 80px;
 }
 
 /* ===== Кнопка ===== */
-.v-submit {
+.f-submit {
     margin-top: 15px;
     padding: 13px;
     border-radius: 12px;
@@ -234,6 +234,6 @@ footer {
     transition: 0.2s ease;
 }
 
-.v-submit:hover {
+.f-submit:hover {
     background: #1f6fe0;
 }

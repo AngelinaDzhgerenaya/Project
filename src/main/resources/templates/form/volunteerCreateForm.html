@@ -2,7 +2,7 @@
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Анкета волонтёра</title>
+    <title>Предложение помощи</title>
     <link rel="stylesheet" href="/css/form.css">
 </head>
 
@@ -24,44 +24,44 @@
 <!-- ===== ФОРМА ===== -->
 <div class="main-content">
 
-    <div class="volunteer-card">
-        <h2 class="volunteer-title">Анкета волонтёра</h2>
+    <div class="f-card">
+        <h2 class="f-title">Предложение помощи</h2>
 
         <form action="/api/v1/volunteer/form" method="post"
-              class="volunteer-form">
+              class="f-form">
 
             <!-- Полное имя -->
-            <div class="v-field">
+            <div class="f-field">
                 <label>Полное имя</label>
                 <input type="text" name="fullName" required>
             </div>
 
             <!-- Возраст -->
-            <div class="v-field">
+            <div class="f-field">
                 <label>Возраст</label>
                 <input type="number" name="age" min="14" max="100" required>
             </div>
 
             <!-- Телефон -->
-            <div class="v-field">
+            <div class="f-field">
                 <label>Телефон</label>
                 <input type="text" name="contactPhone" required>
             </div>
 
             <!-- Другие контакты -->
-            <div class="v-field">
+            <div class="f-field">
                 <label>Другие контакты</label>
                 <input type="text" name="otherContact">
             </div>
 
             <!-- Город -->
-            <div class="v-field">
+            <div class="f-field">
                 <label>Город</label>
                 <input type="text" name="city" required>
             </div>
 
             <!-- ОПЫТ (select) -->
-            <div class="v-field">
+            <div class="f-field">
                 <label>Опыт волонтёрской деятельности</label>
                 <select name="volunteerExperience" required>
                     <option value="">Выберите</option>
@@ -73,7 +73,7 @@
             </div>
 
             <!-- ДОСТУПНОЕ ВРЕМЯ (select) -->
-            <div class="v-field">
+            <div class="f-field">
                 <label>Доступное время</label>
                 <select name="availability" required>
                     <option value="">Выберите</option>
@@ -85,7 +85,7 @@
             </div>
 
             <!-- ПРЕДПОЧИТАЕМАЯ ГРУППА (select) -->
-            <div class="v-field">
+            <div class="f-field">
                 <label>Предпочитаемая группа людей</label>
                 <select name="preferredGroup" required>
                     <option value="">Выберите</option>
@@ -98,18 +98,18 @@
             </div>
 
             <!-- Доступная помощь -->
-            <div class="v-field">
+            <div class="f-field">
                 <label>Какая помощь доступна</label>
                 <textarea name="availableHelp" rows="3"></textarea>
             </div>
 
             <!-- Дополнительная информация -->
-            <div class="v-field">
+            <div class="f-field">
                 <label>Дополнительная информация</label>
                 <textarea name="additionalInformation" rows="3"></textarea>
             </div>
 
-            <button type="submit" class="v-submit">
+            <button type="submit" class="f-submit">
                 Отправить анкету
             </button>
 
@@ -127,8 +127,8 @@
         </div>
 
         <div class="footer-links">
-            <a href="/api/v1/volunteer/form">Создать анкету волонтёра</a>
-            <a href="/api/v1/help/form">Создать анкету нуждающегося</a>
+            <a href="/api/v1/volunteer/form">Предложить помощь</a>
+            <a href="/api/v1/help/form">Запросить помощь</a>
         </div>
 
         <div class="footer-links">

@@ -1,101 +1,138 @@
 <!DOCTYPE html>
-<html lang="ru"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Редактирование анкеты волонтёра</title>
-
-    <!-- Общий CSS -->
-    <link rel="stylesheet" href="/css/style.css">
+    <title>Редактирование заявки с предложением помощи</title>
+    <link rel="stylesheet" href="/css/form.css">
 </head>
 
 <body>
 
-<div class="container">
+<!-- ===== ШАПКА ===== -->
+<header>
+    <a href="/" class="logo">Рука помощи</a>
 
-    <h1>Редактирование анкеты</h1>
+    <nav>
+        <a href="/not-secured/help">Нуждающиеся</a>
+        <a href="/not-secured/volunteer">Волонтёры</a>
+        <a href="/not-secured/benefit">Льготы</a>
+    </nav>
 
-    <!-- Форма обновления -->
-    <form th:action="@{/api/v1/volunteer/edit/{id}(id=${volunteer.id})}" method="post">
+    <a href="/api/v1/user/account" class="account-btn">Аккаунт</a>
+</header>
 
+<!-- ===== ФОРМА ===== -->
+<div class="main-content">
 
-        <!-- Полное имя -->
-        <input type="text"
-               name="fullName"
-               placeholder="Полное имя"
-               th:value="${volunteer.fullName}"
-               required>
+    <div class="f-card">
+        <h2 class="f-title">Редактирование заявки</h2>
 
-        <!-- Возраст -->
-        <input type="number"
-               name="age"
-               placeholder="Возраст"
-               th:value="${volunteer.age}"
-               required>
+        <form action="/api/v1/volunteer/edit" method="post" class="f-form">
 
-        <!-- Телефон -->
-        <div class="phone-wrapper">
-            <input type="tel"
-                   name="contactPhone"
-                   placeholder="Телефон"
-                   th:value="${volunteer.contactPhone}"
-                   required>
+            <div class="f-field">
+                <label>Полное имя</label>
+                <input type="text" name="fullName"
+                       th:value="${volunteer.fullName}" required>
+            </div>
+
+            <div class="f-field">
+                <label>Возраст</label>
+                <input type="number" name="age"
+                       th:value="${volunteer.age}" required>
+            </div>
+
+            <div class="f-field">
+                <label>Телефон</label>
+                <input type="text" name="contactPhone"
+                       th:value="${volunteer.contactPhone}" required>
+            </div>
+
+            <div class="f-field">
+                <label>Другие контакты</label>
+                <input type="text" name="otherContact"
+                       th:value="${volunteer.otherContact}">
+            </div>
+
+            <div class="f-field">
+                <label>Город</label>
+                <input type="text" name="city"
+                       th:value="${volunteer.city}" required>
+            </div>
+
+            <!-- ===== ОПЫТ SELECT ===== -->
+            <div class="f-field">
+                <label>Опыт волонтёрской деятельности</label>
+                <select name="volunteerExperience" required>
+                    <option th:selected="${volunteer.volunteerExperience == 'Нет опыта'}">Нет опыта</option>
+                    <option th:selected="${volunteer.volunteerExperience == 'Менее 1 года'}">Менее 1 года</option>
+                    <option th:selected="${volunteer.volunteerExperience == '1–3 года'}">1–3 года</option>
+                    <option th:selected="${volunteer.volunteerExperience == 'Более 3 лет'}">Более 3 лет</option>
+                </select>
+            </div>
+
+            <!-- ===== ВРЕМЯ ===== -->
+            <div class="f-field">
+                <label>Доступное время</label>
+                <select name="availability" required>
+                    <option th:selected="${volunteer.availability == 'Будни утром'}">Будни утром</option>
+                    <option th:selected="${volunteer.availability == 'Будни вечером'}">Будни вечером</option>
+                    <option th:selected="${volunteer.availability == 'Выходные'}">Выходные</option>
+                    <option th:selected="${volunteer.availability == 'В любое время'}">В любое время</option>
+                </select>
+            </div>
+
+            <!-- ===== ГРУППА ===== -->
+            <div class="f-field">
+                <label>Предпочитаемая группа людей</label>
+                <select name="preferredGroup" required>
+                    <option th:selected="${volunteer.preferredGroup == 'Пожилые'}">Пожилые</option>
+                    <option th:selected="${volunteer.preferredGroup == 'Дети'}">Дети</option>
+                    <option th:selected="${volunteer.preferredGroup == 'Люди с инвалидностью'}">Люди с инвалидностью</option>
+                    <option th:selected="${volunteer.preferredGroup == 'Малообеспеченные семьи'}">Малообеспеченные семьи</option>
+                    <option th:selected="${volunteer.preferredGroup == 'Любая'}">Любая</option>
+                </select>
+            </div>
+
+            <div class="f-field">
+                <label>Какая помощь доступна</label>
+                <textarea name="availableHelp" rows="3"
+                          th:text="${volunteer.availableHelp}"></textarea>
+            </div>
+
+            <div class="f-field">
+                <label>Дополнительная информация</label>
+                <textarea name="additionalInformation" rows="3"
+                          th:text="${volunteer.additionalInformation}"></textarea>
+            </div>
+
+            <button type="submit" class="f-submit">
+                Сохранить изменения
+            </button>
+
+        </form>
+
+    </div>
+</div>
+
+<!-- ===== ФУТЕР ===== -->
+<footer>
+    <div class="footer-content">
+        <div class="footer-links">
+            <a href="/api/v1/user/account">Аккаунт</a>
+            <a href="/not-secured/login">Войти</a>
+            <a href="/not-secured/registration">Зарегистрироваться</a>
         </div>
 
-        <!-- Другие контакты -->
-        <input type="text"
-               name="otherContact"
-               placeholder="Другие контакты"
-               th:value="${volunteer.otherContact}">
+        <div class="footer-links">
+            <a href="/api/v1/volunteer/form">Предложить помощь</a>
+            <a href="/api/v1/help/form">Запросить помощь</a>
+        </div>
 
-        <!-- Город -->
-        <input type="text"
-               name="city"
-               placeholder="Город"
-               th:value="${volunteer.city}"
-               required>
-
-        <!-- Опыт -->
-        <textarea name="volunteerExperience"
-                  rows="3"
-                  placeholder="Опыт волонтёрской деятельности"
-                  th:text="${volunteer.volunteerExperience}">
-        </textarea>
-
-        <!-- Доступное время -->
-        <textarea name="availability"
-                  rows="2"
-                  placeholder="Доступное время (дни недели, время суток)"
-                  th:text="${volunteer.availability}">
-        </textarea>
-
-        <!-- Предпочитаемая группа -->
-        <input type="text"
-               name="preferredGroup"
-               placeholder="Предпочитаемая группа людей"
-               th:value="${volunteer.preferredGroup}">
-
-        <!-- Какая помощь доступна -->
-        <textarea name="availableHelp"
-                  rows="3"
-                  placeholder="Какая помощь доступна"
-                  th:text="${volunteer.availableHelp}">
-        </textarea>
-
-        <!-- Доп. информация -->
-        <textarea name="additionalInformation"
-                  rows="3"
-                  placeholder="Дополнительная информация"
-                  th:text="${volunteer.additionalInformation}">
-        </textarea>
-
-        <!-- Кнопка -->
-        <button type="submit">Сохранить изменения</button>
-
-    </form>
-
-</div>
+        <div class="footer-links">
+            <a href="/contacts">Контакты</a>
+        </div>
+    </div>
+</footer>
 
 </body>
 </html>

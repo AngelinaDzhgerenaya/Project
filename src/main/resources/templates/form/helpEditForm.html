@@ -1,101 +1,139 @@
 <!DOCTYPE html>
-<html lang="ru"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Редактирование анкеты нуждающегося</title>
-
-    <!-- Общий CSS -->
-    <link rel="stylesheet" href="/css/style.css">
+    <title>Редактирование заявки с запросом помощи</title>
+    <link rel="stylesheet" href="/css/form.css">
 </head>
 
 <body>
 
-<div class="container">
+<!-- ===== ШАПКА ===== -->
+<header>
+    <a href="/" class="logo">Рука помощи</a>
 
-    <h1>Редактирование анкеты нуждающегося</h1>
+    <nav>
+        <a href="/not-secured/help">Нуждающиеся</a>
+        <a href="/not-secured/volunteer">Волонтёры</a>
+        <a href="/not-secured/benefit">Льготы</a>
+    </nav>
 
-    <!-- Форма обновления -->
-    <form th:action="@{/api/v1/help/edit/{id}(id=${help.id})}"
-          method="post">
+    <a href="/api/v1/user/account" class="account-btn">Аккаунт</a>
+</header>
 
-        <!-- Полное имя -->
-        <input type="text"
-               name="fullName"
-               placeholder="Полное имя"
-               th:value="${help.fullName}"
-               required>
+<!-- ===== ФОРМА ===== -->
+<div class="main-content">
 
-        <!-- Возраст -->
-        <input type="number"
-               name="age"
-               placeholder="Возраст"
-               th:value="${help.age}"
-               required>
+    <div class="f-card">
+        <h2 class="edit-title">Редактирование заявки</h2>
 
-        <!-- Телефон -->
-        <div class="phone-wrapper">
-            <input type="tel"
-                   name="contactPhone"
-                   placeholder="Телефон"
-                   th:value="${help.contactPhone}"
-                   required>
+        <form action="/api/v1/help/edit" method="post" class="f-form">
+
+            <div class="f-field">
+                <label>Полное имя</label>
+                <input type="text" name="fullName"
+                       th:value="${help.fullName}" required>
+            </div>
+
+            <div class="f-field">
+                <label>Возраст</label>
+                <input type="number" name="age"
+                       th:value="${help.age}" required>
+            </div>
+
+            <div class="f-field">
+                <label>Телефон</label>
+                <input type="text" name="contactPhone"
+                       th:value="${help.contactPhone}" required>
+            </div>
+
+            <div class="f-field">
+                <label>Другие контакты</label>
+                <input type="text" name="otherContact"
+                       th:value="${help.otherContact}">
+            </div>
+
+            <div class="f-field">
+                <label>Город</label>
+                <input type="text" name="city"
+                       th:value="${help.city}" required>
+            </div>
+
+            <!-- ===== Доступное время ===== -->
+            <div class="f-field">
+                <label>Доступное время</label>
+                <select name="availability" required>
+                    <option th:selected="${help.availability == 'Будни утром'}">Будни утром</option>
+                    <option th:selected="${help.availability == 'Будни вечером'}">Будни вечером</option>
+                    <option th:selected="${help.availability == 'Выходные'}">Выходные</option>
+                    <option th:selected="${help.availability == 'В любое время'}">В любое время</option>
+                </select>
+            </div>
+
+            <!-- ===== Кому нужна помощь ===== -->
+            <div class="f-field">
+                <label>Кому нужна помощь</label>
+                <select name="helpGroup" required>
+                    <option th:selected="${help.helpGroup == 'Пожилые'}">Пожилые</option>
+                    <option th:selected="${help.helpGroup == 'Дети'}">Дети</option>
+                    <option th:selected="${help.helpGroup == 'Люди с инвалидностью'}">Люди с инвалидностью</option>
+                    <option th:selected="${help.helpGroup == 'Малообеспеченные семьи'}">Малообеспеченные семьи</option>
+                    <option th:selected="${help.helpGroup == 'Любая'}">Любая</option>
+                </select>
+            </div>
+
+            <!-- ===== Состояние здоровья / жизненная ситуация ===== -->
+            <div class="f-field">
+                <label>Состояние здоровья / жизненная ситуация</label>
+                <select name="personCondition" required>
+                    <option th:selected="${help.personCondition == 'Здоровый'}">Здоровый</option>
+                    <option th:selected="${help.personCondition == 'Хронические болезни'}">Хронические болезни</option>
+                    <option th:selected="${help.personCondition == 'Ограниченные возможности'}">Ограниченные возможности</option>
+                    <option th:selected="${help.personCondition == 'Социально уязвимая ситуация'}">Социально уязвимая ситуация</option>
+                    <option th:selected="${help.personCondition == 'Другое'}">Другое</option>
+                </select>
+            </div>
+
+            <div class="f-field">
+                <label>Какая помощь требуется</label>
+                <textarea name="helpNeeded" rows="3"
+                          th:text="${help.helpNeeded}" required></textarea>
+            </div>
+
+            <div class="f-field">
+                <label>Дополнительная информация</label>
+                <textarea name="additionalInformation" rows="3"
+                          th:text="${help.additionalInformation}"></textarea>
+            </div>
+
+            <button type="submit" class="f-submit">
+                Сохранить изменения
+            </button>
+
+        </form>
+
+    </div>
+</div>
+
+<!-- ===== ФУТЕР ===== -->
+<footer>
+    <div class="footer-content">
+        <div class="footer-links">
+            <a href="/api/v1/user/account">Аккаунт</a>
+            <a href="/not-secured/login">Войти</a>
+            <a href="/not-secured/registration">Зарегистрироваться</a>
         </div>
 
-        <!-- Другие контакты -->
-        <input type="text"
-               name="otherContact"
-               placeholder="Другие контакты"
-               th:value="${help.otherContact}">
+        <div class="footer-links">
+            <a href="/api/v1/volunteer/form">Предложить помощь</a>
+            <a href="/api/v1/help/form">Запросить помощь</a>
+        </div>
 
-        <!-- Город -->
-        <input type="text"
-               name="city"
-               placeholder="Город"
-               th:value="${help.city}"
-               required>
-
-        <!-- Доступное время -->
-        <textarea name="availability"
-                  rows="2"
-                  placeholder="Доступное время (дни недели, время суток)"
-                  th:text="${help.availability}">
-        </textarea>
-
-        <!-- Кому нужна помощь -->
-        <input type="text"
-               name="helpGroup"
-               placeholder="Кому нужна помощь (пожилые, дети...)"
-               th:value="${help.helpGroup}">
-
-        <!-- Состояние здоровья / жизненная ситуация -->
-        <textarea name="personCondition"
-                  rows="3"
-                  placeholder="Состояние здоровья / жизненная ситуация"
-                  th:text="${help.personCondition}">
-        </textarea>
-
-        <!-- Какая помощь требуется -->
-        <textarea name="helpNeeded"
-                  rows="3"
-                  placeholder="Какая помощь требуется"
-                  th:text="${help.helpNeeded}">
-        </textarea>
-
-        <!-- Дополнительная информация -->
-        <textarea name="additionalInformation"
-                  rows="3"
-                  placeholder="Дополнительная информация"
-                  th:text="${help.additionalInformation}">
-        </textarea>
-
-        <!-- Кнопка -->
-        <button type="submit">Сохранить изменения</button>
-
-    </form>
-
-</div>
+        <div class="footer-links">
+            <a href="/contacts">Контакты</a>
+        </div>
+    </div>
+</footer>
 
 </body>
 </html>
