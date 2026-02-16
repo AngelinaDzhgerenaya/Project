@@ -4,10 +4,12 @@ import com.example.project.form.benefits.entity.BenefitEntity;
 import com.example.project.form.benefits.repository.BenefitRepository;
 import com.example.project.form.benefits.routes.BenefitRoutes;
 import com.example.project.form.exception.FormNotFoundException;
+import com.example.project.form.help.entity.HelpEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +37,7 @@ public class BenefitApiController {
     @GetMapping(BenefitRoutes.SEARCH)
     public String search(
             @RequestParam(defaultValue = "") String query,
+            @RequestParam(defaultValue = "") String sort,
             //@RequestParam(defaultValue = "0") int page,
             //@RequestParam(defaultValue = "10") int size)
             Model model) {
@@ -44,13 +47,39 @@ public class BenefitApiController {
                 .withMatcher("title", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase())
                 .withMatcher("description", ExampleMatcher.GenericPropertyMatchers.contains().ignoreCase());
 
-        List<BenefitEntity> benefits =
-                benefitRepository.findAll(Example.of(BenefitEntity.builder().title(query).description(query).build(), exampleMatcher));
+
+        Example<BenefitEntity> example =
+                Example.of(BenefitEntity.builder().title(query).description(query).build(), exampleMatcher);
+
+        List<BenefitEntity> benefits;
+
+        // ✅ сортировка по выбору пользователя
+        if ("created".equals(sort)) {
+
+            benefits = benefitRepository.findAll(
+                    example,
+                    Sort.by(Sort.Direction.DESC, "createdAt")
+            );
+
+        } else if ("updated".equals(sort)) {
+
+            benefits = benefitRepository.findAll(
+                    example,
+                    Sort.by(Sort.Direction.DESC, "updatedAt")
+            );
+
+        } else {
+
+            // если ничего не выбрано → без сортировки
+            benefits = benefitRepository.findAll(example);
+        }
 
         //  Передаём список в HTML
         model.addAttribute("benefits", benefits);
 
         //  Чтобы query и остальные оставались в поле поиска
+        model.addAttribute("sort", sort);
+
         model.addAttribute("query", query);
 
         return "/benefit/benefitList";

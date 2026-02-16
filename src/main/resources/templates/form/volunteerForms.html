@@ -3,56 +3,73 @@
 <head>
   <meta charset="UTF-8">
   <title>Заявки волонтёров</title>
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/form.css">
 
-  <style>
-    body {
-      display: block !important;
-      height: auto !important;
-      padding: 30px;
-      background: #f0f2f5;
-    }
-    h1 {
-      text-align: left;
-      margin-bottom: 20px;
-      font-size: 28px;
-    }
-
-  </style>
 </head>
 
 <body>
 
-<h1 style="margin-bottom: 25px;">Все заявки волонтёров</h1>
+<!-- ===== ШАПКА ===== -->
+<header>
+  <a href="/" class="logo">Рука помощи</a>
+
+  <nav>
+    <a href="/not-secured/help">Нуждающиеся</a>
+    <a href="/not-secured/volunteer">Волонтёры</a>
+    <a href="/not-secured/benefit">Льготы</a>
+  </nav>
+
+  <a href="/api/v1/user/account" class="account-btn">Аккаунт</a>
+</header>
+
+<div class="forms-content">
+
+<h1 style="margin-left: 25px;">Все предложения помощи</h1>
 
 <div class="layout">
 
   <!-- Левая панель фильтров -->
+
   <aside class="filters">
 
     <h2>Фильтры</h2>
 
     <form method="get" action="/not-secured/volunteer">
 
-      <!-- Город -->
       <label>Город</label>
-      <input type="text" name="city" placeholder="Например: Москва" th:value="${city}">
+      <input type="text" name="city" th:value="${city}">
 
-      <!-- Опыт -->
       <label>Опыт волонтёрства</label>
-      <input type="text" name="volunteerExperience" placeholder="Например: 2 года" th:value="${volunteerExperience}">
+      <input type="text" name="volunteerExperience" th:value="${volunteerExperience}">
 
-      <!-- Доступность -->
       <label>Доступное время</label>
-      <input type="text" name="availability" placeholder="Например: выходные" th:value="${availability}">
+      <input type="text" name="availability" th:value="${availability}">
 
-      <!-- Группа -->
       <label>Предпочитаемая группа</label>
-      <input type="text" name="preferredGroup" placeholder="Например: пожилые" th:value="${preferredGroup}">
+      <input type="text" name="preferredGroup" th:value="${preferredGroup}">
 
-      <!-- Помощь -->
       <label>Какая помощь доступна</label>
-      <input type="text" name="availableHelp" placeholder="Например: доставка" th:value="${availableHelp}">
+      <input type="text" name="availableHelp" th:value="${availableHelp}">
+
+      <!-- ===== СОРТИРОВКА ===== -->
+      <div class="f-field">
+      <label>Сортировка</label>
+      <select name="sort">
+
+        <option value="">Без сортировки</option>
+
+        <option value="created"
+                th:selected="${sort == 'created'}">
+          Сначала новые
+        </option>
+
+        <option value="updated"
+                th:selected="${sort == 'updated'}">
+          Сначала недавно обновленные
+        </option>
+
+      </select>
+      </div>
 
       <button type="submit">Применить</button>
 
@@ -60,7 +77,8 @@
 
   </aside>
 
-  <!-- Правая часть: заявки -->
+
+  <!-- Правая часть -->
   <main class="content">
 
     <!-- Поиск сверху -->
@@ -73,17 +91,23 @@
                placeholder="Поиск по ключевым словам..."
                th:value="${query}">
 
+        <!-- важно передать sort при поиске -->
+        <input type="hidden" name="sort" th:value="${sort}">
+
         <button type="submit">Найти</button>
 
       </form>
 
     </div>
 
-    <!-- Список заявок -->
+
+    <!-- Если нет заявок -->
     <div th:if="${volunteers.size() == 0}">
       <p>Заявки не найдены.</p>
     </div>
 
+
+    <!-- Список -->
     <div th:each="v : ${volunteers}" class="card">
 
       <h3 th:text="${v.fullName}"></h3>
@@ -103,6 +127,30 @@
   </main>
 
 </div>
+
+</div>
+
+<!-- ===== ФУТЕР ===== -->
+<footer>
+  <div class="footer-content">
+
+    <div class="footer-links">
+      <a href="/api/v1/user/account">Аккаунт</a>
+      <a href="/not-secured/login">Войти</a>
+      <a href="/not-secured/registration">Зарегистрироваться</a>
+    </div>
+
+    <div class="footer-links">
+      <a href="/api/v1/volunteer/form">Предложить помощь</a>
+      <a href="/api/v1/help/form">Запросить помощь</a>
+    </div>
+
+    <div class="footer-links">
+      <a href="/contacts">Контакты</a>
+    </div>
+
+  </div>
+</footer>
 
 </body>
 </html>

@@ -1,22 +1,40 @@
 <!DOCTYPE html>
-<html lang="ru"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Информация о льготе</title>
-
-  <!-- Общий CSS -->
-  <link rel="stylesheet" href="/css/style.css">
-
+  <link rel="stylesheet" href="/css/form.css">
 </head>
 
 <body>
 
+<!-- ===== ШАПКА ===== -->
+<header>
+  <a href="/" class="logo">Рука помощи</a>
+
+  <nav>
+    <a href="/not-secured/help">Нуждающиеся</a>
+    <a href="/not-secured/volunteer">Волонтёры</a>
+    <a href="/not-secured/benefit">Льготы</a>
+  </nav>
+
+  <a href="/api/v1/user/account" class="account-btn">Аккаунт</a>
+</header>
+
+<!-- ===== КОНТЕНТ ===== -->
+
+<div class="benefit-content">
 <div class="benefit-page">
 
   <h1 th:text="${benefit.title}">Название льготы</h1>
+
+  <!-- Даты создания и обновления -->
+  <div class="benefit-block">
+    <p><b>Создано:</b> <span th:text="${#temporals.format(benefit.createdAt,'dd.MM.yyyy HH:mm')}"></span></p>
+    <p><b>Обновлено:</b> <span th:text="${#temporals.format(benefit.updatedAt,'dd.MM.yyyy HH:mm')}"></span></p>
+  </div>
 
   <!-- Описание -->
   <div class="benefit-block">
@@ -38,8 +56,30 @@
   <a href="/not-secured/benefit" class="back-link">
     ← Вернуться ко всем льготам
   </a>
-
 </div>
+</div>
+
+<!-- ===== ФУТЕР ===== -->
+<footer>
+  <div class="footer-content">
+
+    <div class="footer-links">
+      <a href="/api/v1/user/account">Аккаунт</a>
+      <a href="/not-secured/login">Войти</a>
+      <a href="/not-secured/registration">Зарегистрироваться</a>
+    </div>
+
+    <div class="footer-links">
+      <a href="/api/v1/volunteer/form">Предложить помощь</a>
+      <a href="/api/v1/help/form">Запросить помощь</a>
+    </div>
+
+    <div class="footer-links">
+      <a href="/contacts">Контакты</a>
+    </div>
+
+  </div>
+</footer>
 
 </body>
 </html>

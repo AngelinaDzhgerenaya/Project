@@ -2,69 +2,111 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Анкета нуждающегося</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <title>Запрос о помощи</title>
+    <link rel="stylesheet" href="/css/form.css">
 </head>
 
 <body>
 
-<!-- Обертка с уникальным классом help-form -->
-<div class="help-form">
+<header>
+    <a href="/" class="logo">Рука помощи</a>
 
-    <h1>Анкета нуждающегося</h1>
+    <nav>
+        <a href="/not-secured/help">Нуждающиеся</a>
+        <a href="/not-secured/volunteer">Волонтёры</a>
+        <a href="/not-secured/benefit">Льготы</a>
+    </nav>
 
-    <div class="form-section">
-        <b>Полное имя:</b>
-        <span th:text="${help.fullName}" class="placeholder"></span>
+    <a href="/api/v1/user/account" class="account-btn">Аккаунт</a>
+</header>
+
+<!-- ===== ФОРМА ===== -->
+<div class="main-content">
+    <div class="f-card">
+        <h1>Запрос о помощи</h1>
+
+        <div class="row">
+            <label>Полное имя</label>
+            <div th:text="${help.fullName}"></div>
+        </div>
+
+        <div class="row">
+            <label>Возраст</label>
+            <div th:text="${help.age}"></div>
+        </div>
+
+        <div class="row">
+            <label>Телефон</label>
+            <div th:text="${help.contactPhone}"></div>
+        </div>
+
+        <div class="row">
+            <label>Другие контакты</label>
+            <div th:text="${help.otherContact}"></div>
+        </div>
+
+        <div class="row">
+            <label>Город</label>
+            <div th:text="${help.city}"></div>
+        </div>
+
+        <div class="row">
+            <label>Доступность</label>
+            <div th:text="${help.availability}"></div>
+        </div>
+
+        <div class="row">
+            <label>Кому нужна помощь</label>
+            <div th:text="${help.helpGroup}"></div>
+        </div>
+
+        <div class="row">
+            <label>Состояние / жизненная ситуация</label>
+            <div th:text="${help.personCondition}"></div>
+        </div>
+
+        <div class="row">
+            <label>Какая помощь требуется</label>
+            <div th:text="${help.helpNeeded}"></div>
+        </div>
+
+        <div class="row">
+            <label>Дополнительная информация</label>
+            <div th:text="${help.additionalInformation}"></div>
+        </div>
+
+        <div class="row">
+            <label>Создано</label>
+            <div th:text="${#temporals.format(help.createdAt,'dd.MM.yyyy HH:mm')}"></div>
+        </div>
+
+        <div class="row">
+            <label>Обновлено</label>
+            <div th:text="${#temporals.format(help.updatedAt,'dd.MM.yyyy HH:mm')}"></div>
+        </div>
+
     </div>
-
-    <div class="form-section">
-        <b>Возраст:</b>
-        <span th:text="${help.age}" class="placeholder"></span>
-    </div>
-
-    <div class="form-section">
-        <b>Телефон:</b>
-        <span th:text="${help.contactPhone}" class="placeholder"></span>
-    </div>
-
-    <div class="form-section">
-        <b>Другие контакты:</b>
-        <span th:text="${help.otherContact}" class="placeholder"></span>
-    </div>
-
-    <div class="form-section">
-        <b>Город:</b>
-        <span th:text="${help.city}" class="placeholder"></span>
-    </div>
-
-    <div class="form-section">
-        <b>Доступное время:</b>
-        <p th:text="${help.availability}"></p>
-    </div>
-
-    <div class="form-section">
-        <b>Кому нужна помощь:</b>
-        <span th:text="${help.helpGroup}" class="placeholder"></span>
-    </div>
-
-    <div class="form-section">
-        <b>Состояние здоровья / жизненная ситуация:</b>
-        <p th:text="${help.personCondition}"></p>
-    </div>
-
-    <div class="form-section">
-        <b>Какая помощь требуется:</b>
-        <p th:text="${help.helpNeeded}"></p>
-    </div>
-
-    <div class="form-section">
-        <b>Дополнительная информация:</b>
-        <p th:text="${help.additionalInformation}"></p>
-    </div>
-
 </div>
+
+<!-- ===== ФУТЕР ===== -->
+<footer>
+    <div class="footer-content">
+        <div class="footer-links">
+            <a href="/api/v1/user/account">Аккаунт</a>
+            <a href="/not-secured/login">Войти</a>
+            <a href="/not-secured/registration">Зарегистрироваться</a>
+        </div>
+
+        <div class="footer-links">
+            <a href="/api/v1/volunteer/form">Предложить помощь</a>
+            <a href="/api/v1/help/form">Запросить помощь</a>
+        </div>
+
+        <div class="footer-links">
+            <a href="/contacts">Контакты</a>
+        </div>
+    </div>
+</footer>
 
 </body>
 </html>

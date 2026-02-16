@@ -6,6 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -23,5 +27,11 @@ public class BenefitEntity {
     private String title;
     private String description;
     private String receiving;
+
+    @CreationTimestamp
+    @Column(updatable = false)
+    protected LocalDateTime createdAt;
+    @UpdateTimestamp
+    protected LocalDateTime updatedAt;
 
 }

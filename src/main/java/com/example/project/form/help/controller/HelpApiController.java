@@ -7,14 +7,13 @@ import com.example.project.form.help.repository.HelpRepository;
 import com.example.project.form.help.request.CreateHelpRequest;
 import com.example.project.form.help.request.EditHelpRequest;
 import com.example.project.form.help.routes.HelpRoutes;
-import com.example.project.form.volunteer.entity.VolunteerEntity;
-import com.example.project.form.volunteer.routes.VolunteerRoutes;
 import com.example.project.users.entity.UserEntity;
 import com.example.project.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -43,6 +42,7 @@ public class HelpApiController {
         request.validate();
         HelpEntity help = request.entity();
         help.setUserId(user.getId());
+        help.setStatus("Активно");
         helpRepository.save(help);
         return "redirect:" + HelpRoutes.SUCCESSFUL;
     }
@@ -147,6 +147,7 @@ public class HelpApiController {
             @RequestParam(defaultValue = "") String availability,
             @RequestParam(defaultValue = "") String helpGroup,
             @RequestParam(defaultValue = "") String helpNeeded,
+            @RequestParam(defaultValue = "") String sort,
             //@RequestParam(defaultValue = "0") int page,
             //@RequestParam(defaultValue = "10") int size)
             Model model) {
@@ -165,10 +166,34 @@ public class HelpApiController {
                 .availability(availability.isEmpty() ? null : availability)
                 .helpGroup(helpGroup.isEmpty() ? null : helpGroup)
                 .helpNeeded(helpNeeded.isEmpty() ? null : helpNeeded)
+                .status("Активно")
                 .build();
 
-        List<HelpEntity> helps =
-                helpRepository.findAll(Example.of(helpEntity, exampleMatcher));
+        Example<HelpEntity> example =
+                Example.of(helpEntity, exampleMatcher);
+
+        List<HelpEntity> helps;
+
+        // ✅ сортировка по выбору пользователя
+        if ("created".equals(sort)) {
+
+            helps = helpRepository.findAll(
+                    example,
+                    Sort.by(Sort.Direction.DESC, "createdAt")
+            );
+
+        } else if ("updated".equals(sort)) {
+
+            helps = helpRepository.findAll(
+                    example,
+                    Sort.by(Sort.Direction.DESC, "updatedAt")
+            );
+
+        } else {
+
+            // если ничего не выбрано → без сортировки
+            helps = helpRepository.findAll(example);
+        }
 
         // 2) Если query заполнен — фильтруем дополнительно вручную
         if (!query.isEmpty()) {
@@ -189,6 +214,8 @@ public class HelpApiController {
         model.addAttribute("helps", helps);
 
         //  Чтобы query и остальные оставались в поле поиска
+        model.addAttribute("sort", sort);
+
         model.addAttribute("query", query);
         model.addAttribute("city", city);
         model.addAttribute("personCondition", personCondition);

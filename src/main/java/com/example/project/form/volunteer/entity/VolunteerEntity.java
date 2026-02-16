@@ -34,7 +34,7 @@ public class VolunteerEntity {
     protected String availableHelp;
     protected String additionalInformation;
 
-    protected String status= "Активно";
+    protected String status;
 
     @CreationTimestamp
     @Column(updatable = false)

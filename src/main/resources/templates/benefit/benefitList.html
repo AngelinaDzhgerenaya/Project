@@ -2,60 +2,92 @@
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Льготы</title>
-  <link rel="stylesheet" href="/css/style.css">
-
-  <style>
-    body {
-      display: block !important;
-      height: auto !important;
-      padding: 30px;
-      background: #f0f2f5;
-    }
-
-  </style>
+  <link rel="stylesheet" href="/css/form.css">
 </head>
 
 <body>
 
-<h1>Все льготы</h1>
+<!-- ===== ШАПКА ===== -->
+<header>
+  <a href="/" class="logo">Рука помощи</a>
 
-<!-- Поиск -->
-<div class="search-panel">
+  <nav>
+    <a href="/not-secured/help">Нуждающиеся</a>
+    <a href="/not-secured/volunteer">Волонтёры</a>
+    <a href="/not-secured/benefit">Льготы</a>
+  </nav>
 
-  <form method="get" action="/not-secured/benefit" class="search-bar">
+  <a href="/api/v1/user/account" class="account-btn">Аккаунт</a>
+</header>
 
-    <input type="text"
-           name="query"
-           placeholder="Поиск по названию или описанию..."
-           th:value="${query}">
+<!-- ===== КОНТЕНТ ===== -->
+<div class="forms-content">
 
-    <button type="submit">Найти</button>
+  <h1 style="margin-left: 25px;">Все льготы</h1>
 
-  </form>
+  <!-- Поиск и сортировка -->
+  <div class="search-panel">
+    <form method="get" action="/not-secured/benefit" class="search-bar">
+
+      <input type="text"
+             name="query"
+             placeholder="Поиск по названию или описанию..."
+             th:value="${query}">
+
+      <label style="margin-left: 10px;">Сортировка</label>
+      <div class="f-field">
+      <select name="sort">
+        <option value="">Без сортировки</option>
+        <option value="created" th:selected="${sort == 'created'}">Сначала новые</option>
+        <option value="updated" th:selected="${sort == 'updated'}">Сначала недавно обновленные</option>
+      </select>
+      </div>
+
+      <button type="submit">Найти</button>
+    </form>
+  </div>
+
+  <!-- Если ничего не найдено -->
+  <div th:if="${benefits.size() == 0}" style="margin-left: 25px;">
+    <p>Льготы не найдены.</p>
+  </div>
+
+  <!-- Список льгот -->
+  <div class="benefits-list">
+    <div th:each="b : ${benefits}" class="card">
+      <h3 th:text="${b.title}">Название льготы</h3>
+      <p th:text="${b.description}">Описание льготы...</p>
+      <p><b>Создано:</b> <span th:text="${#temporals.format(b.createdAt,'dd.MM.yyyy HH:mm')}"></span></p>
+      <p><b>Обновлено:</b> <span th:text="${#temporals.format(b.updatedAt,'dd.MM.yyyy HH:mm')}"></span></p>
+      <a th:href="@{/not-secured/benefit/{id}(id=${b.id})}">Подробнее →</a>
+    </div>
+  </div>
 
 </div>
 
-<!-- Если ничего не найдено -->
-<div th:if="${benefits.size() == 0}">
-  <p>Льготы не найдены.</p>
-</div>
+<!-- ===== ФУТЕР ===== -->
+<footer>
+  <div class="footer-content">
 
-<!-- Список льгот -->
-<div th:each="b : ${benefits}" class="card">
+    <div class="footer-links">
+      <a href="/api/v1/user/account">Аккаунт</a>
+      <a href="/not-secured/login">Войти</a>
+      <a href="/not-secured/registration">Зарегистрироваться</a>
+    </div>
 
-  <!-- Название -->
-  <h3 th:text="${b.title}"></h3>
+    <div class="footer-links">
+      <a href="/api/v1/volunteer/form">Предложить помощь</a>
+      <a href="/api/v1/help/form">Запросить помощь</a>
+    </div>
 
-  <!-- Описание -->
-  <p th:text="${b.description}"></p>
+    <div class="footer-links">
+      <a href="/contacts">Контакты</a>
+    </div>
 
-  <!-- Ссылка -->
-  <a th:href="@{/not-secured/benefit/{id}(id=${b.id})}">
-    Подробнее →
-  </a>
-
-</div>
+  </div>
+</footer>
 
 </body>
 </html>

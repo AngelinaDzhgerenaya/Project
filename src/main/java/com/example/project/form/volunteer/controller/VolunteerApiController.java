@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -42,6 +43,7 @@ public class VolunteerApiController {
         request.validate();
         VolunteerEntity volunteer = request.entity();
         volunteer.setUserId(user.getId());
+        volunteer.setStatus("Активно");
         volunteerRepository.save(volunteer);
         return "redirect:" + VolunteerRoutes.SUCCESSFUL;
     }
@@ -149,6 +151,7 @@ public class VolunteerApiController {
             @RequestParam(defaultValue = "") String availability,
             @RequestParam(defaultValue = "") String preferredGroup,
             @RequestParam(defaultValue = "") String availableHelp,
+            @RequestParam(defaultValue = "") String sort,
             //@RequestParam(defaultValue = "0") int page,
             //@RequestParam(defaultValue = "10") int size,
             Model model) {
@@ -169,10 +172,34 @@ public class VolunteerApiController {
                 .availability(availability.isEmpty() ? null : availability)
                 .preferredGroup(preferredGroup.isEmpty() ? null : preferredGroup)
                 .availableHelp(availableHelp.isEmpty() ? null : availableHelp)
+                .status("Активно")
                 .build();
 
-        List<VolunteerEntity> volunteers =
-                volunteerRepository.findAll(Example.of(filterEntity, filterMatcher));
+        Example<VolunteerEntity> example =
+                Example.of(filterEntity, filterMatcher);
+
+        List<VolunteerEntity> volunteers;
+
+        // ✅ сортировка по выбору пользователя
+        if ("created".equals(sort)) {
+
+            volunteers = volunteerRepository.findAll(
+                    example,
+                    Sort.by(Sort.Direction.DESC, "createdAt")
+            );
+
+        } else if ("updated".equals(sort)) {
+
+            volunteers = volunteerRepository.findAll(
+                    example,
+                    Sort.by(Sort.Direction.DESC, "updatedAt")
+            );
+
+        } else {
+
+            // если ничего не выбрано → без сортировки
+            volunteers = volunteerRepository.findAll(example);
+        }
 
         // 2) Если query заполнен — фильтруем дополнительно вручную
         if (!query.isEmpty()) {
@@ -194,6 +221,8 @@ public class VolunteerApiController {
         model.addAttribute("volunteers", volunteers);
 
         //  Чтобы query и остальные оставались в поле поиска
+        model.addAttribute("sort", sort);
+
         model.addAttribute("query", query);
         model.addAttribute("city", city);
         model.addAttribute("volunteerExperience", volunteerExperience);

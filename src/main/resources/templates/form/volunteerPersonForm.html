@@ -2,69 +2,110 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Анкета волонтёра</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <title>Заявка волонтёра</title>
+    <link rel="stylesheet" href="/css/form.css">
 </head>
 
 <body>
 
-<!-- Обертка с уникальным классом volunteer-form -->
-<div class="volunteer-form">
-    <h1>Анкета волонтёра</h1>
+<header>
+    <a href="/" class="logo">Рука помощи</a>
 
-    <div class="form-section">
-        <b>Полное имя:</b>
-        <span th:text="${volunteer.fullName}" class="placeholder"></span>
+    <nav>
+        <a href="/not-secured/help">Нуждающиеся</a>
+        <a href="/not-secured/volunteer">Волонтёры</a>
+        <a href="/not-secured/benefit">Льготы</a>
+    </nav>
+
+    <a href="/api/v1/user/account" class="account-btn">Аккаунт</a>
+</header>
+
+<!-- ===== ФОРМА ===== -->
+<div class="main-content">
+    <div class="f-card">
+    <h1>Предложение помощи</h1>
+
+    <div class="row">
+        <label>Полное имя</label>
+        <div th:text="${volunteer.fullName}"></div>
     </div>
 
-    <div class="form-section">
-        <b>Возраст:</b>
-        <span th:text="${volunteer.age}" class="placeholder"></span>
+    <div class="row">
+        <label>Возраст</label>
+        <div th:text="${volunteer.age}"></div>
     </div>
 
-    <div class="form-section">
-        <b>Телефон:</b>
-        <span th:text="${volunteer.contactPhone}" class="placeholder"></span>
+    <div class="row">
+        <label>Телефон</label>
+        <div th:text="${volunteer.contactPhone}"></div>
     </div>
 
-    <div class="form-section">
-        <b>Другие контакты:</b>
-        <span th:text="${volunteer.otherContact}" class="placeholder"></span>
+    <div class="row">
+        <label>Другие контакты</label>
+        <div th:text="${volunteer.otherContact}"></div>
     </div>
 
-    <div class="form-section">
-        <b>Город:</b>
-        <span th:text="${volunteer.city}" class="placeholder"></span>
+    <div class="row">
+        <label>Город</label>
+        <div th:text="${volunteer.city}"></div>
     </div>
 
-    <div class="form-section">
-        <b>Опыт волонтёрства:</b>
-        <p th:text="${volunteer.volunteerExperience}"></p>
+    <div class="row">
+        <label>Опыт волонтёрства</label>
+        <div th:text="${volunteer.volunteerExperience}"></div>
     </div>
 
-    <div class="form-section">
-        <b>Доступное время:</b>
-        <p th:text="${volunteer.availability}"></p>
+    <div class="row">
+        <label>Доступность</label>
+        <div th:text="${volunteer.availability}"></div>
     </div>
 
-    <div class="form-section">
-        <b>Предпочитаемая группа:</b>
-        <span th:text="${volunteer.preferredGroup}" class="placeholder"></span>
+    <div class="row">
+        <label>Предпочтительная группа</label>
+        <div th:text="${volunteer.preferredGroup}"></div>
     </div>
 
-    <div class="form-section">
-        <b>Какая помощь доступна:</b>
-        <p th:text="${volunteer.availableHelp}"></p>
+    <div class="row">
+        <label>Какая помощь доступна</label>
+        <div th:text="${volunteer.availableHelp}"></div>
     </div>
 
-    <div class="form-section">
-        <b>Дополнительная информация:</b>
-        <p th:text="${volunteer.additionalInformation}"></p>
+    <div class="row">
+        <label>Дополнительная информация</label>
+        <div th:text="${volunteer.additionalInformation}"></div>
     </div>
 
+    <div class="row">
+        <label>Создано</label>
+        <div th:text="${#temporals.format(volunteer.createdAt,'dd.MM.yyyy HH:mm')}"></div>
+    </div>
 
+    <div class="row">
+        <label>Обновлено</label>
+        <div th:text="${#temporals.format(volunteer.updatedAt,'dd.MM.yyyy HH:mm')}"></div>
+    </div>
+    </div>
 </div>
+
+<!-- ===== ФУТЕР ===== -->
+<footer>
+    <div class="footer-content">
+        <div class="footer-links">
+            <a href="/api/v1/user/account">Аккаунт</a>
+            <a href="/not-secured/login">Войти</a>
+            <a href="/not-secured/registration">Зарегистрироваться</a>
+        </div>
+
+        <div class="footer-links">
+            <a href="/api/v1/volunteer/form">Предложить помощь</a>
+            <a href="/api/v1/help/form">Запросить помощь</a>
+        </div>
+
+        <div class="footer-links">
+            <a href="/contacts">Контакты</a>
+        </div>
+    </div>
+</footer>
 
 </body>
 </html>

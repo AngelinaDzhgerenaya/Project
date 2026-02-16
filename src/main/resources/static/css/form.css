@@ -237,3 +237,276 @@ footer {
 .f-submit:hover {
     background: #1f6fe0;
 }
+
+
+/*PersonForm*/
+.row {
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eee;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 6px;
+    color: #555;
+}
+
+
+
+/*FORMS*/
+.search-bar {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start;
+    gap: 10px;
+    width: 100%;
+}
+
+/* Поле поиска */
+.search-bar input {
+    flex: 1;
+    max-width: 100%;
+    padding: 12px;
+    font-size: 16px;
+}
+
+/* Кнопка поиска */
+.search-bar button {
+    width: auto;
+    padding: 12px 20px;
+}
+
+.layout {
+    display: flex;
+    gap: 25px;
+    align-items: flex-start;
+}
+
+/* Левая панель фильтров */
+.filters {
+    width: 280px;
+    background: white;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 20px;
+}
+
+.filters h2 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.filters label {
+    font-size: 14px;
+    font-weight: bold;
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 6px;
+    text-align: left;
+}
+
+.filters input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+.filters button {
+    margin-top: 15px;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #007bff;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.filters button:hover {
+    background: #0056b3;
+}
+
+/* Правая часть */
+.content {
+    flex: 1;
+}
+
+/* Карточки */
+.card {
+    background: white;
+    padding: 18px;
+    border-radius: 14px;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.card h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.card a {
+    display: inline-block;
+    margin-top: 10px;
+    color: #007bff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.card a:hover {
+    text-decoration: underline;
+}
+
+.forms-content {
+    flex: 1;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+.content button {
+
+    width: 7%;
+
+    border: none;
+    border-radius: 10px;
+    background: #007bff;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+}
+.content input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+/*BENEFIT*/
+/* ===== КОНТЕНТ ===== */
+.benefits-page {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Поиск */
+.search-panel {
+    margin-bottom: 20px;
+}
+
+.search-bar input[type="text"] {
+    width: 60%;
+    padding: 8px 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.search-bar button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.search-bar button:hover {
+    background-color: #0056b3;
+}
+
+/* Список льгот */
+.benefits-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.card {
+    background-color: #fff;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 8px rgba(0,0,0,0.1);
+}
+
+.card h3 {
+    margin-top: 0;
+    color: #007bff;
+}
+
+.card p {
+    color: #333;
+    margin: 10px 0;
+}
+
+.card a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.card a:hover {
+    text-decoration: underline;
+}
+
+/*BENEFIT1*/
+.benefit-content {
+    flex: 1;
+}
+
+.benefit-page {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.benefit-page h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 32px;
+    color: #333;
+}
+
+.benefit-block {
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    border-left: 4px solid #1c6fb7;
+    background: #f9f9f9;
+    border-radius: 5px;
+}
+
+.benefit-block b {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    color: #1c6fb7;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}

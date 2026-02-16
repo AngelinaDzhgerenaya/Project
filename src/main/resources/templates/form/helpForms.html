@@ -3,121 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <title>Заявки нуждающихся</title>
-    <link rel="stylesheet" href="/css/style.css">
-
-    <style>
-        body {
-            display: block !important;
-            height: auto !important;
-            padding: 30px;
-            background: #f0f2f5;
-        }
-        h1 {
-            text-align: left;
-            margin-bottom: 20px;
-            font-size: 28px;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/form.css">
 </head>
 
 <body>
 
-<h1 style="margin-bottom: 25px;">Все заявки нуждающихся</h1>
+<!-- ===== ШАПКА ===== -->
+<header>
+    <a href="/" class="logo">Рука помощи</a>
 
-<div class="layout">
+    <nav>
+        <a href="/not-secured/help">Нуждающиеся</a>
+        <a href="/not-secured/volunteer">Волонтёры</a>
+        <a href="/not-secured/benefit">Льготы</a>
+    </nav>
 
-    <!-- Левая панель фильтров -->
-    <aside class="filters">
+    <a href="/api/v1/user/account" class="account-btn">Аккаунт</a>
+</header>
 
-        <h2>Фильтры</h2>
 
-        <form method="get" action="/not-secured/help">
+<div class="forms-content">
 
-            <!-- Город -->
-            <label>Город</label>
-            <input type="text"
-                   name="city"
-                   placeholder="Например: Казань"
-                   th:value="${city}">
+    <h1 style="margin-left: 25px;">Все запросы помощи</h1>
 
-            <!-- Доступность -->
-            <label>Доступное время</label>
-            <input type="text"
-                   name="availability"
-                   placeholder="Например: по вечерам"
-                   th:value="${availability}">
+    <div class="layout">
 
-            <!-- Кому нужна помощь -->
-            <label>Кому нужна помощь</label>
-            <input type="text"
-                   name="helpGroup"
-                   placeholder="Например: пожилому человеку"
-                   th:value="${helpGroup}">
 
-            <!-- Состояние -->
-            <label>Состояние здоровья / ситуация</label>
-            <input type="text"
-                   name="personCondition"
-                   placeholder="Например: инвалидность"
-                   th:value="${personCondition}">
+        <!-- ===== ФИЛЬТРЫ ===== -->
+        <aside class="filters">
 
-            <!-- Требуемая помощь -->
-            <label>Какая помощь требуется</label>
-            <input type="text"
-                   name="helpNeeded"
-                   placeholder="Например: продукты"
-                   th:value="${helpNeeded}">
+            <h2>Фильтры</h2>
 
-            <button type="submit">Применить</button>
+            <form method="get" action="/not-secured/help">
 
-        </form>
+                <label>Город</label>
+                <input type="text" name="city" th:value="${city}">
 
-    </aside>
+                <label>Доступное время</label>
+                <input type="text" name="availability" th:value="${availability}">
 
-    <!-- Правая часть: заявки -->
-    <main class="content">
+                <label>Кому нужна помощь</label>
+                <input type="text" name="helpGroup" th:value="${helpGroup}">
 
-        <!-- Поиск сверху -->
-        <div class="search-panel" style="margin-bottom: 20px;">
+                <label>Состояние</label>
+                <input type="text" name="personCondition" th:value="${personCondition}">
 
-            <form method="get" action="/not-secured/help" class="search-bar">
+                <label>Какая помощь требуется</label>
+                <input type="text" name="helpNeeded" th:value="${helpNeeded}">
 
-                <input type="text"
-                       name="query"
-                       placeholder="Поиск по ключевым словам..."
-                       th:value="${query}">
 
-                <button type="submit">Найти</button>
+                <!-- ===== СОРТИРОВКА ===== -->
+                <div class="f-field">
+                    <label>Сортировка</label>
+
+                    <select name="sort">
+
+                        <option value="">Без сортировки</option>
+
+                        <option value="created"
+                                th:selected="${sort == 'created'}">
+                            Сначала новые
+                        </option>
+
+                        <option value="updated"
+                                th:selected="${sort == 'updated'}">
+                            Сначала недавно обновленные
+                        </option>
+
+                    </select>
+                </div>
+
+                <button type="submit">Применить</button>
 
             </form>
 
-        </div>
+        </aside>
 
-        <!-- Если ничего не найдено -->
-        <div th:if="${helps.size() == 0}">
-            <p>Заявки не найдены.</p>
-        </div>
 
-        <!-- Список заявок -->
-        <div th:each="h : ${helps}" class="card">
 
-            <h3 th:text="${h.fullName}"></h3>
+        <!-- ===== СПИСОК ===== -->
+        <main class="content">
 
-            <p><b>Город:</b> <span th:text="${h.city}"></span></p>
-            <p><b>Возраст:</b> <span th:text="${h.age}"></span></p>
-            <p><b>Доступность:</b> <span th:text="${h.availability}"></span></p>
-            <p><b>Кому нужна помощь:</b> <span th:text="${h.helpGroup}"></span></p>
-            <p><b>Требуемая помощь:</b> <span th:text="${h.helpNeeded}"></span></p>
+            <!-- ===== ПОИСК ===== -->
+            <div class="search-panel" style="margin-bottom: 20px;">
 
-            <a th:href="@{/not-secured/help/{id}(id=${h.id})}">
-                Открыть анкету →
-            </a>
+                <form method="get" action="/not-secured/help" class="search-bar">
 
-        </div>
+                    <input type="text"
+                           name="query"
+                           placeholder="Поиск по ключевым словам..."
+                           th:value="${query}">
 
-    </main>
+                    <!-- передаём сортировку -->
+                    <input type="hidden" name="sort" th:value="${sort}">
+
+                    <button type="submit">Найти</button>
+
+                </form>
+
+            </div>
+
+
+
+            <!-- если пусто -->
+            <div th:if="${helps.size() == 0}">
+                <p>Заявки не найдены.</p>
+            </div>
+
+
+
+            <!-- карточки -->
+            <div th:each="h : ${helps}" class="card">
+
+                <h3 th:text="${h.fullName}"></h3>
+
+                <p><b>Имя:</b> <span th:text="${h.fullName}"></span></p>
+                <p><b>Город:</b> <span th:text="${h.city}"></span></p>
+                <p><b>Возраст:</b> <span th:text="${h.age}"></span></p>
+                <p><b>Доступность:</b> <span th:text="${h.availability}"></span></p>
+                <p><b>Кому нужна помощь:</b> <span th:text="${h.helpGroup}"></span></p>
+                <p><b>Требуемая помощь:</b> <span th:text="${h.helpNeeded}"></span></p>
+
+                <a th:href="@{/not-secured/help/{id}(id=${h.id})}">
+                    Открыть анкету →
+                </a>
+
+            </div>
+
+        </main>
+
+    </div>
 
 </div>
+
+
+
+<!-- ===== ФУТЕР ===== -->
+<footer>
+    <div class="footer-content">
+
+        <div class="footer-links">
+            <a href="/api/v1/user/account">Аккаунт</a>
+            <a href="/not-secured/login">Войти</a>
+            <a href="/not-secured/registration">Зарегистрироваться</a>
+        </div>
+
+        <div class="footer-links">
+            <a href="/api/v1/volunteer/form">Предложить помощь</a>
+            <a href="/api/v1/help/form">Запросить помощь</a>
+        </div>
+
+        <div class="footer-links">
+            <a href="/contacts">Контакты</a>
+        </div>
+
+    </div>
+</footer>
 
 </body>
 </html>
