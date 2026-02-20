@@ -54,15 +54,14 @@ public class UserApiController {
     }
 
     @PostMapping(UserRoutes.REGISTRATION)
-    public String registrationPost(@ModelAttribute RegistrationRequest request) throws BadRequestException, UserAlreadyExistException {
-        request.validate();
+    public String registrationPost(@ModelAttribute RegistrationRequest request, RedirectAttributes redirectAttributes) throws BadRequestException, UserAlreadyExistException {
+        //Проверка данных
+        String errorMessage = request.validate();
 
-        Optional<UserEntity> check = userRepository.findByEmail(request.getEmail());
-        if(check.isPresent()) throw new UserAlreadyExistException("Пользователь с таким email уже существует");
-        check = userRepository.findByPhoneNumber(request.getPhoneNumber());
-        if(check.isPresent()) throw new UserAlreadyExistException("Пользователь с таким номером уже существует");
-        check = userRepository.findByPassportId(request.getPassportId());
-        if(check.isPresent());
+        if (errorMessage != null) {
+            redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
+            return "redirect:/not-secured/registration";
+        }
 
         UserEntity client = UserEntity.builder()
                 .lastName(request.getLastName())

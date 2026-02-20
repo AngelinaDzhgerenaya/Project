@@ -1,0 +1,150 @@
+/* ===== БАЗА СТРАНИЦЫ ===== */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* ===== КОНТЕЙНЕР ===== */
+
+.container {
+    text-align: center;
+    background-color: #fff;
+    padding: 40px 60px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+/* ===== ЗАГОЛОВОК ===== */
+
+h1 {
+    margin-bottom: 30px;
+    color: #333;
+}
+
+/* ===== ФОРМА ===== */
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* ===== INPUT ===== */
+
+input {
+    width: 100%;
+    max-width: 350px;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0,123,255,0.5);
+}
+
+/* ===== PHONE ===== */
+
+.phone-input-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    max-width: 350px;
+    margin: 8px 0;
+}
+
+.phone-input-wrapper input {
+    width: 100%;
+    padding-left: 40px;
+    padding-right: 10px;
+}
+
+.phone-input-wrapper::before {
+    content: "+7";
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+}
+
+/* ===== PASSWORD ===== */
+
+.password-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 350px;
+    margin: 10px auto;
+}
+
+.password-wrapper input {
+    width: 100%;
+    padding: 12px;
+    padding-right: 35px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+}
+
+.password-wrapper span {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    font-size: 18px;
+    user-select: none;
+}
+
+/* ===== BUTTON ===== */
+
+form button {
+    width: 100%;
+    max-width: 350px;
+    padding: 12px;
+    margin-top: 10px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+
+/*ERROR*/
+.error-message {
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto 15px auto;
+    padding: 12px;
+    border-radius: 8px;
+    background: #ffe6e6;
+    color: #c40000;
+    border: 1px solid #ffb3b3;
+    font-size: 14px;
+    text-align: center;
+}

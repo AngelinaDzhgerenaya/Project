@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Вход</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/login.css">
     <style>
         /* Здесь могут быть стили, если нужно */
     </style>
@@ -12,6 +12,10 @@
 <body>
 <div class="container-login">
     <h1>Вход</h1>
+    <!-- ===== ОШИБКА ===== -->
+    <div th:if="${param.error}" class="error-message">
+        Неверный логин или пароль
+    </div>
     <form id="loginForm" action="/not-secured/v1/login" method="post">
         <!-- Поле для ввода Email -->
         <div id="emailField" class="active">
@@ -19,18 +23,10 @@
         </div>
 
         <!-- Поле для ввода пароля -->
-        <div class="active">
+        <div class="password-wrapper">
             <input type="password" id="password" name="password" placeholder="Пароль" required style="padding-right: 30px;">
             <!-- глазик справа -->
-            <span id="togglePassword" style="
-        position: absolute;
-        right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        cursor: pointer;
-        font-size: 18px;
-        user-select: none;
-    ">👁️</span>
+            <span id="togglePassword">👁️</span>
         </div>
 
         <script>

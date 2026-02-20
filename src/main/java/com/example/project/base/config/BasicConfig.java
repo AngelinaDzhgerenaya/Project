@@ -43,7 +43,7 @@ public class BasicConfig {
                         .usernameParameter("username") // имя поля формы
                         .passwordParameter("password")
                         .defaultSuccessUrl("/api/v1/user/account", true)
-                        .failureUrl("/not-secured/notme")
+                        .failureUrl("/not-secured/login?error=true")
                         .permitAll()
                 )
                 .logout(logout -> logout
