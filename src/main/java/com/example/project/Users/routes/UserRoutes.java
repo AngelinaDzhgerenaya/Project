@@ -17,4 +17,9 @@ public class UserRoutes {
     public final static  String EMAIL = EDIT + "/email";
     public final static  String PASSWORD = EDIT + "/password";
 
+
+    public final static  String FORGOT = LOGIN + "/forgot";
+    public final static  String VERIFY = LOGIN + "/verify";
+    public final static  String NEWP = LOGIN + "/new";
+
 }

@@ -10,8 +10,10 @@ import com.example.project.users.exception.BadRequestException;
 import com.example.project.users.exception.UserAlreadyExistException;
 import com.example.project.users.repository.UserRepository;
 import com.example.project.users.request.EditUserRequest;
+import com.example.project.users.request.ForgotPasswordRequest;
 import com.example.project.users.request.RegistrationRequest;
 import com.example.project.users.routes.UserRoutes;
+import com.example.project.users.service.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -41,6 +43,12 @@ public class UserApiController {
     @Autowired
     private final HelpRepository helpRepository;
 
+    @Autowired
+    private final ForgotPasswordRequest forgotPasswordRequest;
+
+    @Autowired
+    private final EmailService emailService;
+
 
 
     @GetMapping("/not-secured/registration")
@@ -60,6 +68,23 @@ public class UserApiController {
 
         if (errorMessage != null) {
             redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
+            return "redirect:/not-secured/registration";
+        }
+
+        // ===== Проверка на существующих пользователей =====
+        Optional<UserEntity> existsEmail = userRepository.findByEmail(request.getEmail());
+        if (existsEmail.isPresent() ) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Пользователь с таким email уже существует");
+            return "redirect:/not-secured/registration";
+        }
+        Optional<UserEntity> existsPhone = userRepository.findByPhoneNumber(request.getPhoneNumber());
+        if (existsPhone.isPresent() ) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Пользователь с таким номером уже существует");
+            return "redirect:/not-secured/registration";
+        }
+        Optional<UserEntity> existsPassport = userRepository.findByPassportId(request.getPassportId());
+        if (existsPassport.isPresent() ) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Пользователь с таким паспортом уже существует");
             return "redirect:/not-secured/registration";
         }
 
@@ -178,6 +203,94 @@ public class UserApiController {
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
         return "redirect:/not-secured/logout";
+    }
+
+
+
+
+    // ========= страница ввода email =========
+    @GetMapping(UserRoutes.FORGOT)
+    public String forgotPassword(Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()
+                && !(authentication instanceof AnonymousAuthenticationToken)) {
+
+            return "redirect:"+UserRoutes.PASSWORD;
+        }
+        return "forgotPassword";
+    }
+
+    // ========= отправить код =========
+    @PostMapping(UserRoutes.FORGOT)
+    public String sendForgotPassword(@RequestParam String email, RedirectAttributes redirectAttributes) {
+
+        Optional<UserEntity> existsEmail = userRepository.findByEmail(email);
+        if (existsEmail.isEmpty() ) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Пользователь с таким email не найден");
+            return "redirect:"+UserRoutes.FORGOT;
+        }
+
+        forgotPasswordRequest.sendCode(email);
+        redirectAttributes.addFlashAttribute("email", email);
+        return "redirect:"+ UserRoutes.VERIFY;
+    }
+
+    @GetMapping(UserRoutes.VERIFY)
+    public String forgotPasswordVerify(Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()
+                && !(authentication instanceof AnonymousAuthenticationToken)) {
+
+            return "redirect:"+UserRoutes.PASSWORD;
+        }
+        return "forgotPasswordCode";
+    }
+
+
+    // ========= проверить код =========
+    @PostMapping(UserRoutes.VERIFY)
+    public String forgotPasswordVerify(@RequestParam String email, @RequestParam String code, RedirectAttributes redirectAttributes) {
+
+        if (!forgotPasswordRequest.verifyCode(email, code)) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Неверный код");
+            redirectAttributes.addFlashAttribute("email", email);
+            return "redirect:"+UserRoutes.VERIFY;
+        }
+
+        redirectAttributes.addFlashAttribute("email", email);
+        return "redirect:"+UserRoutes.NEWP;
+    }
+
+    // ========= страница нового пароля =========
+    @GetMapping(UserRoutes.NEWP)
+    public String forgotPasswordNew(Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()
+                && !(authentication instanceof AnonymousAuthenticationToken)) {
+
+            return "redirect:"+UserRoutes.PASSWORD;
+        }
+        return "forgotPasswordNew";
+    }
+
+    // ========= сохранить пароль =========
+    @PostMapping(UserRoutes.NEWP)
+    public String forgotPasswordSave(@RequestParam String email, @RequestParam String password, RedirectAttributes redirectAttributes) {
+        //Проверка данных
+        String errorMessage = forgotPasswordRequest.validate(password);
+
+        if (errorMessage != null) {
+            redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
+            redirectAttributes.addFlashAttribute("email", email);
+            return "redirect:"+UserRoutes.NEWP;
+        }
+        UserEntity user = userRepository.findByEmail(email).orElseThrow();
+
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
+
+        forgotPasswordRequest.clear(email);
+
+        redirectAttributes.addFlashAttribute("success", "Пароль изменён");
+
+        return "redirect:/not-secured/login";
     }
 
 
