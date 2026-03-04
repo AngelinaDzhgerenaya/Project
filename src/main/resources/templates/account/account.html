@@ -3,8 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title>Аккаунт</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/css/account.css">
-
+  <script>
+    function toggleMenu() {
+      document.getElementById("mobileMenu").classList.toggle("active");
+    }
+  </script>
 
 </head>
 
@@ -15,13 +20,25 @@
   <header>
     <a href="/" class="logo">Рука помощи</a>
 
-    <nav>
+    <nav class="desktop-nav">
       <a href="/not-secured/help">Нуждающиеся</a>
       <a href="/not-secured/volunteer">Волонтёры</a>
       <a href="/not-secured/benefit">Льготы</a>
     </nav>
 
-    <a href="/api/v1/user/account" class="account-btn">Аккаунт</a>
+    <a href="/api/v1/user/account" class="account-btn desktop-account">
+      Аккаунт
+    </a>
+
+    <div class="burger" onclick="toggleMenu()">☰</div>
+
+    <!-- мобильное меню -->
+    <div id="mobileMenu" class="mobile-menu">
+      <a href="/not-secured/help">Нуждающиеся</a>
+      <a href="/not-secured/volunteer">Волонтёры</a>
+      <a href="/not-secured/benefit">Льготы</a>
+      <a href="/api/v1/user/account">Аккаунт</a>
+    </div>
   </header>
 
   <!-- ===== АККАУНТ ===== -->
@@ -47,10 +64,29 @@
     </div>
 
     <!-- Меню -->
-    <div class="side-links">
+    <div class="side-links desktop-only">
       <div class="links-group">
         <a href="/api/v1/user/account/forms">Посмотреть мои заявки</a>
 
+        <a href="/api/v1/volunteer/form">Предложить помощь</a>
+        <a href="/api/v1/help/form">Запросить помощь</a>
+      </div>
+
+      <div class="links-group">
+        <a href="/api/v1/user/account/edit">Изменить данные</a>
+        <a href="/api/v1/user/account/edit/email">Сменить почту</a>
+        <a href="/api/v1/user/account/edit/password">Сменить пароль</a>
+      </div>
+
+      <div class="links-group danger">
+        <a href="/not-secured/logout" class="logout">Выйти из аккаунта</a>
+      </div>
+    </div>
+
+    <!-- Мобильная версия меню аккаунта -->
+    <div class="mobile-only account-mobile-menu">
+      <div class="links-group">
+        <a href="/api/v1/user/account/forms">Посмотреть мои заявки</a>
         <a href="/api/v1/volunteer/form">Предложить помощь</a>
         <a href="/api/v1/help/form">Запросить помощь</a>
       </div>
@@ -84,7 +120,7 @@
     </div>
 
     <div class="footer-links">
-      <a href="/contacts">Контакты</a>
+      <a>Контакты: rukapomoshiweb@gmail.com</a>
     </div>
 
   </div>

@@ -7,19 +7,36 @@
 
   <!-- Подключение общего CSS -->
   <link rel="stylesheet" href="/css/form.css">
+  <script>
+    function toggleMenu() {
+      document.getElementById("mobileMenu").classList.toggle("active");
+    }
+  </script>
 </head>
 <body>
 <!-- ===== ШАПКА ===== -->
 <header>
   <a href="/" class="logo">Рука помощи</a>
 
-  <nav>
+  <nav class="desktop-nav">
     <a href="/not-secured/help">Нуждающиеся</a>
     <a href="/not-secured/volunteer">Волонтёры</a>
     <a href="/not-secured/benefit">Льготы</a>
   </nav>
 
-  <a href="/api/v1/user/account" class="account-btn">Аккаунт</a>
+  <a href="/api/v1/user/account" class="account-btn desktop-account">
+    Аккаунт
+  </a>
+
+  <div class="burger" onclick="toggleMenu()">☰</div>
+
+  <!-- мобильное меню -->
+  <div id="mobileMenu" class="mobile-menu">
+    <a href="/not-secured/help">Нуждающиеся</a>
+    <a href="/not-secured/volunteer">Волонтёры</a>
+    <a href="/not-secured/benefit">Льготы</a>
+    <a href="/api/v1/user/account">Аккаунт</a>
+  </div>
 </header>
 
 <div class="main-content">
@@ -47,7 +64,7 @@
     </div>
 
     <div class="footer-links">
-      <a href="/contacts">Контакты</a>
+      <a>Контакты: rukapomoshiweb@gmail.com</a>
     </div>
   </div>
 </footer>

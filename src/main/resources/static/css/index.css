@@ -194,3 +194,120 @@ footer {
 .footer-right a:hover {
     color: #007bff;
 }
+
+
+/* ========================= */
+/* 📱 МОБИЛЬНАЯ ВЕРСИЯ */
+/* ========================= */
+
+.burger {
+    display: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.mobile-menu {
+    display: none;
+}
+
+@media (max-width: 768px) {
+
+    /* уменьшаем всё */
+    body {
+        font-size: 14px;
+    }
+
+    header {
+        padding: 10px 15px;
+        position: relative;
+    }
+
+    .logo {
+        font-size: 16px;
+    }
+
+    /* скрываем ПК-меню */
+    .desktop-nav {
+        display: none;
+    }
+
+    .desktop-account {
+        display: none;
+    }
+
+    /* показываем бургер */
+    .burger {
+        display: block;
+    }
+
+    /* мобильное меню */
+    .mobile-menu {
+        position: absolute;
+        top: 50px;
+        left: 0;
+        width: 100%;
+        background: white;
+        flex-direction: column;
+        padding: 8px 0;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+        z-index: 1000;
+    }
+
+    .mobile-menu a {
+        display: block;
+        padding: 10px 15px;
+        font-size: 14px;
+        color: #007bff;
+        text-decoration: none;
+        transition: 0.2s ease;
+    }
+
+    .mobile-menu.active {
+        display: flex;
+    }
+
+    /* уменьшаем основной контент */
+    .hero h1 {
+        font-size: 20px;
+    }
+
+    .hero p {
+        font-size: 14px;
+    }
+
+    .stat-card {
+        padding: 15px;
+    }
+
+    .stat-card h2 {
+        font-size: 22px;
+    }
+
+    .benefit-block {
+        padding: 15px;
+    }
+}
+/* ========================= */
+/* 📱 АККУРАТНЫЙ ФУТЕР */
+/* ========================= */
+
+@media (max-width: 768px) {
+
+    footer {
+        padding: 12px 15px;
+    }
+
+    .footer-content {
+        flex-direction: row;          /* остаются 2 колонки */
+        justify-content: space-between;
+        gap: 30px;                    /* больше расстояние между колонками */
+    }
+
+    .footer-links a,
+    .footer-right a {
+        font-size: 12px;              /* просто уменьшаем текст */
+        margin-bottom: 4px;           /* меньше расстояние между строками */
+        line-height: 1.2;             /* плотнее строки */
+    }
+
+}

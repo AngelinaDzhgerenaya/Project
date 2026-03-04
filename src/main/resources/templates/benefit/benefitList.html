@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Льготы</title>
   <link rel="stylesheet" href="/css/form.css">
+  <script>
+    function toggleMenu() {
+      document.getElementById("mobileMenu").classList.toggle("active");
+    }
+  </script>
 </head>
 
 <body>
@@ -13,13 +18,25 @@
 <header>
   <a href="/" class="logo">Рука помощи</a>
 
-  <nav>
+  <nav class="desktop-nav">
     <a href="/not-secured/help">Нуждающиеся</a>
     <a href="/not-secured/volunteer">Волонтёры</a>
     <a href="/not-secured/benefit">Льготы</a>
   </nav>
 
-  <a href="/api/v1/user/account" class="account-btn">Аккаунт</a>
+  <a href="/api/v1/user/account" class="account-btn desktop-account">
+    Аккаунт
+  </a>
+
+  <div class="burger" onclick="toggleMenu()">☰</div>
+
+  <!-- мобильное меню -->
+  <div id="mobileMenu" class="mobile-menu">
+    <a href="/not-secured/help">Нуждающиеся</a>
+    <a href="/not-secured/volunteer">Волонтёры</a>
+    <a href="/not-secured/benefit">Льготы</a>
+    <a href="/api/v1/user/account">Аккаунт</a>
+  </div>
 </header>
 
 <!-- ===== КОНТЕНТ ===== -->
@@ -27,15 +44,10 @@
 
   <h1 style="margin-left: 25px;">Все льготы</h1>
 
-  <!-- Поиск и сортировка -->
-  <div class="search-panel">
+  <!-- ПК версия (как есть) -->
+  <div class="search-panel desktop-only">
     <form method="get" action="/not-secured/benefit" class="search-bar">
-
-      <input type="text"
-             name="query"
-             placeholder="Поиск по названию или описанию..."
-             th:value="${query}">
-
+      <input type="text" name="query" placeholder="Поиск по названию или описанию..." th:value="${query}">
       <label style="margin-left: 10px;">Сортировка</label>
       <div class="f-field">
       <select name="sort">
@@ -44,6 +56,22 @@
         <option value="updated" th:selected="${sort == 'updated'}">Сначала недавно обновленные</option>
       </select>
       </div>
+      <button type="submit">Найти</button>
+    </form>
+  </div>
+
+
+  <!-- Мобильная версия (отдельный блок) -->
+  <div class="search-panel mobile-only">
+    <form method="get" action="/not-secured/benefit" class="mobile-search-bar">
+      <input type="text" name="query" placeholder="Поиск...">
+
+      <label>Сортировка</label>
+      <select name="sort">
+        <option value="">Без сортировки</option>
+        <option value="created">Сначала новые</option>
+        <option value="updated">Сначала недавно обновленные</option>
+      </select>
 
       <button type="submit">Найти</button>
     </form>
@@ -83,7 +111,7 @@
     </div>
 
     <div class="footer-links">
-      <a href="/contacts">Контакты</a>
+      <a>Контакты: rukapomoshiweb@gmail.com</a>
     </div>
 
   </div>

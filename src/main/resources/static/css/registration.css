@@ -148,3 +148,37 @@ form button:hover {
     font-size: 14px;
     text-align: center;
 }
+
+/* ===== Мобильная адаптация для регистрации ===== */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;           /* контейнер не уходит за экран */
+        margin: 20px auto;    /* центрирование по горизонтали */
+        padding: 15px;        /* немного меньше, чем на ПК */
+    }
+
+    h1 {
+        font-size: 1.5rem;    /* чуть меньше заголовок */
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"],
+    input[type="password"],
+    button.btn {
+        font-size: 0.95rem;   /* текст полей и кнопок меньше */
+        padding: 10px 12px;   /* поля поменьше */
+    }
+
+    .password-wrapper #togglePassword {
+        font-size: 0.9rem;    /* глазик меньше */
+    }
+
+    p {
+        font-size: 0.85rem;   /* ссылки и подсказки поменьше */
+    }
+
+    .phone-input-wrapper {
+        margin-bottom: 10px;  /* немного меньше отступы между полями */
+    }
+}

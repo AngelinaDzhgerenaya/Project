@@ -121,8 +121,10 @@ nav a:hover {
     opacity: 0.9;
 }
 
-/* ===== ФУТЕР ===== */
+/* ===== ПОДВАЛ ===== */
+
 footer {
+    margin-top: 60px;
     background: white;
     padding: 30px 0;
     border-top: 1px solid #ddd;
@@ -131,11 +133,10 @@ footer {
 .footer-content {
     max-width: 900px;
     margin: auto;
+
     display: flex;
     justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 20px;
-    padding: 0 20px;
+    align-items: flex-start;
 }
 
 .footer-links {
@@ -145,11 +146,28 @@ footer {
 }
 
 .footer-links a {
-    font-size: 14px;
+    text-decoration: none;
     color: #444;
+    font-size: 14px;
 }
 
 .footer-links a:hover {
+    color: #007bff;
+}
+
+.footer-right {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-right a {
+    text-decoration: none;
+    color: #444;
+    font-size: 14px;
+}
+
+.footer-right a:hover {
     color: #007bff;
 }
 
@@ -509,4 +527,345 @@ h1 {
 
 .back-link:hover {
     text-decoration: underline;
+}
+
+/* ========================= */
+/* 📱 МОБИЛЬНАЯ ВЕРСИЯ */
+/* ========================= */
+
+.burger {
+    display: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.mobile-menu {
+    display: none;
+}
+
+
+@media (max-width: 768px) {
+
+    /* общий масштаб всего */
+    body {
+        font-size: 14px;
+    }
+
+    header {
+        padding: 10px 15px;
+        position: relative;
+    }
+
+    .logo {
+        font-size: 16px;
+    }
+
+    /* скрываем ПК-меню */
+    .desktop-nav {
+        display: none;
+    }
+
+    .desktop-account {
+        display: none;
+    }
+
+    /* показываем бургер */
+    .burger {
+        display: block;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    /* мобильное меню */
+    .mobile-menu {
+        display: none;
+        position: absolute;
+        top: 50px;
+        left: 0;
+        width: 100%;
+        background: white;
+        flex-direction: column;
+        padding: 8px 0;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+        z-index: 1000;
+    }
+
+    .mobile-menu a {
+        display: block;
+        padding: 10px 15px;
+        font-size: 14px;
+        color: #007bff;
+        text-decoration: none;
+        transition: 0.2s ease;
+    }
+    .mobile-menu.active {
+        display: flex;
+    }
+
+    /* уменьшение текста и блоков */
+    h1, h2, h3, h4, h5, h6 {
+        font-size: 16px;
+    }
+
+    p, span, input, button {
+        font-size: 14px;
+    }
+
+    input, button {
+        padding: 8px 10px;
+    }
+
+    /* блоки статистики/льготы */
+    .stat-card, .benefit-card, .benefit-block {
+        padding: 12px;
+    }
+
+
+}
+
+/* Скрываем мобильный на ПК и ПК на мобильных */
+.desktop-only { display: block; }
+.mobile-only { display: none; }
+
+@media (max-width: 768px) {
+    .desktop-only { display: none; }
+    .mobile-only { display: block; }
+
+    .mobile-search-bar {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 0 15px;
+    }
+
+    .mobile-search-bar input,
+    .mobile-search-bar select {
+        width: 100%;
+        font-size: 14px;
+        padding: 12px 14px;       /* как на ПК */
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        transition: 0.2s ease;
+    }
+
+    .mobile-search-bar input:focus,
+    .mobile-search-bar select:focus {
+        outline: none;
+        border-color: #007bff;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+    }
+
+    .mobile-search-bar label {
+        font-size: 13px;
+        margin-bottom: 4px;
+        font-weight: 500;
+        color: #555;
+    }
+
+    .mobile-search-bar button {
+        width: 100%;
+        padding: 12px 0;          /* более «дорогое» ощущение */
+        font-size: 16px;
+        border-radius: 10px;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.2s ease;
+    }
+
+    .mobile-search-bar button:hover {
+        background-color: #0056b3;
+    }
+}
+
+/* ========================= */
+/* 📱 АККУРАТНЫЙ ФУТЕР */
+/* ========================= */
+
+@media (max-width: 768px) {
+
+    footer {
+        padding: 12px 15px;
+    }
+
+    .footer-content {
+        flex-direction: row;          /* остаются 2 колонки */
+        justify-content: space-between;
+        gap: 30px;                    /* больше расстояние между колонками */
+    }
+
+    .footer-links a,
+    .footer-right a {
+        font-size: 12px;              /* просто уменьшаем текст */
+        margin-bottom: 4px;           /* меньше расстояние между строками */
+        line-height: 1.2;             /* плотнее строки */
+    }
+
+}
+
+
+/* ========================= */
+/* 📱 Мобильная версия фильтров и поиска */
+/* ========================= */
+@media (max-width: 768px) {
+
+    /* Кнопка фильтров над поиском */
+    .mobile-filters-btn {
+        display: block;
+        width: 120px;
+        margin: 0 auto 10px auto;
+        padding: 8px 12px;
+        font-size: 14px;
+        text-align: center;
+        border: none;
+        border-radius: 8px;
+        background-color: #ccc;  /* серая кнопка */
+        color: #333;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s ease;
+    }
+
+    .mobile-filters-btn:hover {
+        background-color: #aaa;
+    }
+
+    /* Модальное окно фильтров */
+    .mobile-filters-modal {
+        display: none;
+        position: fixed;
+        z-index: 10000;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        overflow: auto;
+    }
+
+    .mobile-filters-modal.active {
+        display: block;
+    }
+
+    .mobile-filters-content {
+        background: #fff;
+        margin: 60px auto;
+        padding: 20px;
+        border-radius: 12px;
+        max-width: 90%;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+    }
+
+    /* Слово "Фильтры" по центру */
+    .mobile-filters-content h2 {
+        text-align: center;
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .mobile-filters-content .close {
+        float: right;
+        font-size: 28px;
+        cursor: pointer;
+        font-weight: bold;
+        color: #aaa;
+    }
+
+    .mobile-filters-content .close:hover {
+        color: black;
+    }
+
+    /* Поля и селекты в модалке */
+    .mobile-filters-content input,
+    .mobile-filters-content select {
+        width: 100%;
+        padding: 12px 14px;
+        margin-top: 4px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+        box-sizing: border-box;
+    }
+
+    .mobile-filters-content button {
+        width: 100%;
+        margin-top: 15px;
+        padding: 12px;
+        border-radius: 10px;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s ease;
+    }
+
+    .mobile-filters-content button:hover {
+        background-color: #0056b3;
+    }
+
+    /* Вертикальный поиск под кнопкой */
+    .mobile-search-bar {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 0 15px;
+    }
+
+    .mobile-search-bar input,
+    .mobile-search-bar select,
+    .mobile-search-bar button {
+        width: 100%;
+        font-size: 14px;
+        padding: 12px 14px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+
+    .mobile-search-bar button {
+        background-color: #007bff;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s ease;
+    }
+
+    .mobile-search-bar button:hover {
+        background-color: #0056b3;
+    }
+
+    .mobile-search-bar label {
+        font-size: 13px;
+        margin-bottom: 4px;
+        font-weight: 500;
+        color: #555;
+    }
+
+    /* Кнопка фильтров над мобильным поиском */
+    .mobile-search-bar .open-filters-btn {
+        width: 100%;                 /* полная ширина как у поля поиска */
+        margin-bottom: 8px;          /* небольшой отступ снизу */
+        padding: 6px 0;              /* маленькая высота */
+        font-size: 13px;             /* чуть меньше текста */
+        text-align: center;
+        border: none;
+        border-radius: 8px;
+        background-color: #ccc;      /* серая кнопка */
+        color: #333;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s ease;
+    }
+
+    .mobile-search-bar .open-filters-btn:hover {
+        background-color: #aaa;      /* немного темнее при наведении */
+    }
 }

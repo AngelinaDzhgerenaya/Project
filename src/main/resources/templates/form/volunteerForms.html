@@ -3,8 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <title>Заявки волонтёров</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/css/form.css">
+  <script>
+    function toggleMenu() {
+      document.getElementById("mobileMenu").classList.toggle("active");
+    }
 
+    function openMobileFilters() {
+      document.getElementById("mobileFiltersModal").style.display = "block";
+    }
+
+    function closeMobileFilters() {
+      document.getElementById("mobileFiltersModal").style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById("mobileFiltersModal");
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+  </script>
 </head>
 
 <body>
@@ -13,13 +33,25 @@
 <header>
   <a href="/" class="logo">Рука помощи</a>
 
-  <nav>
+  <nav class="desktop-nav">
     <a href="/not-secured/help">Нуждающиеся</a>
     <a href="/not-secured/volunteer">Волонтёры</a>
     <a href="/not-secured/benefit">Льготы</a>
   </nav>
 
-  <a href="/api/v1/user/account" class="account-btn">Аккаунт</a>
+  <a href="/api/v1/user/account" class="account-btn desktop-account">
+    Аккаунт
+  </a>
+
+  <div class="burger" onclick="toggleMenu()">☰</div>
+
+  <!-- мобильное меню -->
+  <div id="mobileMenu" class="mobile-menu">
+    <a href="/not-secured/help">Нуждающиеся</a>
+    <a href="/not-secured/volunteer">Волонтёры</a>
+    <a href="/not-secured/benefit">Льготы</a>
+    <a href="/api/v1/user/account">Аккаунт</a>
+  </div>
 </header>
 
 <div class="forms-content">
@@ -27,10 +59,9 @@
 <h1 style="margin-left: 25px;">Все предложения помощи</h1>
 
 <div class="layout">
-
-  <!-- Левая панель фильтров -->
-
-  <aside class="filters">
+  <!-- ===== ФИЛЬТРЫ ===== -->
+  <!-- ПК версия боковой панели фильтров -->
+  <aside class="filters desktop-only">
 
     <h2>Фильтры</h2>
 
@@ -51,38 +82,80 @@
       <label>Какая помощь доступна</label>
       <input type="text" name="availableHelp" th:value="${availableHelp}">
 
-      <!-- ===== СОРТИРОВКА ===== -->
       <div class="f-field">
-      <label>Сортировка</label>
-      <select name="sort">
-
-        <option value="">Без сортировки</option>
-
-        <option value="created"
-                th:selected="${sort == 'created'}">
-          Сначала новые
-        </option>
-
-        <option value="updated"
-                th:selected="${sort == 'updated'}">
-          Сначала недавно обновленные
-        </option>
-
-      </select>
+        <label>Сортировка</label>
+        <select name="sort">
+          <option value="">Без сортировки</option>
+          <option value="created" th:selected="${sort == 'created'}">Сначала новые</option>
+          <option value="updated" th:selected="${sort == 'updated'}">Сначала недавно обновленные</option>
+        </select>
       </div>
 
       <button type="submit">Применить</button>
-
     </form>
 
   </aside>
 
-
-  <!-- Правая часть -->
+  <!-- ===== СПИСОК ===== -->
   <main class="content">
+    <!-- Мобильная версия (только для телефонов) -->
+    <div class="search-panel mobile-only">
+      <form method="get" action="/not-secured/volunteer" class="mobile-search-bar">
 
-    <!-- Поиск сверху -->
-    <div class="search-panel" style="margin-bottom: 20px;">
+        <!-- Поле поиска -->
+        <input type="text" name="query" placeholder="Поиск по ключевым словам..." th:value="${query}">
+
+        <!-- Кнопка открытия фильтров (модалка) -->
+        <button type="button" class="open-filters-btn" onclick="openMobileFilters()">Фильтры</button>
+
+        <!-- Кнопка поиска -->
+        <button type="submit">Найти</button>
+      </form>
+    </div>
+
+    <!-- Модальное окно фильтров для мобильных -->
+    <div id="mobileFiltersModal" class="mobile-filters-modal mobile-only">
+      <div class="mobile-filters-content">
+        <span class="close" onclick="closeMobileFilters()">&times;</span>
+        <h2>Фильтры</h2>
+
+        <form method="get" action="/not-secured/volunteer">
+
+          <label>Город</label>
+          <input type="text" name="city" th:value="${city}">
+
+          <label>Опыт волонтёрства</label>
+          <input type="text" name="volunteerExperience" th:value="${volunteerExperience}">
+
+          <label>Доступное время</label>
+          <input type="text" name="availability" th:value="${availability}">
+
+          <label>Предпочитаемая группа</label>
+          <input type="text" name="preferredGroup" th:value="${preferredGroup}">
+
+          <label>Какая помощь доступна</label>
+          <input type="text" name="availableHelp" th:value="${availableHelp}">
+
+          <div class="f-field">
+            <label>Сортировка</label>
+            <select name="sort">
+              <option value="">Без сортировки</option>
+              <option value="created" th:selected="${sort == 'created'}">Сначала новые</option>
+              <option value="updated" th:selected="${sort == 'updated'}">Сначала недавно обновленные</option>
+            </select>
+          </div>
+
+          <button type="submit">Применить</button>
+        </form>
+      </div>
+    </div>
+
+
+
+
+
+    <!-- ===== ПОИСК ===== -->
+    <div class="search-panel desktop-only" style="margin-bottom: 20px;">
 
       <form method="get" action="/not-secured/volunteer" class="search-bar">
 
@@ -146,7 +219,7 @@
     </div>
 
     <div class="footer-links">
-      <a href="/contacts">Контакты</a>
+      <a>Контакты: rukapomoshiweb@gmail.com</a>
     </div>
 
   </div>

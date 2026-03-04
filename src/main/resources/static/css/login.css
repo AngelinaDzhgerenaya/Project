@@ -137,3 +137,32 @@ input:focus {
 
 
 /*forgotPassword*/
+
+
+/* ===== Только мобильная адаптация ===== */
+@media (max-width: 768px) {
+    .container-login {
+        width: 90%;       /* адаптивная ширина */
+        margin: 20px auto; /* центрирование по горизонтали */
+        padding: 15px;    /* немного меньше, чем на ПК */
+    }
+
+    h1 {
+        font-size: 1.5rem; /* чуть меньше заголовок */
+    }
+
+    input[type="email"],
+    input[type="password"],
+    button.btn {
+        font-size: 0.95rem; /* текст поменьше */
+        padding: 10px 12px; /* поля и кнопки поменьше */
+    }
+
+    p {
+        font-size: 0.85rem; /* ссылки и подсказки поменьше */
+    }
+
+    #togglePassword {
+        font-size: 0.9rem; /* глазик меньше */
+    }
+}
