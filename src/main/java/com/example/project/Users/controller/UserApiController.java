@@ -62,7 +62,7 @@ public class UserApiController {
     }
 
     @PostMapping(UserRoutes.REGISTRATION)
-    public String registrationPost(@ModelAttribute RegistrationRequest request, RedirectAttributes redirectAttributes) throws BadRequestException, UserAlreadyExistException {
+    public String registrationPost(@ModelAttribute RegistrationRequest request, RedirectAttributes redirectAttributes)  {
         //Проверка данных
         String errorMessage = request.validate();
 
@@ -139,7 +139,7 @@ public class UserApiController {
     }
 
     @GetMapping(UserRoutes.EDIT)
-    public String accountEdit(Authentication authentication, Model model) {
+    public String accountEdit( Authentication authentication, Model model) {
         String username = authentication.getName();
         UserEntity user = userRepository.findByEmail(username).orElseThrow();
 
@@ -148,7 +148,13 @@ public class UserApiController {
     }
 
     @PostMapping(UserRoutes.EDIT)
-    public String account(Authentication authentication, @ModelAttribute EditUserRequest request)  {
+    public String account(Authentication authentication, @ModelAttribute EditUserRequest request, RedirectAttributes redirectAttributes) {
+        //Проверка данных
+        String errorMessage = request.validate();
+        if (errorMessage != null) {
+            redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
+            return "redirect:"+UserRoutes.EDIT;
+        }
         String username = authentication.getName();
         UserEntity user = userRepository.findByEmail(username).orElseThrow();
 

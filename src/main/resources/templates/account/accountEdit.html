@@ -45,7 +45,10 @@
         <div class="edit-card">
 
             <h2 class="edit-title">Редактирование профиля</h2>
-
+            <!-- ===== ОШИБКА ===== -->
+            <div th:if="${errorMessage != null}" class="error-message">
+                <span th:text="${errorMessage}"></span>
+            </div>
             <form class="edit-form"
                   method="post"
                   th:action="@{/api/v1/user/account/edit}">

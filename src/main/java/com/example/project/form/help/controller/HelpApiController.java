@@ -36,7 +36,9 @@ public class HelpApiController {
     private final UserRepository userRepository;
 
     @PostMapping(HelpRoutes.CREATE)
-    public String create(Authentication authentication,@ModelAttribute CreateHelpRequest request) throws BadRequestException {
+    public String create(Authentication authentication,
+                         @ModelAttribute CreateHelpRequest request)
+            throws BadRequestException {
         String username = authentication.getName();
         UserEntity user = userRepository.findByEmail(username).orElseThrow();
         request.validate();

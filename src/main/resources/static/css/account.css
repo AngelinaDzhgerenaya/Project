@@ -862,3 +862,17 @@ h1 {
     }
 }
 
+/*ERROR*/
+.error-message {
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto 15px auto;
+    padding: 12px;
+    border-radius: 8px;
+    background: #ffe6e6;
+    color: #c40000;
+    border: 1px solid #ffb3b3;
+    font-size: 14px;
+    text-align: center;
+}
+
