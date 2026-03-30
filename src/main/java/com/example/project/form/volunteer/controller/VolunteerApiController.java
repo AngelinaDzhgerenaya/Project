@@ -36,6 +36,21 @@ public class VolunteerApiController {
     @Autowired
     private final UserRepository userRepository;
 
+    @GetMapping(VolunteerRoutes.CREATE)
+    public String createForm(Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()
+                && !(authentication instanceof AnonymousAuthenticationToken)) {
+            String username = authentication.getName();
+            UserEntity user = userRepository.findByEmail(username).orElseThrow();
+            Optional<VolunteerEntity> volunteerForm = volunteerRepository.findByUserId(user.getId());
+            if (volunteerForm.isPresent()) {
+                return "/form/formAlreadyExist";
+            }
+            return "/form/volunteerCreateForm";
+        }
+        return "redirect:/not-secured/login";
+    }
+
     @PostMapping(VolunteerRoutes.CREATE)
     public String create(Authentication authentication,@ModelAttribute CreateVolunteerRequest request) throws BadRequestException {
         String username = authentication.getName();
@@ -53,21 +68,7 @@ public class VolunteerApiController {
         return "/form/successfulCreate";
     }
 
-    @GetMapping(VolunteerRoutes.CREATE)
-    public String createForm(Authentication authentication) {
-        if (authentication != null && authentication.isAuthenticated()
-                && !(authentication instanceof AnonymousAuthenticationToken)) {
-            String username = authentication.getName();
-            UserEntity user = userRepository.findByEmail(username).orElseThrow();
-            Optional<VolunteerEntity> volunteerForm = volunteerRepository.findByUserId(user.getId());
-            if (volunteerForm.isPresent()) {
-                return "/form/formAlreadyExist";
-            }
-            return "/form/volunteerCreateForm";
-        }
-        return "redirect:/not-secured/login";
-          // Имя файла index.html, без расширения .html
-    }
+
 
     @PostMapping(VolunteerRoutes.STATUS)
     public String status(Authentication authentication) throws FormNotFoundException {
